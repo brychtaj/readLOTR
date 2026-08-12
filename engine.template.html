@@ -691,7 +691,8 @@
     strandList().forEach(function(st){
       var pts = PLACES.filter(function(p){ return sidOf(p)===st.id && (state.mode==='tata' || p.gi<=rg); });
       if(pts.length<2) return;
-      var d=pts.map(function(p,i){return (i?'L':'M')+p.x+','+p.y;}).join(' ');
+      // each stop may carry `via` waypoints tracing the real path (road / river bend) from the previous stop
+      var d=''; pts.forEach(function(p,i){ if(i){ (p.via||[]).forEach(function(v){ d+=' L'+v[0]+','+v[1]; }); d+=' L'+p.x+','+p.y; } else { d='M'+p.x+','+p.y; } });
       h+='<path d="'+d+'" fill="none" style="stroke:'+(st.color||'var(--ember)')+'" stroke-width="2.4" '+
         'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3.2" '+
         'vector-effect="non-scaling-stroke" opacity="0.9"/>';
