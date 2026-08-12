@@ -5,13 +5,13 @@ var BOOK = {
     slug: 'dve-veze',
     vol: 2,
     key: 'stredozem_ttt',
-    mapFrame: { x0: 0.41, x1: 0.66, y0: 0.52, y1: 0.73 },
+    mapFrame: { x0: 0.15, x1: 0.68, y0: 0.17, y1: 0.82 },
     timelineMin: 1,
   },
   strands: [
-    { id: 'hunters', name: { en: 'The Hunters', cs: 'Lovci' }, color: '#c0492f' },
-    { id: 'hobbits', name: { en: 'Merry & Pippin', cs: 'Smíšek & Pipin' }, color: '#4e9c78' },
-    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#caa03c' }
+    { id: 'hunters', name: { en: 'The Hunters', cs: 'Lovci' }, color: '#8e3b9c' },
+    { id: 'hobbits', name: { en: 'Merry & Pippin', cs: 'Smíšek & Pipin' }, color: '#2f6cb0' },
+    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#2e8b57' }
   ],
   ui: {
     en: {

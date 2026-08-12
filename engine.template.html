@@ -521,6 +521,7 @@
   // ===== painted portraits (inlined at build time from Midjourney) =====
   // ===== shared saga cast (injected at build time; defines CAST + VOLBOOKS) =====
   /*__CAST_DATA__*/
+  /*__ROUTES_DATA__*/
   // ===== per-book data (injected at build time) =====
   /*__BOOK_DATA__*/
   var VOLUMES = __VOLUMES_JSON__;            // the book switcher (all volumes; current flagged)
@@ -686,16 +687,18 @@
   function strandColor(sid){ var s=strandList().filter(function(x){return x.id===sid;})[0]; return (s&&s.color)||'var(--ember)'; }
   function isMultiStrand(){ return !!(BOOK.strands && BOOK.strands.length>1); }
   function buildRoute(){
-    var svg=$('#routeSvg'), rg=reachedGi(), h='';
-    // Parent sees each whole route; Kids only up to where they have read (no spoilers ahead).
-    strandList().forEach(function(st){
-      var pts = PLACES.filter(function(p){ return sidOf(p)===st.id && (state.mode==='tata' || p.gi<=rg); });
+    // One continuous, cumulative journey map (shared ROUTES): earlier volumes in full, this volume up to
+    // where you've read (Kids) / all of it (Parent); later volumes stay hidden. Legs coloured by group.
+    var svg=$('#routeSvg'), rg=reachedGi(), isDad=state.mode==='tata', h='';
+    (typeof ROUTES!=='undefined'?ROUTES:[]).forEach(function(leg){
+      if(leg.vol>VOL) return;
+      var full = leg.vol<VOL;
+      var pts = leg.pts.filter(function(p){ return full || isDad || p[2]<=rg; });
       if(pts.length<2) return;
-      // each stop may carry `via` waypoints tracing the real path (road / river bend) from the previous stop
-      var d=''; pts.forEach(function(p,i){ if(i){ (p.via||[]).forEach(function(v){ d+=' L'+v[0]+','+v[1]; }); d+=' L'+p.x+','+p.y; } else { d='M'+p.x+','+p.y; } });
-      h+='<path d="'+d+'" fill="none" style="stroke:'+(st.color||'var(--ember)')+'" stroke-width="2.4" '+
+      var d=pts.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1];}).join(' ');
+      h+='<path d="'+d+'" fill="none" style="stroke:'+leg.color+'" stroke-width="2.4" '+
         'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3.2" '+
-        'vector-effect="non-scaling-stroke" opacity="0.9"/>';
+        'vector-effect="non-scaling-stroke" opacity="0.92"/>';
     });
     svg.innerHTML=h;
   }
@@ -1063,9 +1066,16 @@
 
   function renderLegend(){
     var box=$('#maplegend'); if(!box) return;
-    if(!isMultiStrand()){ box.style.display='none'; box.innerHTML=''; return; }
-    box.style.display='';
-    box.innerHTML=BOOK.strands.map(function(st){ return '<span class="legitem"><span class="legdot" style="background:'+(st.color||'var(--ember)')+'"></span>'+esc(t(st.name))+'</span>'; }).join('');
+    var seen={}, items=[], rg=reachedGi(), isDad=state.mode==='tata';
+    (typeof ROUTES!=='undefined'?ROUTES:[]).forEach(function(leg){
+      if(leg.vol>VOL) return;
+      var vis = leg.vol<VOL || isDad || leg.pts.some(function(p){return p[2]<=rg;});
+      if(!vis) return;
+      var key=t(leg.group); if(seen[key]) return; seen[key]=1;
+      items.push('<span class="legitem"><span class="legdot" style="background:'+leg.color+'"></span>'+esc(key)+'</span>');
+    });
+    if(!items.length){ box.style.display='none'; box.innerHTML=''; return; }
+    box.style.display=''; box.innerHTML=items.join('');
   }
   function rerender(){ updateProgress(); buildRoute(); renderHere(); renderLegend(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
 

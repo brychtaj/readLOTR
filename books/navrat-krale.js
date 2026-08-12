@@ -5,14 +5,14 @@ var BOOK = {
     slug: 'navrat-krale',
     vol: 3,
     key: 'stredozem_rotk',
-    mapFrame: { x0: 0.45, x1: 0.68, y0: 0.56, y1: 0.73 },
+    mapFrame: { x0: 0.15, x1: 0.68, y0: 0.17, y1: 0.82 },
     timelineMin: 1,
   },
   strands: [
-    { id: 'gondor',  name: { en: 'Gandalf & Pippin', cs: 'Gandalf & Pipin' }, color: '#5f86ad' },
-    { id: 'aragorn', name: { en: 'Aragorn’s road',   cs: 'Aragornova cesta' }, color: '#c0492f' },
-    { id: 'rohan',   name: { en: 'The Riders of Rohan', cs: 'Rohanská jízda' }, color: '#4e9c78' },
-    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#caa03c' }
+    { id: 'gondor',  name: { en: 'Gandalf & Pippin', cs: 'Gandalf & Pipin' }, color: '#6a3fb0' },
+    { id: 'aragorn', name: { en: 'Aragorn’s road',   cs: 'Aragornova cesta' }, color: '#e07b1f' },
+    { id: 'rohan',   name: { en: 'The Riders of Rohan', cs: 'Rohanská jízda' }, color: '#17a0a0' },
+    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#2e8b57' }
   ],
   ui: {
     en: {

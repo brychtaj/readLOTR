@@ -40,6 +40,10 @@ const CAST = new Function(castJs + '\nreturn CAST;')();
 const introVol = {};
 CAST.forEach((c) => { introVol[c.id] = c.intro.vol; });
 
+// shared saga journey map (routes) — injected into every volume too
+const ROUTESFILE = path.join(BOOKS, 'routes.js');
+const routesJs = fs.existsSync(ROUTESFILE) ? noBom(fs.readFileSync(ROUTESFILE, 'utf8')) : '';
+
 // Only volumes that have a data file get built — and only those appear in the switcher.
 const present = VOLUMES.filter((v) => fs.existsSync(bookData(v)));
 if (!present.length) { console.error('✗ Žádná kniha v books/ — nemám co stavět.'); process.exit(1); }
@@ -51,8 +55,9 @@ let hadError = false;
 for (const vol of present) {
   let html = engineSrc;
 
-  // 1) shared cast, then this volume's data
+  // 1) shared cast + shared routes, then this volume's data
   html = html.replace('/*__CAST_DATA__*/', () => castJs);
+  html = html.replace('/*__ROUTES_DATA__*/', () => routesJs);
   html = html.replace('/*__BOOK_DATA__*/', () => noBom(fs.readFileSync(bookData(vol), 'utf8')));
 
   // 2) book switcher — this volume flagged as current

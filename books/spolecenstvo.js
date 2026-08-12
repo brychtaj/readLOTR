@@ -6,7 +6,7 @@ var BOOK = {
     slug: 'spolecenstvo',
     vol: 1,
     key: 'stredozem_v1',                       // keep the existing localStorage key (preserves progress)
-    mapFrame: { x0: 0.29, x1: 0.60, y0: 0.20, y1: 0.66 }, // region of the shared map to frame
+    mapFrame: { x0: 0.15, x1: 0.68, y0: 0.17, y1: 0.82 }, // region of the shared map to frame
     timelineMin: 2                              // gi from which the Ring-history timeline shows in Kids mode
   },
   ui: {
