@@ -1,14 +1,17 @@
-// Builds one self-contained HTML file per volume from the shared engine + per-book data.
+// Builds one self-contained HTML file per volume from the shared engine + shared cast + per-book data.
 //   node build.mjs
 //
-// For each volume it takes engine.template.html, injects that book's data (books/<slug>.js),
-// the book switcher, and inlines the images as base64 data URIs:
+// For each volume it takes engine.template.html and injects:
+//   /*__CAST_DATA__*/  <- books/cast.js       (the shared, saga-wide character cast + book structure)
+//   /*__BOOK_DATA__*/  <- books/<slug>.js      (this volume's chapters, map, scenes, relations…)
+// then inlines the images as base64 data URIs:
 //   __MAP_DATA_URI__   -> assets/map.jpg                 (shared Middle-earth map)
-//   __IMG_<id>__       -> assets/portraits/<id>.jpg       (shared portrait pool, by character id)
+//   __IMG_<id>__       -> assets/portraits/<id>.jpg       (shared portraits; only characters introduced
+//                                                          up to this volume are inlined, the rest blanked)
 //   __SCENE_<n>__      -> assets/scenes/<slug>/<n>.jpg     (this volume's chapter illustrations)
 //
-// Missing images don't fail the build — they become '' (the app shows a fallback) and are
-// printed as a "shot-list" so you know what still needs generating. Only stray build tokens fail.
+// Missing images don't fail the build — they become '' (the app shows a fallback) and are printed as a
+// per-volume "shot-list" so you know what still needs generating. Only stray build tokens fail.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,7 +21,7 @@ const ENGINE = path.join(ROOT, 'engine.template.html');
 const ASSETS = path.join(ROOT, 'assets');
 const BOOKS = path.join(ROOT, 'books');
 
-// The saga's volumes. `short` labels the book switcher (localized); `order` = volume numeral.
+// The saga's volumes. `short` labels the book switcher (localized); `order` = volume number (= cast intro.vol).
 const VOLUMES = [
   { slug: 'spolecenstvo', file: 'spolecenstvo.html', order: 1, short: { en: 'Fellowship',         cs: 'Společenstvo' } },
   { slug: 'dve-veze',     file: 'dve-veze.html',     order: 2, short: { en: 'Two Towers',         cs: 'Dvě věže' } },
@@ -27,21 +30,30 @@ const VOLUMES = [
 
 const bookData = (v) => path.join(BOOKS, v.slug + '.js');
 const jpgUri = (file) => 'data:image/jpeg;base64,' + fs.readFileSync(file).toString('base64');
+const noBom = (s) => s.replace(/^﻿/, '');
+
+// shared cast — needed by every volume, and used to decide which portraits to inline
+const CASTFILE = path.join(BOOKS, 'cast.js');
+if (!fs.existsSync(CASTFILE)) { console.error('✗ Chybí books/cast.js — nemám sdílené postavy.'); process.exit(1); }
+const castJs = noBom(fs.readFileSync(CASTFILE, 'utf8'));
+const CAST = new Function(castJs + '\nreturn CAST;')();
+const introVol = {};
+CAST.forEach((c) => { introVol[c.id] = c.intro.vol; });
 
 // Only volumes that have a data file get built — and only those appear in the switcher.
 const present = VOLUMES.filter((v) => fs.existsSync(bookData(v)));
 if (!present.length) { console.error('✗ Žádná kniha v books/ — nemám co stavět.'); process.exit(1); }
 
-const engineSrc = fs.readFileSync(ENGINE, 'utf8').replace(/^﻿/, '');
+const engineSrc = noBom(fs.readFileSync(ENGINE, 'utf8'));
 const switcher = present.map((v) => ({ file: v.file, order: v.order, short: v.short }));
 
 let hadError = false;
 for (const vol of present) {
   let html = engineSrc;
 
-  // 1) per-book data (defines `var BOOK = {…}`)
-  const bookJs = fs.readFileSync(bookData(vol), 'utf8').replace(/^﻿/, '');
-  html = html.replace('/*__BOOK_DATA__*/', () => bookJs);
+  // 1) shared cast, then this volume's data
+  html = html.replace('/*__CAST_DATA__*/', () => castJs);
+  html = html.replace('/*__BOOK_DATA__*/', () => noBom(fs.readFileSync(bookData(vol), 'utf8')));
 
   // 2) book switcher — this volume flagged as current
   const volumes = switcher.map((v) => ({ ...v, current: v.file === vol.file }));
@@ -51,20 +63,24 @@ for (const vol of present) {
   const mapFile = path.join(ASSETS, 'map.jpg');
   html = html.split('__MAP_DATA_URI__').join(fs.existsSync(mapFile) ? jpgUri(mapFile) : '');
 
-  // 4) portraits (shared, by id) + scenes (this volume) — missing become '' and go on the shot-list
+  // 4) portraits — only characters introduced up to this volume; missing (but wanted) → shot-list
   const missing = { portraits: [], scenes: [] };
   html = html.replace(/__IMG_([a-z0-9-]+)__/g, (_, id) => {
+    const wanted = introVol[id] !== undefined && introVol[id] <= vol.order;
+    if (!wanted) return ''; // character not in this volume yet
     const f = path.join(ASSETS, 'portraits', id + '.jpg');
     if (fs.existsSync(f)) return jpgUri(f);
     missing.portraits.push(id); return '';
   });
+
+  // 5) scenes — this volume's chapter illustrations
   html = html.replace(/__SCENE_(\d+)__/g, (_, n) => {
     const f = path.join(ASSETS, 'scenes', vol.slug, n + '.jpg');
     if (fs.existsSync(f)) return jpgUri(f);
     missing.scenes.push(+n); return '';
   });
 
-  // 5) safety: no build token may survive (catches typos / renamed placeholders)
+  // 6) safety: no build token may survive (catches typos / renamed placeholders)
   const leftover = html.match(/\/\*__[A-Za-z0-9_]+__\*\/|__[A-Za-z0-9_]+__/);
   if (leftover) { console.error(`✗ ${vol.file}: nenahrazený token ${leftover[0]}`); hadError = true; continue; }
 

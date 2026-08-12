@@ -519,11 +519,14 @@
   function icon(name,cls){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'+(cls?' class="'+cls+'"':'')+'>'+(IC[name]||IC.star)+'</svg>';}
 
   // ===== painted portraits (inlined at build time from Midjourney) =====
+  // ===== shared saga cast (injected at build time; defines CAST + VOLBOOKS) =====
+  /*__CAST_DATA__*/
   // ===== per-book data (injected at build time) =====
   /*__BOOK_DATA__*/
   var VOLUMES = __VOLUMES_JSON__;            // the book switcher (all volumes; current flagged)
-  var PORTRAITS=BOOK.PORTRAITS, ILLUS=BOOK.ILLUS, SCENES=BOOK.SCENES, PLACES=BOOK.PLACES,
-      CHARS=BOOK.CHARS, SHORT=BOOK.SHORT, ARC=BOOK.ARC, CH=BOOK.CH, KIDSUM=BOOK.KIDSUM, KIDINTRO=BOOK.KIDINTRO;
+  var VOL = BOOK.meta.vol;                    // which volume this is (1/2/3)
+  var ILLUS=BOOK.ILLUS, SCENES=BOOK.SCENES, PLACES=BOOK.PLACES, CH=BOOK.CH, KIDSUM=BOOK.KIDSUM, KIDINTRO=BOOK.KIDINTRO;
+  var PORTRAITS={}; CAST.forEach(function(c){ if(c.portrait) PORTRAITS[c.id]=c.portrait; });
   function hasPortrait(id){var u=PORTRAITS[id];return !!(u&&u.slice(0,5)==='data:');}
   function imgPortrait(id,alt){return hasPortrait(id)?'<img src="'+PORTRAITS[id]+'" alt="'+esc(alt||'')+'" loading="lazy">':null;}
   // ===== painted chapter scenes (inlined at build time from Midjourney) =====
@@ -539,7 +542,7 @@
   (function(){ var n={}; PLACES.forEach(function(p){ var s=p.strand||'_default'; n[s]=(n[s]||0)+1; p.seq=n[s]; }); })(); // stop numbers per strand, by array order
 
   // ===== data: characters =====
-  var CHARMAP={}; CHARS.forEach(function(c){CHARMAP[c.id]=c;});
+  var CHARMAP={}; CAST.forEach(function(c){CHARMAP[c.id]=c;});
 
   // ===== Character diary: what they went through, by chapter (gi) + a question to ponder =====
 
@@ -566,13 +569,14 @@
   ];
 
   // ===== data: chapters =====
-  // gi = cumulative chapter index across this volume's internal books; labels from BOOK.meta.books
-  var BOOKLABEL={}; BOOK.meta.books.forEach(function(d,i){ BOOKLABEL[i+1]=d.label; });
-  (function(){ var counts={}; CH.forEach(function(c){ counts[c.book]=(counts[c.book]||0)+1; });
-    var order=Object.keys(counts).map(Number).sort(function(a,b){return a-b;}), acc=0, off={};
-    order.forEach(function(b){ off[b]=acc; acc+=counts[b]; });
-    CH.forEach(function(c){ c.gi = off[c.book] + c.n; }); })();
+  // Book structure comes from the shared VOLBOOKS; gi = cumulative chapter index within this volume.
+  var VBOOKS = VOLBOOKS[VOL] || [];
+  var BOOKLABEL={}; VBOOKS.forEach(function(d,i){ BOOKLABEL[i+1]=d.label; });
+  (function(){ var off={}, acc=0; VBOOKS.forEach(function(d,i){ off[i+1]=acc; acc+=d.count; });
+    CH.forEach(function(c){ c.gi = (off[c.book]||0) + c.n; }); })();
   var GIMETA={}; CH.forEach(function(c){ GIMETA[c.gi]={lab:(BOOKLABEL[c.book]||c.book)+'·'+c.n, title:c.title}; });
+  // saga-wide label for any (vol, gi) — used by the cross-volume character diary
+  function sagaLabel(vol, gi){ var bs=VOLBOOKS[vol]||[], acc=0; for(var i=0;i<bs.length;i++){ if(gi<=acc+bs[i].count) return bs[i].label+'·'+(gi-acc); acc+=bs[i].count; } return String(gi); }
 
   // ===== Kids' chapter recap "What happened in this chapter" (after reading) =====
 
@@ -749,7 +753,7 @@
   function renderChapters(){
     var box=$('#chapters'); box.innerHTML='';
     var rg=reachedGi();
-    BOOK.meta.books.forEach(function(bkdef,bi){
+    VBOOKS.forEach(function(bkdef,bi){
       var bk=bi+1;
       box.appendChild(el('div','booktitle',t(bkdef.title)));
       CH.filter(function(c){return c.book===bk;}).forEach(function(c){
@@ -833,13 +837,14 @@
   });
 
   // ===== render: characters =====
-  function knownChar(id){ return (BOOK.meta.knownChars||[]).indexOf(id)>=0; } // returning heroes: card shown from the start (the diary still reveals by progress)
+  // A character shows once introduced (intro.vol <= this volume). Heroes from earlier volumes are
+  // unlocked from the start (with their earlier diary); newcomers unlock as you read this volume.
+  function charUnlocked(c){ return state.mode==='tata' || c.intro.vol<VOL || (c.intro.vol===VOL && c.intro.gi<=reachedGi()); }
   function renderChars(){
-    var rg=reachedGi();
     $('#charHint').textContent = T(state.mode==='kluci' ? 'charhint_kids' : 'charhint_parent');
     var grid=$('#charGrid'); grid.innerHTML='';
-    CHARS.forEach(function(ch){
-      var unlocked = ch.gi<=rg || state.mode==='tata' || knownChar(ch.id);
+    CAST.filter(function(c){return c.intro.vol<=VOL;}).forEach(function(ch){
+      var unlocked = charUnlocked(ch);
       var card=el('div','char r-'+ch.race+(unlocked?'':' locked'));
       var frame;
       if(!unlocked){ frame='<div class="pframe fallback">'+icon('lock')+'</div>'; }
@@ -855,13 +860,15 @@
     });
   }
   function arcHtml(ch){
-    var a=ARC[ch.id]; if(!a) return '';
-    var maxG = state.mode==='tata' ? 99 : reachedGi();
-    var beats=a.beats.filter(function(b){return b[0]<=maxG;});
+    var a=ch.arc; if(!a) return '';
+    var isDad=state.mode==='tata', rg=reachedGi();
+    // earlier volumes show in full; the current volume reveals up to where you've read; later volumes stay hidden
+    var beats=(a.beats||[]).filter(function(b){ return b.vol<VOL || (b.vol===VOL && (isDad || b.gi<=rg)); });
+    beats.sort(function(x,y){ return x.vol-y.vol || x.gi-y.gi; });
     var h='';
     if(beats.length){
       h+='<div class="arc"><h4>'+icon('scroll')+esc(T('h_story_so_far'))+'</h4><ul class="timeline arc-tl">'+
-        beats.map(function(b){var m=GIMETA[b[0]]||{lab:'',title:''}; return '<li><span class="tage">'+esc(m.lab+' · '+t(m.title))+'</span>'+esc(t(b[1]))+'</li>';}).join('')+'</ul></div>';
+        beats.map(function(b){ var ti=(b.vol===VOL&&GIMETA[b.gi])?GIMETA[b.gi].title:null; var lab=sagaLabel(b.vol,b.gi)+(ti?' · '+t(ti):''); return '<li><span class="tage">'+esc(lab)+'</span>'+esc(t(b.text))+'</li>'; }).join('')+'</ul></div>';
     } else {
       h+='<p class="locknote">'+icon('lock')+esc(T('char_locked_arc'))+'</p>';
     }
@@ -1028,10 +1035,10 @@
   function relNode(id, role){
     var isRing=id==='ring';
     var ch=CHARMAP[id];
-    var unlocked = isRing || state.mode==='tata' || knownChar(id) || (ch && ch.gi<=reachedGi());
+    var unlocked = isRing || (ch && charUnlocked(ch));
     var raceCls = isRing?'r-carodej':(ch?'r-'+ch.race:'');
     if(!unlocked) return '<div class="node locked"><div class="medallion">'+icon('lock')+'</div><small>?</small></div>';
-    var nm = isRing ? T('ring_name') : t(SHORT[id]||ch.name);
+    var nm = isRing ? T('ring_name') : t(ch.short||ch.name);
     var im = isRing?null:imgPortrait(id,nm);
     var inner = im||icon(isRing?'ring':ch.ic);
     return '<div class="node '+raceCls+'"><div class="medallion'+(im?' pm':'')+'">'+inner+'</div><small>'+esc(nm)+(role?'<br>'+esc(role):'')+'</small></div>';
