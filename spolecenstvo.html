@@ -163,6 +163,11 @@
   .mchip.on .mchip-n{background:var(--gold)}
   .mchip.sel{outline:2px solid var(--gold-2); outline-offset:1px}
   .mchip-here{font-size:.58rem; color:var(--elven); font-weight:700}
+  .mchip-strand{position:absolute; top:5px; right:5px; width:9px; height:9px; border-radius:50%; box-shadow:0 0 0 1px var(--panel)}
+  .maplegend{display:flex; gap:14px; flex-wrap:wrap; align-items:center; font-family:var(--ui); font-size:.78rem; color:var(--ink-2); margin:10px 2px 0}
+  .legitem{display:inline-flex; align-items:center; gap:6px}
+  .legdot{width:12px; height:12px; border-radius:50%; flex:none; box-shadow:0 0 0 1px var(--line-2)}
+  .place-strand{font-weight:700; letter-spacing:.02em}
 
   .map-ctrls{position:absolute; right:10px; bottom:10px; display:flex; flex-direction:column; gap:6px; z-index:5}
   .map-ctrls button{width:34px; height:34px; border-radius:9px; border:1px solid var(--line-2);
@@ -444,6 +449,7 @@
           <button id="zreset" data-i18n-title="zoom_reset" title="Zaměřit cestu" aria-label="Zaměřit cestu">⤢</button>
         </div>
       </div>
+      <div class="maplegend" id="maplegend"></div>
       <div class="mapstrip" id="mapstrip"></div>
       <div class="place-panel empty" id="placePanel">Klikni na zastávku pod mapou a mapa tě k ní zaveze.</div>
     </section>
@@ -1115,7 +1121,7 @@ var BOOK = {
   }
 };
 
-  var VOLUMES = [{"file":"spolecenstvo.html","order":1,"short":{"en":"Fellowship","cs":"Společenstvo"},"current":true}];            // the book switcher (all volumes; current flagged)
+  var VOLUMES = [{"file":"spolecenstvo.html","order":1,"short":{"en":"Fellowship","cs":"Společenstvo"},"current":true},{"file":"dve-veze.html","order":2,"short":{"en":"Two Towers","cs":"Dvě věže"},"current":false}];            // the book switcher (all volumes; current flagged)
   var PORTRAITS=BOOK.PORTRAITS, ILLUS=BOOK.ILLUS, SCENES=BOOK.SCENES, PLACES=BOOK.PLACES,
       CHARS=BOOK.CHARS, SHORT=BOOK.SHORT, ARC=BOOK.ARC, CH=BOOK.CH, KIDSUM=BOOK.KIDSUM, KIDINTRO=BOOK.KIDINTRO;
   function hasPortrait(id){var u=PORTRAITS[id];return !!(u&&u.slice(0,5)==='data:');}
@@ -1130,7 +1136,7 @@ var BOOK = {
   }
 
   // ===== data: places (order = the route) =====
-  PLACES.forEach(function(p,i){ p.seq=i+1; }); // stop numbers by order in the array
+  (function(){ var n={}; PLACES.forEach(function(p){ var s=p.strand||'_default'; n[s]=(n[s]||0)+1; p.seq=n[s]; }); })(); // stop numbers per strand, by array order
 
   // ===== data: characters =====
   var CHARMAP={}; CHARS.forEach(function(c){CHARMAP[c.id]=c;});
@@ -1270,38 +1276,55 @@ var BOOK = {
     $('#miles').textContent=mile;
   }
 
+  // A "strand" is one travelling group. A book with no BOOK.strands has a single default strand (ember) — unchanged.
+  function strandList(){ return (BOOK.strands && BOOK.strands.length) ? BOOK.strands : [{id:'_default', color:'var(--ember)'}]; }
+  function sidOf(p){ return p.strand || '_default'; }
+  function strandColor(sid){ var s=strandList().filter(function(x){return x.id===sid;})[0]; return (s&&s.color)||'var(--ember)'; }
+  function isMultiStrand(){ return !!(BOOK.strands && BOOK.strands.length>1); }
   function buildRoute(){
-    var svg=$('#routeSvg');
-    // Parent sees the whole route; Kids only up to where they have read (no spoilers ahead)
-    var pts = state.mode==='tata' ? PLACES : PLACES.filter(function(p){return p.gi<=reachedGi();});
-    if(pts.length<2){ svg.innerHTML=''; return; }
-    var d=pts.map(function(p,i){return (i?'L':'M')+p.x+','+p.y;}).join(' ');
-    svg.innerHTML='<path d="'+d+'" fill="none" style="stroke:var(--ember)" stroke-width="2.4" '+
-      'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3.2" '+
-      'vector-effect="non-scaling-stroke" opacity="0.9"/>';
+    var svg=$('#routeSvg'), rg=reachedGi(), h='';
+    // Parent sees each whole route; Kids only up to where they have read (no spoilers ahead).
+    strandList().forEach(function(st){
+      var pts = PLACES.filter(function(p){ return sidOf(p)===st.id && (state.mode==='tata' || p.gi<=rg); });
+      if(pts.length<2) return;
+      var d=pts.map(function(p,i){return (i?'L':'M')+p.x+','+p.y;}).join(' ');
+      h+='<path d="'+d+'" fill="none" style="stroke:'+(st.color||'var(--ember)')+'" stroke-width="2.4" '+
+        'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3.2" '+
+        'vector-effect="non-scaling-stroke" opacity="0.9"/>';
+    });
+    svg.innerHTML=h;
   }
 
-  function currentPlace(){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(p.gi<=rg&&(!cur||p.seq>cur.seq))cur=p; }); return cur; }
+  function currentInStrand(sid){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(sidOf(p)===sid && p.gi<=rg && (!cur||p.seq>cur.seq)) cur=p; }); return cur; }
+  function currentPlace(){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(p.gi<=rg&&(!cur||p.gi>cur.gi))cur=p; }); return cur; } // overall furthest by reading order
   function renderHere(){
-    // On the map there is just one small "You are here" marker; the other stops are on the strip below.
+    // One small "You are here" marker per active strand; the other stops are on the strip below.
     var box=$('#hereLayer'); box.innerHTML='';
-    var cur=currentPlace(); if(!cur) return;
-    var m=el('div','hereM'); m.style.left=cur.x+'%'; m.style.top=cur.y+'%';
-    m.innerHTML='<span class="hm-in" title="'+esc(T('here_label')+': '+t(cur.name))+'"></span>';
-    $('.hm-in',m).addEventListener('click',function(ev){ev.stopPropagation(); showPlace(cur,true);});
-    box.appendChild(m); applyHereScale();
+    strandList().forEach(function(st){
+      var cur=currentInStrand(st.id); if(!cur) return;
+      var m=el('div','hereM'); m.style.left=cur.x+'%'; m.style.top=cur.y+'%';
+      var lbl=(st.name?t(st.name)+' — ':'')+t(cur.name);
+      var sattr=st.id==='_default'?'':' style="background:'+(st.color||'var(--ember)')+'"';
+      m.innerHTML='<span class="hm-in"'+sattr+' title="'+esc(T('here_label')+': '+lbl)+'"></span>';
+      (function(cur){ $('.hm-in',m).addEventListener('click',function(ev){ev.stopPropagation(); showPlace(cur,true);}); })(cur);
+      box.appendChild(m);
+    });
+    applyHereScale();
   }
   // The marker is inside the zoomed stage — counter-scale keeps it the same small size even when zoomed in.
-  function applyHereScale(){ var inn=$('#hereLayer .hm-in'); if(inn) inn.style.transform='scale('+(1/scale)+')'; }
+  function applyHereScale(){ Array.prototype.forEach.call(document.querySelectorAll('#hereLayer .hm-in'),function(inn){ inn.style.transform='scale('+(1/scale)+')'; }); }
   function renderStrip(){
-    var rg=reachedGi(), cur=currentPlace();
+    var rg=reachedGi();
     var strip=$('#mapstrip'); if(!strip) return; strip.innerHTML='';
     var list = state.mode==='tata' ? PLACES : PLACES.filter(function(p){return p.gi<=rg;});
     if(!list.length){ strip.innerHTML='<div class="strip-empty">'+esc(T('strip_empty'))+'</div>'; return; }
+    var curBy={}; strandList().forEach(function(st){ var c=currentInStrand(st.id); if(c) curBy[st.id]=c.id; });
+    var multi=isMultiStrand();
     list.forEach(function(p){
-      var reached=p.gi<=rg, isCur=!!(cur&&cur.id===p.id);
+      var reached=p.gi<=rg, sid=sidOf(p), isCur=curBy[sid]===p.id;
       var c=el('button','mchip'+(reached?'':' future')+(isCur?' on':''));
-      c.innerHTML='<span class="mchip-n">'+p.seq+'</span>'+icon(p.ic,'mchip-ic')+'<small>'+esc(t(p.name))+'</small>'+(isCur?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
+      var dot=multi?'<span class="mchip-strand" style="background:'+strandColor(sid)+'"></span>':'';
+      c.innerHTML=dot+'<span class="mchip-n">'+p.seq+'</span>'+icon(p.ic,'mchip-ic')+'<small>'+esc(t(p.name))+'</small>'+(isCur?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
       c.addEventListener('click',function(){ goToPlace(p); showPlace(p,reached); Array.prototype.forEach.call(strip.children,function(x){x.classList.toggle('sel',x===c);}); });
       strip.appendChild(c);
     });
@@ -1311,7 +1334,9 @@ var BOOK = {
   function showPlace(p, reached){
     var pan=$('#placePanel'); pan.className='place-panel';
     var txt = t(state.mode==='kluci' ? p.kid : p.dad);
-    var sub = state.lang==='en' ? (T('stop_word')+' '+p.seq) : (esc(p.en)+' · '+T('stop_word')+' '+p.seq);
+    var base = state.lang==='en' ? (T('stop_word')+' '+p.seq) : (esc(p.en)+' · '+T('stop_word')+' '+p.seq);
+    var pst = isMultiStrand() ? strandList().filter(function(x){return x.id===sidOf(p);})[0] : null;
+    var sub = (pst && pst.name ? '<span class="place-strand" style="color:'+(pst.color||'var(--ember)')+'">'+esc(t(pst.name))+'</span> · ' : '') + base;
     pan.innerHTML='<div class="place-head"><span class="place-ic">'+icon(p.ic)+'</span>'+
       '<div><h3>'+esc(t(p.name))+'</h3><span class="en">'+sub+'</span></div></div>'+
       '<p>'+esc(txt)+'</p>'+
@@ -1627,7 +1652,13 @@ var BOOK = {
     $('#relations').innerHTML=h;
   }
 
-  function rerender(){ updateProgress(); buildRoute(); renderHere(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
+  function renderLegend(){
+    var box=$('#maplegend'); if(!box) return;
+    if(!isMultiStrand()){ box.style.display='none'; box.innerHTML=''; return; }
+    box.style.display='';
+    box.innerHTML=BOOK.strands.map(function(st){ return '<span class="legitem"><span class="legdot" style="background:'+(st.color||'var(--ember)')+'"></span>'+esc(t(st.name))+'</span>'; }).join('');
+  }
+  function rerender(){ updateProgress(); buildRoute(); renderHere(); renderLegend(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
 
   // ===== init =====
   function init(){
