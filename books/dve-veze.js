@@ -9,7 +9,8 @@ var BOOK = {
       { label: 'IV', title: { en: 'Book Four', cs: 'Kniha čtvrtá' } }
     ],
     mapFrame: { x0: 0.41, x1: 0.66, y0: 0.52, y1: 0.73 },
-    timelineMin: 1
+    timelineMin: 1,
+    knownChars: ['frodo','sam','gandalf','aragorn','legolas','gimli','merry','pippin','boromir','glum','sauron','nazgul']
   },
   strands: [
     { id: 'hunters', name: { en: 'The Hunters', cs: 'Lovci' }, color: '#c0492f' },
@@ -36,7 +37,10 @@ var BOOK = {
         chain: [ {id:'uruk'}, {arrow:{en:'carry off',cs:'unesou'}}, {id:'pippin'}, {arrow:{en:'meets',cs:'potká'}}, {id:'stromovous'} ] },
       { title: { en: 'The secret road to Mordor', cs: 'Tajná cesta do Mordoru' },
         sub: { en: 'The Ring-bearer, his faithful friend, and the tricky guide leading them into the dark.', cs: 'Nositel Prstenu, jeho věrný přítel a lstivý průvodce, který je vede do tmy.' },
-        chain: [ {id:'sam'}, {arrow:{en:'guards',cs:'chrání'}}, {id:'frodo'}, {arrow:{en:'led by',cs:'veden'}}, {id:'glum'}, {arrow:{en:'toward',cs:'k'}}, {id:'odula'} ] }
+        chain: [ {id:'sam'}, {arrow:{en:'guards',cs:'chrání'}}, {id:'frodo'}, {arrow:{en:'led by',cs:'veden'}}, {id:'glum'}, {arrow:{en:'toward',cs:'k'}}, {id:'odula'} ] },
+      { title: { en: 'Who wants the Ring', cs: 'Kdo touží po Prstenu' },
+        sub: { en: 'The Dark Lord’s Eye and his winged servants, hunting for the Ring from afar.', cs: 'Oko Temného pána a jeho okřídlení služebníci, kteří po Prstenu pátrají z dálky.' },
+        chain: [ {id:'sauron'}, {arrow:{en:'sends',cs:'posílá'}}, {id:'nazgul'}, {arrow:{en:'hunt',cs:'loví'}}, {id:'ring'} ] }
     ],
     ensemble: {
       title: { en: 'The Three Hunters', cs: 'Tři lovci' },
@@ -57,7 +61,8 @@ var BOOK = {
     merry:'__IMG_merry__', pippin:'__IMG_pippin__', gandalf:'__IMG_gandalf__',
     eomer:'__IMG_eomer__', theoden:'__IMG_theoden__', grima:'__IMG_grima__', eowyn:'__IMG_eowyn__',
     saruman:'__IMG_saruman__', stromovous:'__IMG_stromovous__', uruk:'__IMG_uruk__',
-    frodo:'__IMG_frodo__', sam:'__IMG_sam__', glum:'__IMG_glum__', faramir:'__IMG_faramir__', odula:'__IMG_odula__'
+    frodo:'__IMG_frodo__', sam:'__IMG_sam__', glum:'__IMG_glum__', faramir:'__IMG_faramir__', odula:'__IMG_odula__',
+    sauron:'__IMG_sauron__', nazgul:'__IMG_nazgul__'
   },
   ILLUS: {
     1:{cap:{en:'Boromir falls defending Merry and Pippin, pierced by many orc-arrows. Aragorn reaches him too late — and the friends lay the brave man in a boat and send him over the Falls of Rauros.',cs:'Boromir padá, když brání Smíška a Pipina, probodán mnoha skřetími šípy. Aragorn k němu doběhne pozdě — a přátelé statečného muže uloží do loďky a pošlou přes vodopády Rauros.'}},
@@ -193,15 +198,25 @@ var BOOK = {
       dad:{en:'Noble and clear-eyed. His refusal of the Ring is one of the quiet high points of the whole tale.',cs:'Ušlechtilý a jasnozřivý. Jeho odmítnutí Prstenu je jedním z tichých vrcholů celého příběhu.'}},
     {id:'odula',gi:20,name:{en:'Shelob',cs:'Odula'},en:'Shelob',race:'zlo',rlab:{en:'Giant spider',cs:'Obří pavučice'},ic:'wraith',say:{cs:'O-du-la'},
       kid:{en:'A monstrous ancient spider who lurks in a dark tunnel in the mountains, waiting to trap travellers.',cs:'Obludná prastará pavučice, která číhá v temném tunelu v horách a čeká, až polapí poutníky.'},
-      dad:{en:'An evil older than Sauron’s realm. Gollum leads the hobbits to her — the trap at the top of the stairs.',cs:'Zlo starší než Sauronova říše. Glum k ní hobity zavede — past na vršku schodů.'}}
+      dad:{en:'An evil older than Sauron’s realm. Gollum leads the hobbits to her — the trap at the top of the stairs.',cs:'Zlo starší než Sauronova říše. Glum k ní hobity zavede — past na vršku schodů.'}},
+    {id:'sauron',gi:14,name:{en:'Sauron',cs:'Sauron'},en:'Sauron',race:'zlo',rlab:{en:'Dark Lord',cs:'Temný pán'},ic:'eye',say:{cs:'SAU-ron'},
+      kid:{en:'The Dark Lord himself, who wants the Ring more than anything. You never see him — only his searching red Eye and the darkness he sends out.',cs:'Sám Temný pán, který touží po Prstenu víc než po čemkoli. Nikdy ho neuvidíš — jen jeho slídivé rudé Oko a tmu, kterou vysílá.'},
+      dad:{en:'The unseen enemy behind everything. His shadow spreads over Ithilien, and his Eye nearly catches Pippin through the seeing-stone.',cs:'Neviditelný nepřítel za vším. Jeho stín se šíří přes Ithilien a jeho Oko málem chytí Pipina skrz vidoucí kámen.'}},
+    {id:'nazgul',gi:13,name:{en:'The Ringwraiths (Nazgûl)',cs:'Černí jezdci (Nazgûl)'},en:'Ringwraiths',race:'zlo',rlab:{en:'Wraiths',cs:'Přízraky'},ic:'wraith',say:{cs:'NAZ-gúl'},
+      kid:{en:'Sauron’s most terrible servants. In this book they no longer ride horses but fly on great winged beasts, shrieking across the sky as they hunt for the Ring.',cs:'Sauronovi nejhroznější služebníci. V téhle knize už nejezdí na koních, ale létají na velkých okřídlených nestvůrách a s ječením brázdí oblohu, jak pátrají po Prstenu.'},
+      dad:{en:'A winged Nazgûl passes over the Dead Marshes and the Cross-roads. Their leader dwells in the dead city of Minas Morgul, by Cirith Ungol.',cs:'Okřídlený Nazgûl přeletí nad Mrtvými močály i Rozcestím. Jejich pán sídlí v mrtvém městě Minas Morgul, u Cirith Ungolu.'}},
+    {id:'skretivelitele',gi:21,name:{en:'The orc-captains',cs:'Skřetí velitelé'},en:'Shagrat & Gorbag',race:'zlo',rlab:{en:'Orc-captains',cs:'Velitelé skřetů'},ic:'orc',say:{cs:'—'},
+      kid:{en:'Two quarrelling orc leaders at the tower of Cirith Ungol. Sam overhears their squabble — and that is how he learns Frodo is still alive!',cs:'Dva hašteřící se velitelé skřetů u věže Cirith Ungol. Sam vyslechne jejich rozepři — a tak se dozví, že Frodo pořád žije!'},
+      dad:{en:'Shagrat and Gorbag. Their argument over Frodo’s captured gear reveals the crucial secret: the sting only sent him to sleep.',cs:'Šagrat a Gorbag. Jejich hádka o Frodovy zabavené věci prozradí zásadní tajemství: bodnutí ho jen uspalo.'}}
   ],
-  SHORT: {aragorn:{en:'Aragorn',cs:'Aragorn'},legolas:{en:'Legolas',cs:'Legolas'},gimli:{en:'Gimli',cs:'Gimli'},merry:{en:'Merry',cs:'Smíšek'},pippin:{en:'Pippin',cs:'Pipin'},gandalf:{en:'Gandalf',cs:'Gandalf'},theoden:{en:'Théoden',cs:'Théoden'},grima:{en:'Gríma',cs:'Gríma'},eowyn:{en:'Éowyn',cs:'Éowyn'},eomer:{en:'Éomer',cs:'Éomer'},saruman:{en:'Saruman',cs:'Saruman'},stromovous:{en:'Treebeard',cs:'Stromovous'},uruk:{en:'Uruk-hai',cs:'Skuruti'},boromir:{en:'Boromir',cs:'Boromir'},frodo:{en:'Frodo',cs:'Frodo'},sam:{en:'Sam',cs:'Sam'},glum:{en:'Gollum',cs:'Glum'},faramir:{en:'Faramir',cs:'Faramir'},odula:{en:'Shelob',cs:'Odula'}},
+  SHORT: {aragorn:{en:'Aragorn',cs:'Aragorn'},legolas:{en:'Legolas',cs:'Legolas'},gimli:{en:'Gimli',cs:'Gimli'},merry:{en:'Merry',cs:'Smíšek'},pippin:{en:'Pippin',cs:'Pipin'},gandalf:{en:'Gandalf',cs:'Gandalf'},theoden:{en:'Théoden',cs:'Théoden'},grima:{en:'Gríma',cs:'Gríma'},eowyn:{en:'Éowyn',cs:'Éowyn'},eomer:{en:'Éomer',cs:'Éomer'},saruman:{en:'Saruman',cs:'Saruman'},stromovous:{en:'Treebeard',cs:'Stromovous'},uruk:{en:'Uruk-hai',cs:'Skuruti'},boromir:{en:'Boromir',cs:'Boromir'},frodo:{en:'Frodo',cs:'Frodo'},sam:{en:'Sam',cs:'Sam'},glum:{en:'Gollum',cs:'Glum'},faramir:{en:'Faramir',cs:'Faramir'},odula:{en:'Shelob',cs:'Odula'},sauron:{en:'Sauron',cs:'Sauron'},nazgul:{en:'Nazgûl',cs:'Nazgûl'},skretivelitele:{en:'Orc-captains',cs:'Skřeti'}},
   ARC: {
     aragorn:{ahead:{en:'What makes someone a true leader — a crown, or the choices they make?',cs:'Co dělá skutečného vůdce — koruna, nebo rozhodnutí, která dělá?'},beats:[
       [1,{en:'He reaches the dying Boromir, then chooses to chase the orcs and save Merry and Pippin.',cs:'Doběhne k umírajícímu Boromirovi a pak se rozhodne pronásledovat skřety a zachránit Smíška a Pipina.'}],
       [2,{en:'Leads the great run across Rohan and wins the friendship of Éomer.',cs:'Vede velký běh přes Rohan a získá přátelství Éomera.'}],
       [5,{en:'Meets Gandalf the White in Fangorn and turns toward Edoras.',cs:'Ve Fangornu potká Gandalfa Bílého a zamíří k Edorasu.'}],
-      [7,{en:'Fights through the night at Helm’s Deep, a leader men will follow.',cs:'Probojuje se nocí u Helmova žlebu jako vůdce, za nímž lidé půjdou.'}]]},
+      [7,{en:'Fights through the night at Helm’s Deep, a leader men will follow.',cs:'Probojuje se nocí u Helmova žlebu jako vůdce, za nímž lidé půjdou.'}],
+      [8,{en:'Rides to Isengard and is joyfully reunited with Merry and Pippin.',cs:'Přijede k Železnému pasu a radostně se shledá se Smíškem a Pipinem.'}]]},
     gandalf:{ahead:{en:'Why do you think Gandalf was allowed to come back?',cs:'Proč myslíš, že se Gandalf směl vrátit?'},beats:[
       [5,{en:'Returns from death as Gandalf the White and reunites with the hunters.',cs:'Vrátí se ze smrti jako Gandalf Bílý a znovu se setká s lovci.'}],
       [6,{en:'Frees King Théoden from the shadow on his mind.',cs:'Osvobodí krále Théodena od stínu na jeho mysli.'}],
@@ -234,6 +249,7 @@ var BOOK = {
       [6,{en:'Stands out in the hall of Edoras, brave and watchful as the king wakes.',cs:'Vynikne v síni Edorasu, statečná a ostražitá, když se král probouzí.'}]]},
     frodo:{ahead:{en:'What does it cost to carry something so heavy for someone else’s sake?',cs:'Co stojí nést něco tak těžkého kvůli druhým?'},beats:[
       [12,{en:'Catches Gollum in Emyn Muil and, out of pity, spares him and takes him as a guide.',cs:'V Emyn Muil chytí Gluma a ze soucitu ho ušetří a vezme jako průvodce.'}],
+      [14,{en:'Finds the Black Gate shut, and dares to trust Gollum’s secret way south.',cs:'Najde Černou bránu zavřenou a odváží se svěřit Glumově tajné cestě na jih.'}],
       [16,{en:'Meets Faramir and passes the great test — the Ring goes on, untaken.',cs:'Potká Faramira a projde velkou zkouškou — Prsten jde dál, nevzat.'}],
       [20,{en:'Is stung by Shelob in the dark and falls as if dead.',cs:'Ve tmě ho bodne Odula a padne jako mrtvý.'}]]},
     sam:{ahead:{en:'Who is the real hero of this story, do you think?',cs:'Kdo je podle tebe skutečný hrdina tohoto příběhu?'},beats:[
@@ -246,7 +262,16 @@ var BOOK = {
       [19,{en:'His last flicker of goodness slips away on the stairs.',cs:'Jeho poslední záblesk dobra se na schodech vytratí.'}]]},
     faramir:{ahead:{en:'What makes it possible to say no to something you really want?',cs:'Co ti umožní říct ne něčemu, co opravdu chceš?'},beats:[
       [16,{en:'Captures the hobbits, learns of Boromir’s death — and refuses the Ring.',cs:'Zajme hobity, dozví se o Boromirově smrti — a odmítne Prsten.'}],
-      [17,{en:'Lets the travellers go, warning them against Cirith Ungol.',cs:'Nechá poutníky jít a varuje je před Cirith Ungolem.'}]]}
+      [17,{en:'Lets the travellers go, warning them against Cirith Ungol.',cs:'Nechá poutníky jít a varuje je před Cirith Ungolem.'}]]},
+    legolas:{ahead:{en:'What makes two very different people become close friends?',cs:'Co způsobí, že se dva hodně odlišní lidé stanou blízkými přáteli?'},beats:[
+      [2,{en:'On the plains he meets the Riders of Rohan and, with Aragorn, wins their trust.',cs:'Na pláních potká Rohanské jezdce a s Aragornem si získá jejich důvěru.'}],
+      [5,{en:'In Fangorn he is the first to sense the White Rider — and rejoices to find it is Gandalf.',cs:'Ve Fangornu jako první vytuší Bílého jezdce — a zaraduje se, že je to Gandalf.'}],
+      [7,{en:'At Helm’s Deep he keeps a friendly running count of foes with Gimli.',cs:'U Helmova žlebu si s Gimlim přátelsky počítá přemožené nepřátele.'}]]},
+    gimli:{ahead:{en:'Can someone be fierce in battle and full of wonder at beautiful things?',cs:'Může být někdo hrozivý v boji a přitom plný úžasu nad krásou?'},beats:[
+      [5,{en:'Wary of the old forest, he follows the hunters into Fangorn and meets Gandalf returned.',cs:'Nedůvěřivý ke starému lesu jde s lovci do Fangornu a potká navráceného Gandalfa.'}],
+      [7,{en:'Fights valiantly at Helm’s Deep — and loses his heart to its glittering caves.',cs:'Statečně bojuje u Helmova žlebu — a zamiluje si jeho třpytivé jeskyně.'}]]},
+    boromir:{ahead:{en:'Can a single brave, kind act make up for an earlier mistake?',cs:'Může jediný statečný, laskavý čin vynahradit dřívější chybu?'},beats:[
+      [1,{en:'He dies defending Merry and Pippin, sorry at the last for having wanted the Ring.',cs:'Umírá, když brání Smíška a Pipina, a v poslední chvíli lituje, že po Prstenu zatoužil.'}]]}
   },
   CH: [
     // BOOK THREE

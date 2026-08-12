@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="An interactive guide to The Fellowship of the Ring for reading aloud to kids — a map of the journey, characters, chapters in two modes, and the world of Middle-earth.">
-<title>The Ring’s Journey — a guide to The Fellowship of the Ring</title>
+<meta name="description" content="An interactive read-aloud guide to Tolkien’s The Lord of the Rings for reading to kids — a map of the journey, characters, chapters in two modes, and the world of Middle-earth.">
+<title>The Ring’s Journey</title>
 <style>
   /* ===== Tokens: light "parchment" and dark "campfire" ===== */
   :root{
@@ -1433,12 +1433,13 @@ var BOOK = {
   });
 
   // ===== render: characters =====
+  function knownChar(id){ return (BOOK.meta.knownChars||[]).indexOf(id)>=0; } // returning heroes: card shown from the start (the diary still reveals by progress)
   function renderChars(){
     var rg=reachedGi();
     $('#charHint').textContent = T(state.mode==='kluci' ? 'charhint_kids' : 'charhint_parent');
     var grid=$('#charGrid'); grid.innerHTML='';
     CHARS.forEach(function(ch){
-      var unlocked = ch.gi<=rg || state.mode==='tata';
+      var unlocked = ch.gi<=rg || state.mode==='tata' || knownChar(ch.id);
       var card=el('div','char r-'+ch.race+(unlocked?'':' locked'));
       var frame;
       if(!unlocked){ frame='<div class="pframe fallback">'+icon('lock')+'</div>'; }
@@ -1627,7 +1628,7 @@ var BOOK = {
   function relNode(id, role){
     var isRing=id==='ring';
     var ch=CHARMAP[id];
-    var unlocked = isRing || state.mode==='tata' || (ch && ch.gi<=reachedGi());
+    var unlocked = isRing || state.mode==='tata' || knownChar(id) || (ch && ch.gi<=reachedGi());
     var raceCls = isRing?'r-carodej':(ch?'r-'+ch.race:'');
     if(!unlocked) return '<div class="node locked"><div class="medallion">'+icon('lock')+'</div><small>?</small></div>';
     var nm = isRing ? T('ring_name') : t(SHORT[id]||ch.name);
