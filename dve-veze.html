@@ -163,11 +163,6 @@
   .mchip.on .mchip-n{background:var(--gold)}
   .mchip.sel{outline:2px solid var(--gold-2); outline-offset:1px}
   .mchip-here{font-size:.58rem; color:var(--elven); font-weight:700}
-  .mchip-strand{position:absolute; top:5px; right:5px; width:9px; height:9px; border-radius:50%; box-shadow:0 0 0 1px var(--panel)}
-  .maplegend{display:flex; gap:14px; flex-wrap:wrap; align-items:center; font-family:var(--ui); font-size:.78rem; color:var(--ink-2); margin:10px 2px 0}
-  .legitem{display:inline-flex; align-items:center; gap:6px}
-  .legdot{width:12px; height:12px; border-radius:50%; flex:none; box-shadow:0 0 0 1px var(--line-2)}
-  .place-strand{font-weight:700; letter-spacing:.02em}
 
   .map-ctrls{position:absolute; right:10px; bottom:10px; display:flex; flex-direction:column; gap:6px; z-index:5}
   .map-ctrls button{width:34px; height:34px; border-radius:9px; border:1px solid var(--line-2);
@@ -449,7 +444,6 @@
           <button id="zreset" data-i18n-title="zoom_reset" title="Zaměřit cestu" aria-label="Zaměřit cestu">⤢</button>
         </div>
       </div>
-      <div class="maplegend" id="maplegend"></div>
       <div class="mapstrip" id="mapstrip"></div>
       <div class="place-panel empty" id="placePanel">Klikni na zastávku pod mapou a mapa tě k ní zaveze.</div>
     </section>
@@ -3378,7 +3372,7 @@ var ROUTES = [
 
   // ===== per-book data (injected at build time) =====
   // The Two Towers — per-book data for engine.template.html. Built into dve-veze.html by build.mjs.
-// Book Three so far (Book Four to follow). Two travelling strands: the Hunters and Merry & Pippin.
+// Book Three so far (Book Four to follow). The map follows Frodo & Sam only (Book Four onward).
 var BOOK = {
   meta: {
     slug: 'dve-veze',
@@ -3387,11 +3381,6 @@ var BOOK = {
     mapFrame: { x0: 0.15, x1: 0.68, y0: 0.17, y1: 0.82 },
     timelineMin: 1,
   },
-  strands: [
-    { id: 'hunters', name: { en: 'The Hunters', cs: 'Lovci' }, color: '#8e3b9c' },
-    { id: 'hobbits', name: { en: 'Merry & Pippin', cs: 'Smíšek & Pipin' }, color: '#2f6cb0' },
-    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#2e8b57' }
-  ],
   ui: {
     en: {
       brand_sub: 'A read-aloud guide to The Two Towers',
@@ -3456,55 +3445,28 @@ var BOOK = {
   },
   SCENES: {1:'',2:'',3:'',4:'',5:'',6:'',7:'',8:'',9:'',10:'',11:'',12:'',13:'',14:'',15:'',16:'',17:'',18:'',19:'',20:'',21:''},
   PLACES: [
-    {id:'parthgalen',strand:'hunters',name:{en:'Parth Galen',cs:'Parth Galen'},en:'Parth Galen / Falls of Rauros',x:56.5,y:58,ic:'water',gi:1,mile:0,
-      dad:{en:'The green lawn above the Falls of Rauros where the Fellowship breaks. Boromir falls here; Frodo and Sam slip away east; the others turn to the hunt.',cs:'Zelený palouk nad vodopády Rauros, kde se Společenstvo rozpadne. Zde padne Boromir; Frodo a Sam odplují na východ; ostatní se pustí do honby.'},
-      kid:{en:'The place by the great waterfall where the friends must split up. From here the story follows two paths at once.',cs:'Místo u velkého vodopádu, kde se přátelé musí rozdělit. Odsud příběh sleduje dvě cesty najednou.'}},
-    {id:'eastemnet',strand:'hunters',name:{en:'Plains of Rohan',cs:'Rohanské pláně'},en:'The Eastemnet',x:52,y:56.5,ic:'star',gi:2,mile:45,
-      dad:{en:'The wide grasslands of Rohan. Running for three days, the hunters meet Éomer’s Riders, who have just destroyed the orc-band in the night.',cs:'Širé trávnaté pláně Rohanu. Po třídenním běhu potkají lovci Éomerovy jezdce, kteří v noci právě zničili skřetí houf.'},
-      kid:{en:'Endless green grass where Aragorn, Legolas and Gimli race after the orcs — and meet the horse-riders of Rohan.',cs:'Nekonečná zelená tráva, kde se Aragorn, Legolas a Gimli ženou za skřety — a potkají jezdce z Rohanu.'}},
-    {id:'fangorn',strand:'hunters',name:{en:'Fangorn Forest',cs:'Les Fangorn'},en:'Fangorn Forest',x:48,y:53,ic:'forest',gi:5,mile:120,
-      dad:{en:'An ancient, watchful forest at the foot of the mountains. Here the hunters meet the White Rider — Gandalf, returned.',cs:'Prastarý, bdělý les na úpatí hor. Tady lovci potkají Bílého jezdce — navráceného Gandalfa.'},
-      kid:{en:'A very old, dark forest where the trees seem awake. A big surprise waits for the hunters among these trees.',cs:'Moc starý, temný les, kde stromy vypadají, že jsou vzhůru. Mezi těmi stromy čeká na lovce velké překvapení.'}},
-    {id:'edoras',strand:'hunters',name:{en:'Edoras',cs:'Edoras'},en:'Edoras / the Golden Hall',x:46,y:62,ic:'town',gi:6,mile:175,
-      dad:{en:'The hill-city of Rohan and its Golden Hall, Meduseld. Here Gandalf frees King Théoden from Gríma’s poisonous counsel.',cs:'Kopcovité město Rohanu a jeho Zlatá síň, Meduseld. Zde Gandalf osvobodí krále Théodena z Grímova jedovatého našeptávání.'},
-      kid:{en:'The city of the horse-king on a green hill, crowned by a hall with a golden roof. Its old king needs waking up.',cs:'Město krále koní na zeleném kopci, s korunou v podobě síně se zlatou střechou. Jeho starý král potřebuje probudit.'}},
-    {id:'helmovzleb',strand:'hunters',name:{en:'Helm’s Deep',cs:'Helmův žleb'},en:'Helm’s Deep',x:44,y:60.5,ic:'mountain',gi:7,mile:210,
-      dad:{en:'An old mountain fortress with a great wall. Here a small army holds out through the night against a huge host of Uruk-hai.',cs:'Stará horská pevnost s velikou hradbou. Tady malé vojsko přečká noc proti obrovskému houfu skurutů.'},
-      kid:{en:'A strong stone fortress tucked in the mountains, where the people of Rohan make their stand in a great night battle.',cs:'Pevná kamenná tvrz schovaná v horách, kde se lid Rohanu postaví na odpor ve velké noční bitvě.'}},
-    {id:'zeleznypas',strand:'hunters',name:{en:'Isengard',cs:'Železný pas'},en:'Isengard / Orthanc',x:42.5,y:49,ic:'town',gi:8,mile:250,
-      dad:{en:'Saruman’s ring of walls around the black tower Orthanc. The riders arrive to find it smashed and flooded — and the wizard trapped in his tower.',cs:'Sarumanův kruh hradeb kolem černé věže Orthanc. Jezdci dorazí a najdou ho rozbitý a zatopený — a čaroděje uvězněného ve věži.'},
-      kid:{en:'The wizard Saruman’s fortress around a tall black tower. When the riders get there, a big shock is waiting.',cs:'Pevnost čaroděje Sarumana kolem vysoké černé věže. Když tam jezdci dorazí, čeká je velké překvapení.'}},
-    {id:'laseka',strand:'hobbits',name:{en:'Eaves of Fangorn',cs:'Kraj Fangornu'},en:'The forest’s edge',x:50.5,y:54,ic:'forest',gi:3,mile:100,
-      dad:{en:'The edge of Fangorn where the Riders fall on the orc-band at night. In the confusion Merry and Pippin cut loose and vanish into the trees.',cs:'Okraj Fangornu, kde v noci jezdci přepadnou skřetí houf. Ve zmatku se Smíšek a Pipin osvobodí a zmizí mezi stromy.'},
-      kid:{en:'The dark edge of the old forest, where the two captured hobbits finally get their chance to escape.',cs:'Temný okraj starého lesa, kde dostanou dva zajatí hobiti konečně šanci utéct.'}},
-    {id:'stromovcin',strand:'hobbits',name:{en:'Wellinghall',cs:'U Stromovouse'},en:'Treebeard’s home',x:47.5,y:52.5,ic:'forest',gi:4,mile:125,
-      dad:{en:'Deep in Fangorn, Treebeard’s home under a great overhang. Here the Ents hold their slow council and decide to march on Isengard.',cs:'Hluboko ve Fangornu, Stromovousův příbytek pod velkým převisem. Tady Enti vedou svou pomalou poradu a rozhodnou se táhnout na Železný pas.'},
-      kid:{en:'The home of Treebeard the Ent, deep among the oldest trees, where the tree-folk decide to do something huge.',cs:'Domov Enta Stromovouse, hluboko mezi nejstaršími stromy, kde se stromový lid rozhodne pro něco obrovského.'}},
-    {id:'zeleznypas2',strand:'hobbits',name:{en:'Isengard (the ruin)',cs:'Železný pas (zkáza)'},en:'The broken gate',x:42.5,y:49,ic:'town',gi:8,mile:165,
-      dad:{en:'The wrecked gate of Isengard after the Ents’ assault. Merry and Pippin keep watch here among the ruins when the riders arrive.',cs:'Rozvalená brána Železného pasu po náporu Entů. Mezi troskami tu drží stráž Smíšek a Pipin, když dorazí jezdci.'},
-      kid:{en:'The smashed gateway of Isengard, where the two hobbits sit and wait with a cheerful surprise for their friends.',cs:'Rozbitá brána Železného pasu, kde oba hobiti sedí a čekají s veselým překvapením na své přátele.'}},
-    {id:'emynmuil',strand:'ringbearers',name:{en:'Emyn Muil',cs:'Emyn Muil'},en:'Emyn Muil',x:56,y:56,ic:'mountain',gi:12,mile:0,
+    {id:'emynmuil',name:{en:'Emyn Muil',cs:'Emyn Muil'},en:'Emyn Muil',x:56,y:56,ic:'mountain',gi:12,mile:0,
       dad:{en:'A maze of sharp grey hills east of the great river. Lost here, Frodo and Sam catch Gollum, who has trailed them from Moria.',cs:'Bludiště ostrých šedých kopců na východ od velké řeky. Ztraceni tu Frodo a Sam chytí Gluma, který je sleduje už od Morie.'},
       kid:{en:'A tangle of steep, rocky hills where Frodo and Sam get stuck — and finally catch the creature who’s been following them.',cs:'Spleť strmých skalnatých kopců, kde Frodo a Sam uvíznou — a konečně chytí toho tvora, co je sleduje.'}},
-    {id:'mrtvemocaly',strand:'ringbearers',name:{en:'The Dead Marshes',cs:'Mrtvé močály'},en:'The Dead Marshes',x:58,y:57,ic:'water',gi:13,mile:40,
+    {id:'mrtvemocaly',name:{en:'The Dead Marshes',cs:'Mrtvé močály'},en:'The Dead Marshes',x:58,y:57,ic:'water',gi:13,mile:40,
       dad:{en:'A vast, eerie swamp where pale faces of the long-dead seem to lie beneath the water. Gollum knows the hidden paths across.',cs:'Obrovský, tísnivý močál, kde se pod vodou zdají ležet bledé tváře dávno mrtvých. Glum zná skryté stezky napříč.'},
       kid:{en:'A spooky swamp full of little lights and strange faces in the water. Only Gollum knows the safe way through.',cs:'Strašidelný močál plný světýlek a podivných tváří ve vodě. Jen Glum zná bezpečnou cestu.'}},
-    {id:'cernabrana',strand:'ringbearers',name:{en:'The Black Gate',cs:'Černá brána'},en:'The Morannon',x:62,y:53.5,ic:'mountain',gi:14,mile:80,
+    {id:'cernabrana',name:{en:'The Black Gate',cs:'Černá brána'},en:'The Morannon',x:62,y:62,ic:'mountain',gi:14,mile:80,
       dad:{en:'The iron doors of Mordor, the Morannon — shut fast and watched by great armies. There is no way in here.',cs:'Železná vrata Mordoru, Morannon — pevně zavřená a střežená velkými vojsky. Tudy se dovnitř nedá.'},
       kid:{en:'The huge locked front gate of the enemy’s land, guarded by more soldiers than you could count. They must find another way.',cs:'Obrovská zamčená brána do nepřítelovy země, střežená víc vojáky, než bys spočítal. Musí najít jinou cestu.'}},
-    {id:'ithilien',strand:'ringbearers',name:{en:'Ithilien',cs:'Ithilien'},en:'Ithilien',x:59,y:63,ic:'forest',gi:15,mile:130,
+    {id:'ithilien',name:{en:'Ithilien',cs:'Ithilien'},en:'Ithilien',x:59,y:63,ic:'forest',gi:15,mile:130,
       dad:{en:'A green, fair country on the west edge of Mordor. Here Sam cooks his rabbit stew, an oliphaunt passes by, and Gondor’s rangers appear.',cs:'Zelený, krásný kraj na západním okraji Mordoru. Tady Sam uvaří dušeného králíka, přejde olifant a objeví se hraničáři z Gondoru.'},
       kid:{en:'A surprisingly green and pretty land, with rabbit stew, a giant oliphaunt — and soldiers who guard these woods.',cs:'Překvapivě zelený a hezký kraj, s dušeným králíkem, obřím olifantem — a vojáky, kteří ty lesy hlídají.'}},
-    {id:'hennethannun',strand:'ringbearers',name:{en:'Window on the West',cs:'Okno na západ'},en:'Henneth Annûn',x:59,y:65,ic:'water',gi:16,mile:150,
+    {id:'hennethannun',name:{en:'Window on the West',cs:'Okno na západ'},en:'Henneth Annûn',x:59,y:65,ic:'water',gi:16,mile:150,
       dad:{en:'Faramir’s secret refuge, hidden behind a waterfall. Here Frodo meets Boromir’s noble brother, who lets the Ring pass by untouched.',cs:'Faramirovo tajné útočiště, skryté za vodopádem. Tady Frodo potká Boromirova ušlechtilého bratra, který nechá Prsten projít nedotčený.'},
       kid:{en:'A hidden hideout behind a waterfall, where the hobbits meet the kind captain Faramir.',cs:'Skrytý úkryt za vodopádem, kde hobiti potkají laskavého velitele Faramira.'}},
-    {id:'rozcesti',strand:'ringbearers',name:{en:'The Cross-roads',cs:'Křižovatka'},en:'The Cross-roads',x:59.5,y:66,ic:'star',gi:18,mile:190,
+    {id:'rozcesti',name:{en:'The Cross-roads',cs:'Křižovatka'},en:'The Cross-roads',x:59.5,y:66,ic:'star',gi:18,mile:190,
       dad:{en:'Where the old roads meet, guarded by a fallen stone king. Someone has crowned his head with flowers — a small light of hope as darkness spreads.',cs:'Kde se sbíhají staré cesty, u nichž stráží padlý kamenný král. Někdo mu ověnčil hlavu květinami — malé světlo naděje, když se šíří tma.'},
       kid:{en:'A meeting of old roads with a giant fallen statue of a king — wearing a crown of flowers someone left as a sign of hope.',cs:'Křižovatka starých cest s obří padlou sochou krále — s věncem z květin, který tam někdo nechal jako znamení naděje.'}},
-    {id:'cirithungol',strand:'ringbearers',name:{en:'Stairs of Cirith Ungol',cs:'Schody Cirith Ungolu'},en:'The Stairs',x:60.5,y:66.5,ic:'mountain',gi:19,mile:210,
+    {id:'cirithungol',name:{en:'Stairs of Cirith Ungol',cs:'Schody Cirith Ungolu'},en:'The Stairs',x:60.5,y:66.5,ic:'mountain',gi:19,mile:210,
       dad:{en:'Long, dizzying stairs cut into the mountain wall, the secret way up toward the pass. Gollum slips off here on an errand of his own.',cs:'Dlouhé, závratné schody vytesané do horské stěny, tajná cesta vzhůru k průsmyku. Glum si tu odskočí za svým vlastním pletichařením.'},
       kid:{en:'Steep, scary steps climbing high up the mountain in the dark — the secret way toward a dangerous pass.',cs:'Strmé, strašidelné schody stoupající vysoko do hor ve tmě — tajná cesta k nebezpečnému průsmyku.'}},
-    {id:'odulinodoupe',strand:'ringbearers',name:{en:'Shelob’s Lair',cs:'Doupě Oduly'},en:'Torech Ungol',x:61,y:66,ic:'wraith',gi:20,mile:225,
+    {id:'odulinodoupe',name:{en:'Shelob’s Lair',cs:'Doupě Oduly'},en:'Torech Ungol',x:61,y:66,ic:'wraith',gi:20,mile:225,
       dad:{en:'A pitch-black tunnel in the pass, the den of the giant spider Shelob. Only Galadriel’s light gets the hobbits through — and not without a terrible cost.',cs:'Černočerný tunel v průsmyku, doupě obří pavučice Oduly. Jen Galadrielino světlo hobity provede — a ne bez hrozné ceny.'},
       kid:{en:'A tunnel of total darkness where a monstrous giant spider lurks. A gift of light is the only hope of getting through.',cs:'Tunel naprosté tmy, kde číhá obludná obří pavučice. Dar světla je jediná naděje, jak projít.'}}
   ],
@@ -3838,7 +3800,7 @@ var BOOK = {
   }
 
   // ===== data: places (order = the route) =====
-  (function(){ var n={}; PLACES.forEach(function(p){ var s=p.strand||'_default'; n[s]=(n[s]||0)+1; p.seq=n[s]; }); })(); // stop numbers per strand, by array order
+  PLACES.forEach(function(p,i){ p.seq=i+1; }); // stop numbers, in reading order
 
   // ===== data: characters =====
   var CHARMAP={}; CAST.forEach(function(c){CHARMAP[c.id]=c;});
@@ -3979,11 +3941,6 @@ var BOOK = {
     $('#miles').textContent=mile;
   }
 
-  // A "strand" is one travelling group. A book with no BOOK.strands has a single default strand (ember) — unchanged.
-  function strandList(){ return (BOOK.strands && BOOK.strands.length) ? BOOK.strands : [{id:'_default', color:'var(--ember)'}]; }
-  function sidOf(p){ return p.strand || '_default'; }
-  function strandColor(sid){ var s=strandList().filter(function(x){return x.id===sid;})[0]; return (s&&s.color)||'var(--ember)'; }
-  function isMultiStrand(){ return !!(BOOK.strands && BOOK.strands.length>1); }
   function buildRoute(){
     // One continuous, cumulative journey map (shared ROUTES): earlier volumes in full, this volume up to
     // where you've read (Kids) / all of it (Parent); later volumes stay hidden. Legs coloured by group.
@@ -4001,36 +3958,26 @@ var BOOK = {
     svg.innerHTML=h;
   }
 
-  function currentInStrand(sid){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(sidOf(p)===sid && p.gi<=rg && (!cur||p.seq>cur.seq)) cur=p; }); return cur; }
-  function currentPlace(){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(p.gi<=rg&&(!cur||p.gi>cur.gi))cur=p; }); return cur; } // overall furthest by reading order
+  function currentPlace(){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(p.gi<=rg&&(!cur||p.gi>cur.gi))cur=p; }); return cur; } // the furthest stop reached
   function renderHere(){
-    // One small "You are here" marker per active strand; the other stops are on the strip below.
+    // One small "You are here" marker at the furthest stop reached; the rest are on the strip below.
     var box=$('#hereLayer'); box.innerHTML='';
-    strandList().forEach(function(st){
-      var cur=currentInStrand(st.id); if(!cur) return;
-      var m=el('div','hereM'); m.style.left=cur.x+'%'; m.style.top=cur.y+'%';
-      var lbl=(st.name?t(st.name)+' — ':'')+t(cur.name);
-      var sattr=st.id==='_default'?'':' style="background:'+(st.color||'var(--ember)')+'"';
-      m.innerHTML='<span class="hm-in"'+sattr+' title="'+esc(T('here_label')+': '+lbl)+'"></span>';
-      (function(cur){ $('.hm-in',m).addEventListener('click',function(ev){ev.stopPropagation(); showPlace(cur,true);}); })(cur);
-      box.appendChild(m);
-    });
-    applyHereScale();
+    var cur=currentPlace(); if(!cur) return;
+    var m=el('div','hereM'); m.style.left=cur.x+'%'; m.style.top=cur.y+'%';
+    m.innerHTML='<span class="hm-in" title="'+esc(T('here_label')+': '+t(cur.name))+'"></span>';
+    (function(cur){ $('.hm-in',m).addEventListener('click',function(ev){ev.stopPropagation(); showPlace(cur,true);}); })(cur);
+    box.appendChild(m);
   }
-  // Zoom now resizes the stage's layout (not a transform:scale), so the marker keeps its size on its own.
-  function applyHereScale(){ Array.prototype.forEach.call(document.querySelectorAll('#hereLayer .hm-in'),function(inn){ inn.style.transform='scale(1)'; }); }
   function renderStrip(){
     var rg=reachedGi();
     var strip=$('#mapstrip'); if(!strip) return; strip.innerHTML='';
     var list = state.mode==='tata' ? PLACES : PLACES.filter(function(p){return p.gi<=rg;});
     if(!list.length){ strip.innerHTML='<div class="strip-empty">'+esc(T('strip_empty'))+'</div>'; return; }
-    var curBy={}; strandList().forEach(function(st){ var c=currentInStrand(st.id); if(c) curBy[st.id]=c.id; });
-    var multi=isMultiStrand();
+    var cur=currentPlace(), curId=cur?cur.id:null;
     list.forEach(function(p){
-      var reached=p.gi<=rg, sid=sidOf(p), isCur=curBy[sid]===p.id;
+      var reached=p.gi<=rg, isCur=curId===p.id;
       var c=el('button','mchip'+(reached?'':' future')+(isCur?' on':''));
-      var dot=multi?'<span class="mchip-strand" style="background:'+strandColor(sid)+'"></span>':'';
-      c.innerHTML=dot+'<span class="mchip-n">'+p.seq+'</span>'+icon(p.ic,'mchip-ic')+'<small>'+esc(t(p.name))+'</small>'+(isCur?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
+      c.innerHTML='<span class="mchip-n">'+p.seq+'</span>'+icon(p.ic,'mchip-ic')+'<small>'+esc(t(p.name))+'</small>'+(isCur?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
       c.addEventListener('click',function(){ goToPlace(p); showPlace(p,reached); Array.prototype.forEach.call(strip.children,function(x){x.classList.toggle('sel',x===c);}); });
       strip.appendChild(c);
     });
@@ -4040,9 +3987,7 @@ var BOOK = {
   function showPlace(p, reached){
     var pan=$('#placePanel'); pan.className='place-panel';
     var txt = t(state.mode==='kluci' ? p.kid : p.dad);
-    var base = state.lang==='en' ? (T('stop_word')+' '+p.seq) : (esc(p.en)+' · '+T('stop_word')+' '+p.seq);
-    var pst = isMultiStrand() ? strandList().filter(function(x){return x.id===sidOf(p);})[0] : null;
-    var sub = (pst && pst.name ? '<span class="place-strand" style="color:'+(pst.color||'var(--ember)')+'">'+esc(t(pst.name))+'</span> · ' : '') + base;
+    var sub = state.lang==='en' ? (T('stop_word')+' '+p.seq) : (esc(p.en)+' · '+T('stop_word')+' '+p.seq);
     pan.innerHTML='<div class="place-head"><span class="place-ic">'+icon(p.ic)+'</span>'+
       '<div><h3>'+esc(t(p.name))+'</h3><span class="en">'+sub+'</span></div></div>'+
       '<p>'+esc(txt)+'</p>'+
@@ -4210,7 +4155,7 @@ var BOOK = {
     if(tx>0) tx=0; else if(tx<minX) tx=minX;
     if(ty>0) ty=0; else if(ty<minY) ty=minY;
   }
-  function applyT(){clamp(); stage.style.transform='translate('+tx+'px,'+ty+'px)'; applyHereScale();}
+  function applyT(){clamp(); stage.style.transform='translate('+tx+'px,'+ty+'px)';}
   function setStageWidth(){
     var prev=scale; scale=1; applyLayout();
     var h=stage.offsetHeight;
@@ -4370,20 +4315,7 @@ var BOOK = {
     $('#relations').innerHTML=h;
   }
 
-  function renderLegend(){
-    var box=$('#maplegend'); if(!box) return;
-    var seen={}, items=[], rg=reachedGi(), isDad=state.mode==='tata';
-    (typeof ROUTES!=='undefined'?ROUTES:[]).forEach(function(leg){
-      if(leg.vol>VOL) return;
-      var vis = leg.vol<VOL || isDad || leg.pts.some(function(p){return p[2]<=rg;});
-      if(!vis) return;
-      var key=t(leg.group); if(seen[key]) return; seen[key]=1;
-      items.push('<span class="legitem"><span class="legdot" style="background:'+leg.color+'"></span>'+esc(key)+'</span>');
-    });
-    if(!items.length){ box.style.display='none'; box.innerHTML=''; return; }
-    box.style.display=''; box.innerHTML=items.join('');
-  }
-  function rerender(){ updateProgress(); buildRoute(); renderHere(); renderLegend(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
+  function rerender(){ updateProgress(); buildRoute(); renderHere(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
 
   // ===== init =====
   function init(){

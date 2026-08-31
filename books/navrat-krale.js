@@ -1,5 +1,5 @@
 // The Return of the King — per-book data for engine.template.html. Built into navrat-krale.html.
-// Book Five so far (Book Six to follow). Three war strands converge on Gondor: Gondor, Aragorn, Rohan.
+// Book Five so far (Book Six to follow). The map follows Frodo & Sam only (Book Six onward).
 var BOOK = {
   meta: {
     slug: 'navrat-krale',
@@ -8,12 +8,6 @@ var BOOK = {
     mapFrame: { x0: 0.15, x1: 0.68, y0: 0.17, y1: 0.82 },
     timelineMin: 1,
   },
-  strands: [
-    { id: 'gondor',  name: { en: 'Gandalf & Pippin', cs: 'Gandalf & Pipin' }, color: '#6a3fb0' },
-    { id: 'aragorn', name: { en: 'Aragorn’s road',   cs: 'Aragornova cesta' }, color: '#e07b1f' },
-    { id: 'rohan',   name: { en: 'The Riders of Rohan', cs: 'Rohanská jízda' }, color: '#17a0a0' },
-    { id: 'ringbearers', name: { en: 'Frodo & Sam', cs: 'Frodo & Sam' }, color: '#2e8b57' }
-  ],
   ui: {
     en: {
       brand_sub: 'A read-aloud guide to The Return of the King',
@@ -68,43 +62,22 @@ var BOOK = {
   },
   SCENES: {1:'__SCENE_1__',2:'__SCENE_2__',3:'__SCENE_3__',4:'__SCENE_4__',5:'__SCENE_5__',6:'__SCENE_6__',7:'__SCENE_7__',8:'__SCENE_8__',9:'__SCENE_9__',10:'__SCENE_10__',11:'__SCENE_11__',12:'__SCENE_12__',13:'__SCENE_13__',14:'__SCENE_14__',15:'__SCENE_15__',16:'__SCENE_16__',17:'__SCENE_17__',18:'__SCENE_18__',19:'__SCENE_19__'},
   PLACES: [
-    {id:'minastirith',strand:'gondor',name:{en:'Minas Tirith',cs:'Minas Tirith'},en:'Minas Tirith / Gondor',x:56.5,y:66,ic:'town',gi:1,mile:0,
-      dad:{en:'The white city of Gondor, seven walls climbing a mountain spur. Gandalf and Pippin arrive here; soon it is besieged by all the might of Mordor.',cs:'Bílé město Gondoru, sedm hradeb šplhajících po výběžku hory. Gandalf a Pipin sem dorazí; brzy ho oblehne veškerá moc Mordoru.'},
-      kid:{en:'A huge white city built in seven rings up the side of a mountain. This is where the great battle for the free lands will be fought.',cs:'Obrovské bílé město postavené v sedmi kruzích po boku hory. Tady se odehraje velká bitva o svobodné země.'}},
-    {id:'dvermrtvych',strand:'aragorn',name:{en:'Paths of the Dead',cs:'Stezky mrtvých'},en:'The Dark Door',x:46.5,y:64.5,ic:'mountain',gi:2,mile:0,
-      dad:{en:'A haunted road under the mountains that no living person dares to take. Aragorn walks it to summon the ghostly Army of the Dead to his banner.',cs:'Strašidelná cesta pod horami, na kterou se neodváží žádný živý člověk. Aragorn po ní projde, aby pod svůj prapor povolal přízračnou Armádu mrtvých.'},
-      kid:{en:'A dark, ghostly tunnel under the mountains where the dead still walk. Only the true king dares to go in and call them.',cs:'Temný, strašidelný tunel pod horami, kde stále chodí mrtví. Jen pravý král se odváží vejít a povolat je.'}},
-    {id:'dunharrow',strand:'rohan',name:{en:'Dunharrow',cs:'Dunharrow'},en:'The muster of Rohan',x:46.5,y:64,ic:'mountain',gi:3,mile:0,
-      dad:{en:'A mountain refuge where King Théoden gathers all the Riders of Rohan for war. Merry is told to stay behind — but is smuggled along by “Dernhelm”.',cs:'Horské útočiště, kde král Théoden shromáždí všechny Rohanské jezdce do války. Smíškovi řeknou, ať zůstane — ale „Dernhelm" ho vezme tajně s sebou.'},
-      kid:{en:'A hidden mountain camp where all the horse-riders of Rohan gather before galloping off to war.',cs:'Skrytý horský tábor, kde se všichni jezdci Rohanu shromáždí, než odcválají do války.'}},
-    {id:'pelennorR',strand:'rohan',name:{en:'The Pelennor',cs:'Pelennorská pole'},en:'The Rohirrim charge',x:56,y:67,ic:'star',gi:5,mile:120,
-      dad:{en:'The fields before Minas Tirith. Out of the dawn the Rohirrim charge in with horns blowing, smashing into the besieging army.',cs:'Pole před Minas Tirith. Za rozbřesku sem s troubením rohů vtrhnou Rohirové a vrazí do obléhajícího vojska.'},
-      kid:{en:'The wide fields in front of the white city — where the horns of Rohan sound and the great cavalry charge begins.',cs:'Široká pole před bílým městem — kde zazní rohanské rohy a začne velký útok jízdy.'}},
-    {id:'pelennorA',strand:'aragorn',name:{en:'The black ships',cs:'Černé lodě'},en:'Aragorn arrives',x:56,y:67,ic:'water',gi:6,mile:150,via:[[44.5,66],[49,74],[53,77],[55,70]],
-      dad:{en:'At the height of the battle, black ships come up the river — but from them steps Aragorn with his men, turning the tide of the Pelennor.',cs:'Ve vrcholu bitvy připlují po řece černé lodě — z nich ale vystoupí Aragorn se svými muži a zvrátí bitvu na Pelennoru.'},
-      kid:{en:'Just when things look darkest, ships thought to be the enemy’s arrive — and out steps Aragorn to save the day!',cs:'Zrovna když to vypadá nejčerněji, připlují lodě, o nichž si mysleli, že jsou nepřítelovy — a vystoupí z nich Aragorn a zachrání to!'}},
-    {id:'cernabranaG',strand:'gondor',name:{en:'The Black Gate',cs:'Černá brána'},en:'The last march',x:62,y:53.5,ic:'mountain',gi:10,mile:220,
-      dad:{en:'The iron gate of Mordor. The small host of the West marches here on purpose, to draw the Enemy’s eye away from two hobbits creeping through his land.',cs:'Železná brána Mordoru. Malé vojsko Západu sem schválně vytáhne, aby odvedlo Nepřítelův zrak od dvou hobitů, kteří se plíží jeho zemí.'},
-      kid:{en:'The great gate of the enemy’s land, where the brave little army marches on purpose — as a trick to help Frodo far away.',cs:'Velká brána nepřítelovy země, kam malé statečné vojsko vytáhne schválně — jako lest, aby pomohlo Frodovi daleko odsud.'}},
-    {id:'cernabranaA',strand:'aragorn',name:{en:'Before the Gate',cs:'Před bránou'},en:'The host stands',x:62,y:53.5,ic:'mountain',gi:10,mile:230,
-      dad:{en:'Before the open Black Gate, Aragorn and Gandalf lead the last stand of the free peoples, while the fate of the world rests on Frodo’s shoulders.',cs:'Před otevřenou Černou bránou vedou Aragorn a Gandalf poslední vzdor svobodných národů, zatímco osud světa spočívá na Frodových bedrech.'},
-      kid:{en:'The very edge of the enemy’s land, where the heroes make their bravest stand of all — hoping against hope.',cs:'Úplný okraj nepřítelovy země, kde hrdinové svedou svůj nejstatečnější boj ze všech — a doufají proti vší naději.'}},
-    {id:'vezci',strand:'ringbearers',name:{en:'Tower of Cirith Ungol',cs:'Věž Cirith Ungol'},en:'The orc-tower',x:61,y:66,ic:'mountain',gi:11,mile:0,
+    {id:'vezci',name:{en:'Tower of Cirith Ungol',cs:'Věž Cirith Ungol'},en:'The orc-tower',x:61,y:66,ic:'mountain',gi:11,mile:0,
       dad:{en:'The dark orc-tower guarding the pass, where Frodo is held prisoner. Sam creeps in alone to save him.',cs:'Temná skřetí věž střežící průsmyk, kde je Frodo vězněn. Sam se dovnitř sám vplíží, aby ho zachránil.'},
       kid:{en:'A grim tower full of orcs where Frodo is locked up — and brave Sam sneaks in all alone to rescue him.',cs:'Ponurá věž plná skřetů, kde je Frodo zavřený — a statečný Sam se sám vplíží dovnitř, aby ho zachránil.'}},
-    {id:'zemestin',strand:'ringbearers',name:{en:'The Land of Shadow',cs:'Země stínu'},en:'Gorgoroth, Mordor',x:62.5,y:66.5,ic:'flame',gi:12,mile:40,
+    {id:'zemestin',name:{en:'The Land of Shadow',cs:'Země stínu'},en:'Gorgoroth, Mordor',x:62.5,y:66.5,ic:'flame',gi:12,mile:40,
       dad:{en:'The dry, ashen plain of Mordor. Disguised as orcs, Frodo and Sam trudge across it toward the mountain, thirsty and worn.',cs:'Suchá, popelavá pláň Mordoru. Přestrojeni za skřety se přes ni Frodo a Sam vlečou k hoře, žízniví a vyčerpaní.'},
       kid:{en:'The bare, burnt land inside Mordor — no water, no green, just the long, hard walk to the fiery mountain.',cs:'Holá, spálená země uvnitř Mordoru — žádná voda, žádná zeleň, jen dlouhá, těžká cesta k ohnivé hoře.'}},
-    {id:'horaosudu',strand:'ringbearers',name:{en:'Mount Doom',cs:'Hora osudu'},en:'Orodruin',x:63,y:67,ic:'flame',gi:13,mile:70,
+    {id:'horaosudu',name:{en:'Mount Doom',cs:'Hora osudu'},en:'Orodruin',x:63,y:67,ic:'flame',gi:13,mile:70,
       dad:{en:'The fire-mountain where the Ring was made — and the only place it can be unmade. Here the whole quest comes to its end.',cs:'Ohnivá hora, kde byl Prsten vyroben — a jediné místo, kde ho lze zničit. Tady celá výprava dojde ke svému konci.'},
       kid:{en:'The great fiery mountain where the Ring must be thrown into the fire. This is the end of the long, long road.',cs:'Velká ohnivá hora, kde se má Prsten hodit do ohně. Tohle je konec té dlouhé, předlouhé cesty.'}},
-    {id:'cormallen',strand:'ringbearers',name:{en:'Field of Cormallen',cs:'Cormallenské pole'},en:'The rejoicing',x:60,y:57.5,ic:'star',gi:14,mile:110,
+    {id:'cormallen',name:{en:'Field of Cormallen',cs:'Cormallenské pole'},en:'The rejoicing',x:60,y:57.5,ic:'star',gi:14,mile:110,
       dad:{en:'A green field near the Black Gate where the Eagles bring the hobbits to safety, and the whole host gathers to honour them.',cs:'Zelené pole u Černé brány, kam orli přinesou hobity do bezpečí a kde se celé vojsko sejde, aby je poctilo.'},
       kid:{en:'A green field where the eagles set Frodo and Sam down safe — and everyone cheers them as the greatest heroes of all.',cs:'Zelené pole, kam orli snesou Froda a Sama v bezpečí — a všichni je oslavují jako největší hrdiny ze všech.'}},
-    {id:'kraj',strand:'ringbearers',name:{en:'The Shire',cs:'Kraj'},en:'Home, and the Scouring',x:30.5,y:28,ic:'town',gi:18,mile:1200,via:[[52,60],[44,52],[40,40],[37,31]],
+    {id:'kraj',name:{en:'The Shire',cs:'Kraj'},en:'Home, and the Scouring',x:30.5,y:28,ic:'town',gi:18,mile:1200,
       dad:{en:'The hobbits’ homeland — found spoiled by ruffians under “Sharkey”. The four changed hobbits rouse the Shire and set it free.',cs:'Domovina hobitů — nalezená zpustošená surovci pod „Šarkanem". Čtyři proměnění hobiti vyburcují Kraj a osvobodí ho.'},
       kid:{en:'The hobbits’ green home — but bullies took it over while they were away. Now the heroes must free their own land.',cs:'Zelený domov hobitů — jenže než se vrátili, ovládli ho surovci. Teď musí hrdinové osvobodit vlastní zem.'}},
-    {id:'prisatavy',strand:'ringbearers',name:{en:'The Grey Havens',cs:'Šedé přístavy'},en:'Mithlond',x:22,y:26,ic:'water',gi:19,mile:1350,via:[[26,27]],
+    {id:'prisatavy',name:{en:'The Grey Havens',cs:'Šedé přístavy'},en:'Mithlond',x:22,y:26,ic:'water',gi:19,mile:1350,
       dad:{en:'The elven harbour in the far west. From here Frodo, Bilbo and the elves sail over Sea — and Sam turns for home.',cs:'Elfský přístav na dalekém západě. Odsud Frodo, Bilbo a elfové odplují přes Moře — a Sam se obrátí k domovu.'},
       kid:{en:'A harbour by the sea where the great ship sails into the West. Here the whole story says its last, gentle goodbye.',cs:'Přístav u moře, odkud velká loď odplouvá do Zámoří. Tady se celý příběh naposledy, něžně rozloučí.'}}
   ],
