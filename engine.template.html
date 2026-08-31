@@ -719,8 +719,8 @@
     });
     applyHereScale();
   }
-  // The marker is inside the zoomed stage — counter-scale keeps it the same small size even when zoomed in.
-  function applyHereScale(){ Array.prototype.forEach.call(document.querySelectorAll('#hereLayer .hm-in'),function(inn){ inn.style.transform='scale('+(1/scale)+')'; }); }
+  // Zoom now resizes the stage's layout (not a transform:scale), so the marker keeps its size on its own.
+  function applyHereScale(){ Array.prototype.forEach.call(document.querySelectorAll('#hereLayer .hm-in'),function(inn){ inn.style.transform='scale(1)'; }); }
   function renderStrip(){
     var rg=reachedGi();
     var strip=$('#mapstrip'); if(!strip) return; strip.innerHTML='';
@@ -901,43 +901,51 @@
   }
 
   // ===== map: pan & zoom =====
+  // Zoom by re-laying-out the map at a wider CSS width, so the browser re-samples the hi-res source
+  // sharply — NOT transform:scale(), which only stretches a base-size GPU texture (blurry). Pan = translate.
   var scale=1,minS=1,maxS=4,tx=0,ty=0;
   var stage=$('#mapStage'), vp=$('#mapVp');
+  function applyLayout(){ stage.style.width=(vp.clientWidth*scale)+'px'; }
   function clamp(){
-    // Stage width = viewport width (img has width:100%), height from the map ratio.
-    var vw=vp.clientWidth, vh=vp.clientHeight, stageH=stage.offsetHeight;
-    var minX=Math.min(0, vw - vw*scale), minY=Math.min(0, vh - stageH*scale);
+    var vw=vp.clientWidth, vh=vp.clientHeight, sw=stage.offsetWidth, sh=stage.offsetHeight;
+    var minX=Math.min(0, vw - sw), minY=Math.min(0, vh - sh);
     if(tx>0) tx=0; else if(tx<minX) tx=minX;
     if(ty>0) ty=0; else if(ty<minY) ty=minY;
   }
-  function applyT(){clamp(); stage.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')'; applyHereScale();}
+  function applyT(){clamp(); stage.style.transform='translate('+tx+'px,'+ty+'px)'; applyHereScale();}
   function setStageWidth(){
-    stage.style.width=vp.clientWidth+'px';
+    var prev=scale; scale=1; applyLayout();
     var h=stage.offsetHeight;
     if(h){ vp.style.height=Math.min(h, Math.round(window.innerHeight*0.72), 580)+'px'; }
+    scale=prev; applyLayout();
   }
   function zoomAt(cx,cy,ns){
     ns=Math.max(minS,Math.min(maxS,ns));
-    var rx=(cx-tx)/scale, ry=(cy-ty)/scale;
-    tx=cx-rx*ns; ty=cy-ry*ns; scale=ns; applyT();
+    var sw=stage.offsetWidth, sh=stage.offsetHeight;
+    var fx=sw?(cx-tx)/sw:0, fy=sh?(cy-ty)/sh:0;
+    scale=ns; applyLayout();
+    var sw2=stage.offsetWidth, sh2=stage.offsetHeight;
+    tx=cx-fx*sw2; ty=cy-fy*sh2; applyT();
   }
   function frameJourney(){
-    var W0=vp.clientWidth, H0=stage.offsetHeight, vpW=vp.clientWidth, vpH=vp.clientHeight;
-    if(!H0){return;}
+    var vpW=vp.clientWidth, vpH=vp.clientHeight;
+    scale=1; applyLayout();
+    var baseW=stage.offsetWidth, baseH=stage.offsetHeight; if(!baseH){return;}
     var mf=BOOK.meta.mapFrame||{x0:0,x1:1,y0:0,y1:1}, fx0=mf.x0,fx1=mf.x1,fy0=mf.y0,fy1=mf.y1;  // region of the shared map to frame
-    var regW=(fx1-fx0)*W0, regH=(fy1-fy0)*H0;
+    var regW=(fx1-fx0)*baseW, regH=(fy1-fy0)*baseH;
     var s=Math.min(vpW/regW, vpH/regH)*0.96;
     s=Math.max(minS,Math.min(maxS,s));
-    scale=s;
-    tx=vpW/2 - ((fx0+fx1)/2)*W0*s;
-    ty=vpH/2 - ((fy0+fy1)/2)*H0*s;
+    scale=s; applyLayout();
+    var sw=stage.offsetWidth, sh=stage.offsetHeight;
+    tx=vpW/2 - ((fx0+fx1)/2)*sw;
+    ty=vpH/2 - ((fy0+fy1)/2)*sh;
     applyT();
   }
   function goToPlace(p){
-    var natW=vp.clientWidth, natH=stage.offsetHeight; if(!natH)return;
-    scale=Math.min(maxS,3.4);
-    tx=vp.clientWidth/2 - (p.x/100)*natW*scale;
-    ty=vp.clientHeight/2 - (p.y/100)*natH*scale;
+    scale=Math.min(maxS,3.4); applyLayout();
+    var sw=stage.offsetWidth, sh=stage.offsetHeight; if(!sh)return;
+    tx=vp.clientWidth/2 - (p.x/100)*sw;
+    ty=vp.clientHeight/2 - (p.y/100)*sh;
     stage.classList.add('smooth'); applyT();
   }
   $('#zin').addEventListener('click',function(){zoomAt(vp.clientWidth/2,vp.clientHeight/2,scale*1.4);});
