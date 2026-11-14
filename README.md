@@ -1,68 +1,70 @@
-# The Ring's Journey 💍
+# Malazská Kniha padlých — čtenářský průvodce
 
-An interactive, read-aloud guide to Tolkien's *The Lord of the Rings*, built for reading to kids. One shared engine, **one built file per volume**, tied together by a book switcher. Bilingual (English + Czech), with more languages easy to add.
+Neoficiální dvojjazyčný průvodce světem série Stevena Eriksona *Malazská Kniha padlých*. Zachovává původní koncept projektu: každá kniha je samostatný HTML soubor, funguje offline a v přepínači lze přecházet mezi svazky.
 
-➡️ Open a volume in a browser (each works offline — it's a single file):
+## Svazky
 
-| file | volume | status |
+| Soubor | Český název | Originální název |
 | --- | --- | --- |
-| **`spolecenstvo.html`** | *The Fellowship of the Ring* | ✅ ready |
-| **`dve-veze.html`** | *The Two Towers* | 🚧 in progress |
-| **`navrat-krale.html`** | *The Return of the King* | 🗓️ planned |
+| `mesicni-zahrady.html` | *Měsíční zahrady* | *Gardens of the Moon* |
+| `dum-mrtvych.html` | *Dům mrtvých* | *Deadhouse Gates* |
+| `vzpominky-ledu.html` | *Vzpomínky ledu* | *Memories of Ice* |
+| `dom-retezu.html` | *Dóm řetězů* | *House of Chains* |
+| `pulnocni-vlny.html` | *Půlnoční vlny* | *Midnight Tides* |
+| `lovci-kosti.html` | *Lovci kostí* | *The Bonehunters* |
+| `vichr-smrti.html` | *Vichr smrti* | *Reaper’s Gale* |
+| `dan-pro-ohare.html` | *Daň pro ohaře* | *Toll the Hounds* |
+| `prach-snu.html` | *Prach snů* | *Dust of Dreams* |
+| `chromy-buh.html` | *Chromý bůh* | *The Crippled God* |
 
-## What the app does
+Každý díl má šest částí rozdělených do dvou vnitřních knih (3 + 3), šest zastávek mapy, postavy, vztahy, světové poznámky, citlivostní upozornění a dvojjazyčné kvízy. Shrnutí a popisy jsou původní průvodcovský text, nikoli přepisy knih.
 
-- 🗺️ **Journey map** — the marked route plus a strip of stops; in Kids mode there are no spoilers (it unlocks as you read).
-- 🧙 **Characters** — painted portraits with a "story so far" diary and (in other languages) how to say the names.
-- 🖼️ **A chapter illustration** — a painted scene of the key moment, with a caption.
-- 📖 **Chapters** — a *Parent* mode (summary, what to look out for, questions, a "scariness meter", vocabulary) and a *Kids* mode ("what happened" recaps + quizzes, all spoiler-free).
-- 🌍 **World & Relations** — what the One Ring is, who Sauron is, the peoples of Middle-earth, a timeline, and how everyone is connected.
-- 📚 **Book switcher** (in the header) — jump between volumes; **each volume keeps its own reading progress**.
-- 🌐 **Language switcher** and 🌗 **light/dark theme** in the header.
+## Funkce aplikace
 
-## Architecture — shared engine + per-book data
+- **Mapa ságy** — stylizovaný čtenářský atlas s očíslovanými zastávkami, zvýrazněnou trasou svazku a přepínáním mezi celým světem a oblastí děje.
+- **Průvodce / Čtenář** — průvodcovský režim ukazuje úplné poznámky; čtenářský režim odkrývá děj, postavy a místa postupně podle označených částí.
+- **Postavy a vztahy** — společný soubor postav napříč deseti knihami, jejich příběhové oblouky a vztahové přehledy.
+- **Svět** — přehled národů, časová osa a stručná encyklopedie.
+- **Angličtina / čeština**, světlý a tmavý motiv.
+- **Samostatný HTML soubor pro každý díl** — sdílený engine, mapa a data se při sestavení vloží dovnitř souboru; není potřeba server ani externí knihovny.
 
-Everything book-specific lives in data; the engine is book-agnostic and reads it from a `BOOK` object. That's what keeps each built file light (a tablet only ever loads one volume) while the app *feels* like one.
+Režim, jazyk a motiv se sdílejí mezi svazky; přečtené části se ukládají pro každý svazek zvlášť v místním úložišti prohlížeče. Vztahové přehledy se v čtenářském režimu odemykají podle postupu.
 
-- **`engine.template.html`** — the **shared engine**: HTML/CSS/JS, icons, i18n, and the world backdrop (races, Ring-history timeline, lore). Edit engine behaviour here.
-- **`books/<slug>.js`** — **one file per volume** (`spolecenstvo`, `dve-veze`, `navrat-krale`). Defines `var BOOK = {…}`: `meta`, `ui`, `relations`, and the content — `CH` (chapters), `CHARS` + `ARC` (characters and their diary), `PLACES`, `ILLUS`/`SCENES`, `KIDSUM`/`KIDINTRO`, `PORTRAITS`. Structural data (chapter order, `gi` indices, the internal book split, map coordinates, quiz answers) is shared across languages, so it can't drift.
-- **`build.mjs`** — builds `<slug>.html` for every volume that has a data file, inlining images and injecting the switcher (which lists only the volumes that exist).
-- **`assets/`**:
-  - `map.jpg` — the **shared** map of Middle-earth (all volumes use it; each frames its own region),
-  - `portraits/<id>.jpg` — a **shared portrait pool**, keyed by character `id` (recurring characters — Frodo, Gandalf, Gollum… — reuse one file),
-  - `scenes/<slug>/<n>.jpg` — a volume's chapter illustrations (`n` = chapter index within the volume).
-- `mapa-stredozem-original.jpg` — the original high-res map (10000×5455). **Not in the repo** — kept locally. The build uses the optimised `assets/map.jpg`.
+## Sestavení
 
-## Build
-
-After editing the engine or a book, run:
+Je potřeba Node.js 18 nebo novější; projekt nemá žádné externí závislosti.
 
 ```bash
 node build.mjs
 ```
 
-The script replaces image tokens with base64 data URIs:
+Sestavení vytvoří nebo obnoví všech deset HTML souborů v kořenové složce. Pro lokální otevření bez omezení prohlížeče lze spustit jednoduchý statický server, například:
 
-| token | source |
-| --- | --- |
-| `__MAP_DATA_URI__` | `assets/map.jpg` (shared) |
-| `__IMG_<id>__` | `assets/portraits/<id>.jpg` (shared pool) |
-| `__SCENE_<n>__` | `assets/scenes/<slug>/<n>.jpg` (this volume) |
+```bash
+python -m http.server 8000
+```
 
-**Missing images don't fail the build.** They fall back to a placeholder icon in the app, and the build prints a per-volume **shot-list** of what still needs generating (handy for a Midjourney pass). Only a stray, unrecognised build token fails the build — so you can't ship one by accident.
+Pak otevři `http://localhost:8000/mesicni-zahrady.html`.
 
-## Languages
+Kontrolu hranic čtenářského postupu a trasy lze spustit příkazem `node --test tests/progress.test.mjs`.
 
-The app is **English-first**; Czech is an optional alternate, switchable in the header (🌐). Nothing is hard-coded per language:
+## Struktura
 
-- **UI strings** live in the engine's `UI = { en, cs }` dictionary (a volume can override a few via `BOOK.ui`), read via `T('key')`.
-- **Content** fields are per-field language maps, e.g. `sum: { en: '…', cs: '…' }`, read via `t(field)` (which falls back to English).
+- `engine.template.html` — společné rozhraní, styly, vykreslování, překlady a základní encyklopedická data.
+- `books/cast.js` — společné postavy a struktura vnitřních knih.
+- `books/routes.js` — barvy tras. Trasy při sestavení vznikají ze souřadnic zastávek v datech svazků.
+- `books/<slug>.js` — šest částí, zastávky, vztahy, shrnutí, kvízy a dvojjazyčné texty konkrétního svazku.
+- `build.mjs` — vloží data a obrázky do samostatných HTML výstupů.
+- `assets/map.svg` — stylizovaná mapa Malazského světa.
+- `assets/scenes/<slug>/<n>.jpg` — nepovinné ilustrace částí, kde `n` je pořadové číslo 1–6.
 
-To add a language, add its key (e.g. `de`) to `UI` and to the content maps. Czech character and place names follow the translation by **Stanislava Pošustová**; English uses Tolkien's original names.
+Chybějící ilustrace sestavení nezastaví; aplikace místo nich zobrazí ikonový náhradní prvek a skript vypíše seznam chybějících scén. Zájemci mohou vytvořit ilustrace a přidat je do příslušných složek `assets/scenes/`.
 
-## Adding a volume
+## Přidání nebo úprava obsahu
 
-1. Create `books/<slug>.js` (copy an existing one as a template) and fill in `BOOK`.
-2. Add the volume to the `VOLUMES` list in `build.mjs`.
-3. Drop images into `assets/portraits/` (new characters) and `assets/scenes/<slug>/`.
-4. `node build.mjs` — the shot-list tells you which images are still missing.
+1. Uprav příslušná data v `books/<slug>.js` (formát překladu je `L('English', 'Česky')`).
+2. Spusť `node build.mjs` a zkontroluj výsledný HTML soubor.
+3. Nový díl přidej také do `VOLUMES` v `build.mjs` a do `VOLBOOKS` v `books/cast.js`. Barvu jeho trasy přidej do `books/routes.js`.
+4. U každého vztahového bloku a souboru postav nastav `min` na první část (1–6), po jejímž přečtení celý přehled neprozrazuje další děj.
+
+Jde o fanouškovský projekt, který není spojen se Stevenem Eriksonem ani jeho vydavateli.

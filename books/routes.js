@@ -1,14 +1,5 @@
-// Frodo & Sam — the one journey the app follows, drawn on the sharp map, faithful to the terrain.
-//   point = [x, y, gi]   (x,y = % of the map image; gi = chapter within that leg's volume)
-
-var ROUTES = [
-  // -- Volume I–II · The Fellowship --
-  { id:'frodo-1', group:{en:'Frodo & Sam',cs:'Frodo & Sam'}, color:'#2e8b57', vol:1, pts:[
-    [30.5,28,1],[32.5,28.3,2],[33.7,28,2],[34.5,28.5,3],[35.5,29.5,4],[36.7,29.8,5],[38.5,28,6],[40.5,23.8,6],[43.5,25,7],[45.5,26,8],[47.5,26.3,8],[49.5,25.5,9],[49,29,10],[48.3,33,11],[48,37,12],[48.8,35.3,12],[46.3,39,13],[48,39,14],[50,38.7,14],[49,41.5,15],[48,44,16],[51,46,17],[52,47.3,18],[54,49,18],[56,50.5,19],[56,52,20],[55.3,55,20],[56,57.5,21],[57,59,22] ] },
-  // -- Volume III–IV · The Two Towers --
-  { id:'frodo-2', group:{en:'Frodo & Sam',cs:'Frodo & Sam'}, color:'#2e8b57', vol:2, pts:[
-    [57,59,12],[57.5,58.2,13],[58,60,13],[58.5,62,14],[60.3,62,15],[62,62,15],[61.5,64,16],[61,66,17],[61,68,17],[62.3,70,18],[63,71,19],[63.6,70.2,19],[64,70,20] ] },
-  // -- Volume V–VI · The Return of the King --
-  { id:'frodo-3', group:{en:'Frodo & Sam',cs:'Frodo & Sam'}, color:'#2e8b57', vol:3, pts:[
-    [64,70,11],[64,68.5,12],[64,67.5,12],[62.5,64,12],[61,61,13],[60,57.5,14],[54,62,14],[47,64,14],[43,57,15],[40,49,16],[38.5,41,16],[36,34,16],[36.7,29.8,17],[33.5,28,18],[30.5,28,18],[26,27,18],[22,26,19] ] }
+// Accent colors for the saga routes. Build each leg directly from that volume’s places.
+var ROUTE_COLORS = [
+  '#a94336', '#9b611f', '#30587a', '#3e6955', '#72517d',
+  '#a94336', '#9b611f', '#30587a', '#3e6955', '#72517d'
 ];

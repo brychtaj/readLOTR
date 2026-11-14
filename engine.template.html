@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="An interactive read-aloud guide to Tolkien’s The Lord of the Rings for reading to kids — a map of the journey, characters, chapters in two modes, and the world of Middle-earth.">
-<title>The Ring’s Journey</title>
+<meta name="description" content="An interactive reader’s guide to Steven Erikson’s Malazan Book of the Fallen — a map of the saga, characters, chapter-by-chapter notes in two modes, and the world of the Malazan Empire.">
+<title>The Book of the Fallen — a reader’s guide</title>
 <style>
   /* ===== Tokens: light "parchment" and dark "campfire" ===== */
   :root{
@@ -119,60 +119,54 @@
   nav.tabs button svg{width:17px;height:17px}
   nav.tabs button:hover{border-color:var(--gold); color:var(--ink)}
   nav.tabs button.on{background:var(--ink); color:var(--paper); border-color:var(--ink)}
-  nav.tabs button.on{background:linear-gradient(180deg,#3a2c1e,#2b2118); color:var(--paper-2)}
+  nav.tabs button.on{background:linear-gradient(180deg,#3a2c1e,#2b2118); color:#f1ead7}
 
   .view{display:none; animation:fade .3s ease}
   .view.on{display:block}
   @keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
 
   /* ===== Map ===== */
-  .map-viewport{position:relative; height:min(64vh,560px); border:1px solid var(--line-2);
-    border-radius:var(--radius); overflow:hidden; background:var(--paper-2); box-shadow:0 8px 30px -14px var(--shadow);
+  .map-heading{display:flex; align-items:end; justify-content:space-between; flex-wrap:wrap; gap:6px 20px; margin:0 0 12px}
+  .map-heading h2{font-size:clamp(1.35rem,3vw,1.9rem); margin:0; line-height:1.15}
+  .map-legend{display:flex; flex-wrap:wrap; gap:4px 14px; font:.73rem var(--ui); color:var(--ink-2)}
+  .map-legend span{display:inline-flex; align-items:center; gap:6px}
+  .map-legend span[hidden]{display:none}
+  .map-legend i{width:18px; border-top:2px dashed var(--route-color,var(--ember))}
+  .map-legend .past i{border-top:2px dotted var(--ink-3)}
+  .map-viewport{position:relative; height:clamp(320px,61vh,540px); border:1px solid #62716a;
+    border-radius:var(--radius); overflow:hidden; background:#152a31; box-shadow:0 12px 34px -17px var(--shadow);
     touch-action:none; cursor:grab; user-select:none}
+  .map-viewport.overview{height:auto; aspect-ratio:5/3; max-height:620px}
   .map-viewport.grabbing{cursor:grabbing}
-  .map-stage{position:absolute; top:0; left:0; transform-origin:0 0; will-change:transform}
-  .map-img{display:block; width:100%; height:auto; pointer-events:none;
-    filter:saturate(1.02) contrast(1.02)}
-  :root[data-theme="dark"] .map-img{filter:saturate(.9) brightness(.82) contrast(1.02)}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .map-img{filter:saturate(.9) brightness(.82) contrast(1.02)}}
-  .route{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible}
-
-  /* ===== Map: route + axis ===== */
-  .map-stage.smooth{transition:transform .45s ease}
-  .hereM{position:absolute; z-index:3}
-  .hm-in{position:absolute; left:0; top:0; width:13px; height:13px; margin:-6.5px 0 0 -6.5px; border-radius:50%;
-    background:radial-gradient(circle at 34% 30%, var(--ember-2), var(--ember)); border:2px solid var(--gold-2);
-    box-shadow:0 1px 4px var(--shadow); transform-origin:center center; cursor:pointer}
-  .hm-in::after{content:""; position:absolute; inset:-3px; border-radius:50%;
-    box-shadow:0 0 0 0 rgba(157,43,37,.5); animation:pulseH 1.9s ease-in-out infinite}
-  @keyframes pulseH{0%,100%{box-shadow:0 0 0 0 rgba(157,43,37,.5)}50%{box-shadow:0 0 0 7px rgba(157,43,37,0)}}
-  .mapstrip{display:flex; gap:6px; overflow-x:auto; padding:12px 2px 4px; margin-top:10px; scrollbar-width:thin}
-  .mapstrip::-webkit-scrollbar{height:7px}
-  .mapstrip::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:99px}
-  .strip-empty{font-family:var(--ui); font-size:.85rem; color:var(--ink-3); padding:10px 4px}
-  .mchip{flex:none; width:82px; display:flex; flex-direction:column; align-items:center; gap:3px; padding:8px 4px;
-    border:1px solid var(--line-2); border-radius:11px; background:var(--panel-2); color:var(--ink); cursor:pointer;
-    font-family:var(--ui); text-align:center; transition:.12s; position:relative}
+  .map-stage{position:absolute; top:0; left:0; width:100%; transform-origin:0 0}
+  .map-stage.smooth{transition:transform .32s ease-out}
+  .map-img{display:block; width:100%; aspect-ratio:5/3; pointer-events:none}
+  .route{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+  .map-pin{position:absolute; transform:translate(-50%,-50%); z-index:1; display:grid; place-items:center;
+    min-width:22px; height:22px; padding:0 4px; border:1px solid #ffedc8; border-radius:20px;
+    background:#263d3c; color:#fff3d8; box-shadow:0 1px 5px #131d1b99; font:700 10px var(--ui);
+    font-variant-numeric:tabular-nums; cursor:pointer}
+  .map-pin.here,.map-pin:hover,.map-pin:focus-visible{z-index:2; background:var(--route-color,#a94336)}
+  .map-pin.selected,.map-pin:focus-visible{outline:2px solid #ffedc8; outline-offset:2px}
+  .mapstrip{display:flex; gap:6px; overflow-x:auto; padding:4px 3px; margin-top:9px; scrollbar-width:thin}
+  .strip-empty{font:.85rem var(--ui); color:var(--ink-3); padding:10px 4px}
+  .mchip{flex:1 0 100px; min-width:100px; display:grid; grid-template-columns:auto 1fr; align-items:center;
+    text-align:left; gap:3px 7px; padding:8px; border:1px solid var(--line-2); border-radius:11px;
+    background:var(--panel-2); color:var(--ink); cursor:pointer; font-family:var(--ui); transition:.12s}
   .mchip:hover{border-color:var(--gold)}
-  .mchip .mchip-n{width:22px; height:22px; border-radius:50%; background:var(--ember); color:#fff; font-weight:800; font-size:.72rem; display:flex; align-items:center; justify-content:center}
-  .mchip .mchip-ic{width:16px; height:16px; color:var(--gold)}
-  .mchip small{font-size:.68rem; line-height:1.12; color:var(--ink)}
-  .mchip.future{opacity:.6}
-  .mchip.future .mchip-n{background:var(--ink-3)}
-  .mchip.on{border-color:var(--gold); background:color-mix(in srgb,var(--gold) 16%,var(--panel)); box-shadow:0 2px 8px -4px var(--gold)}
-  .mchip.on .mchip-n{background:var(--gold)}
+  .mchip-n{width:22px; height:22px; border-radius:50%; background:var(--ember); color:#fff;
+    font-weight:800; font-size:.72rem; display:grid; place-items:center}
+  .mchip small{font-size:.73rem; line-height:1.18; color:var(--ink)}
+  .mchip.on{border-color:var(--gold); background:color-mix(in srgb,var(--gold) 16%,var(--panel))}
   .mchip.sel{outline:2px solid var(--gold-2); outline-offset:1px}
-  .mchip-here{font-size:.58rem; color:var(--elven); font-weight:700}
-
-  .map-ctrls{position:absolute; right:10px; bottom:10px; display:flex; flex-direction:column; gap:6px; z-index:5}
-  .map-ctrls button{width:34px; height:34px; border-radius:9px; border:1px solid var(--line-2);
-    background:color-mix(in srgb,var(--panel) 92%,transparent); color:var(--ink); font-size:1.1rem; cursor:pointer;
-    font-family:var(--ui); display:flex; align-items:center; justify-content:center; box-shadow:0 2px 6px var(--shadow)}
-  .map-ctrls button:hover{border-color:var(--gold)}
-  .map-hint{font-family:var(--ui); font-size:.82rem; color:var(--ink-2); margin:0 2px 10px;
-    display:flex; align-items:center; gap:8px}
-  .map-hint svg{width:16px;height:16px;color:var(--gold);flex:none}
-  .map-hint b{color:var(--ink)}
+  .mchip-here{grid-column:2; font-size:.62rem; color:var(--elven); font-weight:700}
+  .map-ctrls{position:absolute; right:10px; bottom:10px; display:flex; flex-direction:column; gap:4px; z-index:5;
+    padding:4px; background:#14282eea; border:1px solid #788c85; border-radius:11px; box-shadow:0 3px 12px #14252c77}
+  .map-ctrls button{width:38px; height:38px; padding:0; border-radius:6px; border:0; background:transparent;
+    color:#f0e5c7; font-size:1.18rem; cursor:pointer; font-family:var(--ui); display:grid; place-items:center}
+  .map-ctrls button:hover,.map-ctrls button:focus-visible{background:#3c5555}
+  .map-ctrls svg{width:18px; height:18px}
+  .map-hint{font:.78rem var(--ui); color:var(--ink-2); margin:4px 0 0}
 
   .place-panel{margin-top:14px; border:1px solid var(--line-2); border-radius:var(--radius);
     background:var(--panel); padding:16px 18px; box-shadow:0 6px 20px -14px var(--shadow)}
@@ -188,14 +182,17 @@
   .booktitle::after{content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line-2),transparent)}
   .ch{border:1px solid var(--line-2); border-radius:var(--radius); background:var(--panel); margin-bottom:12px;
     overflow:hidden; box-shadow:0 4px 16px -14px var(--shadow)}
-  .ch-head{display:flex; align-items:center; gap:14px; padding:14px 16px; cursor:pointer}
+  .ch-head{display:flex; align-items:center; gap:14px; padding:14px 16px}
+  .ch-disclosure{display:flex; align-items:center; gap:14px; flex:1; min-width:0; padding:0; border:0;
+    background:transparent; color:inherit; text-align:left; cursor:pointer}
+  .ch-disclosure:disabled{cursor:default}
   .ch-num{font-family:var(--display); font-weight:700; font-size:.95rem; color:var(--paper);
     background:linear-gradient(180deg,#3a2c1e,#2b2118); min-width:44px; height:44px; border-radius:10px;
     display:flex; align-items:center; justify-content:center; flex:none; letter-spacing:.02em}
   :root[data-theme="dark"] .ch-num{background:linear-gradient(180deg,#4a3a26,#332818); color:var(--gold-2)}
   .ch-t{flex:1; min-width:0}
-  .ch-t h3{margin:0; font-size:1.06rem; font-family:var(--serif); font-weight:700; text-wrap:balance}
-  .ch-t .en{font-family:var(--ui); font-size:.74rem; color:var(--ink-3); letter-spacing:.02em}
+  .ch-t .ch-title{display:block; font-size:1.06rem; font-family:var(--serif); font-weight:700; text-wrap:balance}
+  .ch-t .en{display:block; font-family:var(--ui); font-size:.74rem; color:var(--ink-3); letter-spacing:.02em}
   .fear{display:flex; align-items:center; gap:3px; margin-top:4px}
   .fear .lab{font-family:var(--ui); font-size:.68rem; color:var(--ink-3); margin-right:4px; letter-spacing:.02em}
   .flame{width:13px; height:13px; color:var(--ember)}
@@ -305,12 +302,22 @@
   .r-trpaslik .medallion{border-color:#b08d5a; color:#8a6b3c}
   .r-zlo .medallion{border-color:var(--ember-2); color:var(--ember)}
   .r-orc .medallion{border-color:var(--ember-2); color:var(--ember)}
+  .r-malazan .medallion{border-color:var(--ember-2); color:var(--ember)}
+  .r-human .medallion{border-color:#9c7b4e; color:#9c7b4e}
+  .r-tiste .medallion{border-color:#7fa8c9; color:#5f86ad}
+  .r-jaghut .medallion{border-color:#9cc7d8; color:#6aa1b8}
+  .r-imass .medallion{border-color:#b8a98a; color:#8d7c5d}
+  .r-soletaken .medallion{border-color:var(--gold-2); color:var(--gold)}
+  .r-god .medallion{border-color:var(--gold-2); color:var(--gold)}
+  .r-ascendant .medallion{border-color:var(--gold-2); color:var(--gold)}
+  .r-kchain .medallion{border-color:#8aa35a; color:#6b8440}
+  .r-forkrul .medallion{border-color:#b7c4cf; color:#8a9aa8}
 
   /* ===== Sub-segment (Gallery / Relations) ===== */
   .subseg{display:inline-flex; background:var(--panel-2); border:1px solid var(--line-2); border-radius:999px;
     padding:3px; margin-bottom:16px; font-family:var(--ui); font-size:.84rem}
   .subseg button{border:0; background:transparent; color:var(--ink-2); cursor:pointer; padding:7px 16px; border-radius:999px; font-weight:600}
-  .subseg button.on{background:linear-gradient(180deg,#3a2c1e,#2b2118); color:var(--paper-2)}
+  .subseg button.on{background:linear-gradient(180deg,#3a2c1e,#2b2118); color:#f1ead7}
 
   /* ===== World (lore) ===== */
   .lore-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px}
@@ -398,15 +405,15 @@
   <header class="top">
     <div class="top-in">
       <div class="brand">
-        <svg class="crest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="4.4"/><path d="M12 3.8v2M12 18.2v2M3.8 12h2M18.2 12h2" stroke-linecap="round"/></svg>
+        <svg class="crest" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 20h16M6 20V9l6-4 6 4v11M9.5 20v-5h5v5" stroke-linejoin="round"/><path d="M15.6 4.2a5.4 5.4 0 0 1-4.9 7.9 5.4 5.4 0 0 0 7.2-7.2 5.4 5.4 0 0 0-2.3-.7z" fill="currentColor" stroke="none"/><path d="M12 2v2M19 8h2" stroke-linecap="round"/></svg>
         <div>
-          <h1 data-i18n="brand_title">Cesta Prstenu</h1>
-          <p data-i18n="brand_sub">Průvodce Společenstvem Prstenu — pro předčítání</p>
+          <h1 data-i18n="brand_title">The Book of the Fallen</h1>
+          <p data-i18n="brand_sub">A reader’s guide to Steven Erikson’s Malazan Book of the Fallen</p>
         </div>
       </div>
       <div class="modeswitch" id="modeswitch">
-        <button data-mode="tata" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 8l7-4 7 4M6 20h12" stroke-linecap="round"/></svg><span data-i18n="mode_parent">Táta</span></button>
-        <button data-mode="kluci" class="kids"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.4"/><path d="M3.5 20c.4-3 2.8-5 5.5-5s5.1 2 5.5 5M14 20c.3-2.2 1.8-3.7 3.6-3.9" stroke-linecap="round"/></svg><span data-i18n="mode_kids">Kluci</span></button>
+        <button data-mode="tata" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5c2-1 5-1 8 1 3-2 6-2 8-1v14c-2-1-5-1-8 1-3-2-6-2-8-1z"/><path d="M12 7v13" stroke-linecap="round"/></svg><span data-i18n="mode_parent">Guide</span></button>
+        <button data-mode="kluci" class="kids"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg><span data-i18n="mode_kids">Reader</span></button>
       </div>
       <button class="iconbtn" id="themeToggle" type="button" title="Světlý / tmavý motiv" aria-label="Přepnout motiv"></button>
       <div class="langsel" id="langsel"></div>
@@ -414,9 +421,9 @@
     <nav class="volbar" id="volswitch" aria-label="Volumes"></nav>
     <div class="road">
       <div class="road-in">
-        <span data-i18n="journey">Cesta</span>
+        <span data-i18n="journey">Saga</span>
         <div class="road-track"><div class="road-fill" id="roadFill"></div></div>
-        <span><b id="chDone">0</b>/<b id="chTotal">22</b> <span data-i18n="chapters_of">kapitol</span> · <b id="miles">0</b> <span data-i18n="miles_unit">mil</span></span>
+        <span><b id="chDone">0</b>/<b id="chTotal">6</b> <span data-i18n="chapters_of">movements</span> · <b id="miles">0</b> <span data-i18n="miles_unit">leagues</span></span>
       </div>
     </div>
   </header>
@@ -431,20 +438,28 @@
 
     <!-- MAPA -->
     <section class="view on" id="view-mapa">
-      <p class="map-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21c5-4.5 7-8 7-11a7 7 0 10-14 0c0 3 2 6.5 7 11z"/></svg><span data-i18n-html="map_hint">Na mapě je vyznačená <b>cesta</b> a značka „Tady jsme". Zastávky najdeš na <b>liště pod mapou</b> — klikni a mapa tě k místu zaveze. Mapu můžeš i tahat a přiblížit.</span></p>
+      <div class="map-heading">
+        <h2 data-i18n="map_title">The Malazan world</h2>
+        <div class="map-legend">
+          <span id="mapActiveKey" hidden><i aria-hidden="true"></i><b data-i18n="map_current">This volume</b></span>
+          <span class="past" id="mapPastKey" hidden><i aria-hidden="true"></i><b data-i18n="map_earlier">Earlier volumes</b></span>
+        </div>
+      </div>
       <div class="map-viewport" id="mapVp">
         <div class="map-stage" id="mapStage">
-          <img class="map-img" id="mapImg" src="__MAP_DATA_URI__" alt="Mapa Středozemě" draggable="false">
+          <img class="map-img" id="mapImg" src="__MAP_DATA_URI__" alt="Map of the Malazan world" draggable="false">
           <svg class="route" id="routeSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
-          <div id="hereLayer"></div>
+          <div id="pinLayer"></div>
         </div>
         <div class="map-ctrls">
-          <button id="zin" data-i18n-title="zoom_in" title="Přiblížit" aria-label="Přiblížit">+</button>
-          <button id="zout" data-i18n-title="zoom_out" title="Oddálit" aria-label="Oddálit">−</button>
-          <button id="zreset" data-i18n-title="zoom_reset" title="Zaměřit cestu" aria-label="Zaměřit cestu">⤢</button>
+          <button id="zin" data-i18n-title="zoom_in" title="Zoom in" aria-label="Zoom in">+</button>
+          <button id="zout" data-i18n-title="zoom_out" title="Zoom out" aria-label="Zoom out">−</button>
+          <button id="zreset" data-i18n-title="zoom_reset" title="Frame the route" aria-label="Frame the route"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5m0 6v5h-5m-6 0H4v-5"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button id="zworld" data-i18n-title="zoom_world" title="Show whole atlas" aria-label="Show whole atlas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><ellipse cx="12" cy="12" rx="3.5" ry="8"/><path d="M4 12h16"/></svg></button>
         </div>
       </div>
       <div class="mapstrip" id="mapstrip"></div>
+      <p class="map-hint" data-i18n="map_hint">Drag to pan. Select a numbered stop to explore it.</p>
       <div class="place-panel empty" id="placePanel">Klikni na zastávku pod mapou a mapa tě k ní zaveze.</div>
     </section>
 
@@ -477,7 +492,7 @@
       <summary data-i18n="info_summary">Jak to funguje · o jménech</summary>
       <p data-i18n-html="info_modes"><b>Dva režimy.</b> <i>Rodiče</i> = příprava na čtení (shrnutí, na co se zaměřit, otázky pro děti, „metr strašidelnosti“). <i>Děti</i> = bez spoilerů, jen to, co jste už četli, plus kvízy a sbírání postav.</p>
       <p data-i18n-html="info_unlock"><b>Odemykání.</b> U každé kapitoly klikni na <i>Přečteno</i> — tím se na mapě posune „Tady jsme“, přibudou míle a odemknou se nové postavy a místa. Postup se ukládá v prohlížeči.</p>
-      <p data-i18n-html="info_names"><b>Jména.</b> Držíme se překladu <b>Stanislavy Pošustové</b> (Pytlík, Křepelka, Hůrka, Roklinka, Chodec…). Mapa má popisky anglicky.</p>
+      <p data-i18n-html="info_names"><b>Names.</b> We use Erikson’s original names (Whiskeyjack, Apsalar, Anomander Rake…). Czech notes follow the Czech editions; the map labels are in English.</p>
     </details>
     <p class="foot" data-i18n="footer">Postaveno s láskou k předčítání · v1</p>
   </div>
@@ -508,7 +523,29 @@
     sun:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7"/>',
     moon:'<path d="M20 14.5A8 8 0 019.5 4 7 7 0 1020 14.5z"/>',
     globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>',
-    check:'<path d="M4 12l5 5L20 6"/>'
+    check:'<path d="M4 12l5 5L20 6"/>',
+    crown:'<path d="M4 18h16M5 18l-1-9 5 3 3-6 3 6 5-3-1 9z"/>',
+    sword:'<path d="M14.5 3.5L20 9l-8.5 8.5-4-4zM7 15l2 2M4 20l3-3M3 21l2-2"/>',
+    deck:'<rect x="4" y="3" width="10" height="15" rx="1.5" transform="rotate(-8 9 10)"/><rect x="9" y="5" width="10" height="15" rx="1.5" transform="rotate(7 14 12)"/><path d="M14 10l1.4 2.6L18 14l-2.6 1.4L14 18l-1.4-2.6L10 14l2.6-1.4z"/>',
+    warren:'<path d="M3 12c2-5 5-7 9-7s7 2 9 7c-2 5-5 7-9 7s-7-2-9-7z"/><path d="M6 12c1.5-3 3.5-4.5 6-4.5s4.5 1.5 6 4.5c-1.5 3-3.5 4.5-6 4.5S7.5 15 6 12z"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/>',
+    moon:'<path d="M20 14.5A8 8 0 019.5 4 7 7 0 1020 14.5z"/>',
+    tower:'<path d="M8 21V8l4-3 4 3v13M5 21h14M10 21v-5h4v5M10 11h4"/>',
+    chain:'<path d="M9 8a3 3 0 014.2 0l1.8 1.8a3 3 0 01-4.2 4.2L9 12.2M15 16a3 3 0 01-4.2 0l-1.8-1.8a3 3 0 014.2-4.2l1.8 1.8"/>',
+    spire:'<path d="M12 2l3 19H9zM6 21h12M12 8v8"/>',
+    hound:'<path d="M4 17c1-5 4-8 8-8 3 0 5 1 7 4l1 4M5 17l-2 3M9 17l-1 3M19 17l2 3M15 17l1 3M9 10l-2-3M15 10l2-3"/>',
+    dragon:'<path d="M3 18c4-1 6-4 7-8 2 3 5 4 8 3-1 3-4 5-7 5l-2 2M10 10L7 5l4 2 1 3M14 13l3-2"/>',
+    kchain:'<path d="M5 19c1-5 3-8 7-8s6 3 7 8M7 11l-2-4 4 1M17 11l2-4-4 1M9 7h6M12 3v4M8 19v2M16 19v2"/>',
+    jaghut:'<path d="M6 20c0-6 2-10 6-10s6 4 6 10M9 8l-1-4 4 2 4-2-1 4M9 14h.01M15 14h.01"/>',
+    imass:'<path d="M7 21V8l5-4 5 4v13M9 21v-6h6v6M9 10h6M12 4v2"/>',
+    tiste:'<path d="M12 3l2 5 4 1-3 3 1 5-4-2-4 2 1-5-3-3 4-1zM8 21h8"/>',
+    soletaken:'<path d="M4 18c2-4 5-6 8-6s6 2 8 6M7 12l-2-4 4 1M17 12l2-4-4 1M9 18l-1 3M15 18l1 3"/>',
+    god:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/>',
+    ascendant:'<path d="M12 3l2.5 6 6.5.5-5 4.3 1.5 6.2L12 16.7 6.5 20l1.5-6.2-5-4.3 6.5-.5z"/>',
+    malazan:'<path d="M4 20h16M6 20V9l6-4 6 4v11M9.5 20v-5h5v5M12 2v3"/>',
+    human:'<circle cx="12" cy="7" r="3"/><path d="M5 21c.5-4.5 3.2-7 7-7s6.5 2.5 7 7"/>',
+    forkrul:'<path d="M6 4l6 6 6-6M6 20l6-6 6 6M12 10v4"/>',
+    mask:'<path d="M5 6c2-2 4-2 7 0 3-2 5-2 7 0v6c0 5-3 8-7 10-4-2-7-5-7-10z"/><path d="M9 10h.01M15 10h.01M9.5 14c1.5 1 3.5 1 5 0"/>',
+    book:'<path d="M4 5c2-1 5-1 8 1 3-2 6-2 8-1v14c-2-1-5-1-8 1-3-2-6-2-8-1z"/><path d="M12 7v13"/>'
   };
   function icon(name,cls){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'+(cls?' class="'+cls+'"':'')+'>'+(IC[name]||IC.star)+'</svg>';}
 
@@ -543,24 +580,33 @@
 
   // ===== data: World (lore) =====
   var RACES=[
-    ['hobit',{en:'Hobbits',cs:'Hobiti'},{en:'A small, cheerful people from the Shire. They love food, peace and round doors. Unassuming, but with brave hearts.',cs:'Malý veselý národ z Kraje. Milují jídlo, klid a kulaté dveře. Nenápadní, ale se statečným srdcem.'}],
-    ['clovek',{en:'Men',cs:'Lidé'},{en:'Ordinary people like us — warriors, kings and rangers. Sometimes brave, sometimes easily led astray by evil.',cs:'Obyčejní lidé jako my — bojovníci, králové i hraničáři. Někdy stateční, jindy je snadno svede zlo.'}],
-    ['elf',{en:'Elves',cs:'Elfové'},{en:'Beautiful, wise and almost immortal. They work magic, sing beautifully and live in forests and hidden valleys.',cs:'Krásní, moudří a skoro nesmrtelní. Umí kouzla, krásně zpívají a žijí v lesích a skrytých údolích.'}],
-    ['trpaslik',{en:'Dwarves',cs:'Trpaslíci'},{en:'Stocky miners and smiths with long beards. They live in the mountains, love gold and stone, and are loyal friends.',cs:'Podsadití horníci a kováři s plnovousy. Žijí v horách, milují zlato a kámen a jsou věrní přátelé.'}],
-    ['carodej',{en:'Wizards',cs:'Čarodějové'},{en:'Wise old men with staffs (Gandalf, Saruman). Really ancient beings sent to help against evil.',cs:'Moudří starci s holí (Gandalf, Saruman). Ve skutečnosti dávné bytosti poslané pomáhat proti zlu.'}],
-    ['orc',{en:'Orcs (goblins)',cs:'Skřeti (orkové)'},{en:'Ugly, wicked servants of the dark lords. They fear the sun and serve whoever is strongest.',cs:'Oškliví a zlí služebníci temných pánů. Bojí se slunce a slouží tomu, kdo je nejsilnější.'}]
+    ['malazan',{en:'Malazans',cs:'Malažané'},{en:'The many peoples of the Malazan Empire — soldiers, sailors, Claw assassins, bureaucrats and conquered citizens. An empire held together by discipline, ambition and old betrayals.',cs:'Mnoho národů Malazské říše — vojáci, námořníci, vrazi z Claw, úředníci i poddaní. Říše držená pohromadě kázní, ctižádostí a starými zradami.'}],
+    ['tiste',{en:'Tiste',cs:'Tiste'},{en:'An elder race split into three branches: the Tiste Andii of darkness, the Tiste Edur of shadow, and the Tiste Liosan of light. Long-lived, proud and burdened by an ancient civil war.',cs:'Dávná rasa rozdělená na tři větve: Tiste Andii temnoty, Tiste Edur stínu a Tiste Liosan světla. Dlouhověcí, hrdí a poznamenaní dávnou občanskou válkou.'}],
+    ['jaghut',{en:'Jaghut',cs:'Jaghuti'},{en:'Ancient ice-magic beings, often solitary and feared. Their wars with the Imass shaped the world long before the empire existed.',cs:'Dávné bytosti ledové magie, často samotářské a obávané. Jejich války s Imassy utvářely svět dávno před vznikem říše.'}],
+    ['imass',{en:'T’lan Imass',cs:'T’lan Imass'},{en:'The undead ancestors of the Imass. They gave up their flesh and their deaths to hunt the Jaghut forever. Dust, stone and old vows walk in their wake.',cs:'Nemrtví předkové Imassů. Vzdali se těla i smrti, aby navěky lovili Jaghuty. V jejich stopách kráčí prach, kámen a dávné sliby.'}],
+    ['soletaken',{en:'Soletaken & D’ivers',cs:'Soletaken a D’ivers'},{en:'Shapeshifters who take one beast form (Soletaken) or many (D’ivers). Their paths are tangled with ascension, madness and the Azath houses.',cs:'Měňavci, kteří na sebe berou jednu zvířecí podobu (Soletaken) nebo mnoho podob (D’ivers). Jejich cesty se pletou s vystoupením, šílenstvím a domy Azath.'}],
+    ['ascendant',{en:'Ascendants',cs:'Vystouplí'},{en:'Mortals or elder beings who have crossed into power. Some are worshipped as gods; others refuse the title and walk the world as weapons.',cs:'Smrtelníci i dávné bytosti, které překročily hranici moci. Někteří jsou uctíváni jako bohové, jiní titul odmítají a chodí světem jako zbraně.'}],
+    ['god',{en:'Gods',cs:'Bohové'},{en:'The pantheon is crowded, quarrelsome and not remotely kind. Gods bargain with mortals, use them as pieces, and are changed by the worship they receive.',cs:'Panteon je přeplněný, hádavý a rozhodně ne laskavý. Bohové smlouvají se smrtelníky, používají je jako figurky a mění se uctíváním, které dostávají.'}],
+    ['kchain',{en:'K’Chain Che’Malle',cs:'K’Chain Che’Malle'},{en:'An ancient reptilian civilisation of matrons, hunters and sky keeps. Older than humanity, and not nearly as extinct as the world believes.',cs:'Dávná plazí civilizace matron, lovců a nebeských pevností. Starší než lidstvo — a zdaleka ne tak vyhynulá, jak si svět myslí.'}],
+    ['forkrul',{en:'Forkrul Assail',cs:'Forkrul Assail'},{en:'Pale, long-limbed judges of an elder age. They believe in order above mercy, and their idea of peace is a world kneeling still.',cs:'Bledí, dlouhonozí soudci dávného věku. Věří v řád nad milosrdenství a jejich představa míru je svět, který klečí bez hnutí.'}]
   ];
   var TL=[
-    [{en:'Long ago',cs:'Dávno'},{en:'The forging of the rings',cs:'Ukování prstenů'},{en:'The elves made magic rings. Sauron secretly forged the One Ring to rule them all.',cs:'Elfové vyrobili kouzelné prsteny. Sauron k nim tajně ukoval Jeden prsten, aby je všechny ovládl.'}],
-    [{en:'The great battle',cs:'Velká bitva'},{en:'The Ring cut off',cs:'Prsten uříznut'},{en:'Men and elves defeated Sauron and cut the One Ring from his hand. He was beaten — but the Ring was not lost.',cs:'Lidé a elfové Saurona porazili a Jeden prsten mu usekli z ruky. Byl poražen — ale prsten se neztratil.'}],
-    [{en:'Lost',cs:'Ztracen'},{en:'The Ring disappears',cs:'Prsten mizí'},{en:'The Ring fell into a river and vanished for long centuries. Then the wretched creature Gollum owned it for ages.',cs:'Prsten spadl do řeky a na dlouhá staletí zmizel. Pak ho dlouho vlastnil ubohý tvor Glum.'}],
-    [{en:'By chance',cs:'Náhoda'},{en:'Bilbo finds it',cs:'Bilbo ho najde'},{en:'In a cave the hobbit Bilbo finds it by accident. He has no idea what a treasure — and danger — he carries in his pocket.',cs:'V jeskyni ho náhodou najde hobit Bilbo. Netuší, jakou vzácnost a nebezpečí nosí v kapse.'}],
-    [{en:'Now',cs:'Teď'},{en:'Frodo’s journey',cs:'Frodova cesta'},{en:'Bilbo passes the Ring to Frodo — and our story begins. The Ring must be destroyed before Sauron gets it.',cs:'Bilbo prsten předá Frodovi — a náš příběh začíná. Prsten musí být zničen dřív, než ho Sauron získá.'}]
+    [{en:'Before memory',cs:'Před pamětí'},{en:'The elder races',cs:'Dávné rasy'},{en:'Jaghut, Imass, K’Chain Che’Malle and Tiste shape the world. The Elder Gods walk openly, and magic is young and wild.',cs:'Jaghuti, Imassové, K’Chain Che’Malle a Tiste utvářejí svět. Dávní bohové chodí otevřeně a magie je mladá a divoká.'}],
+    [{en:'The Imass vow',cs:'Slib Imassů'},{en:'Death is refused',cs:'Smrt je odmítnuta'},{en:'To fight the Jaghut, the Imass bind themselves into the T’lan Imass — undead hunters who will not stop until their war is done.',cs:'Aby mohli bojovat s Jaghuty, svážou se Imassové v T’lan Imass — nemrtvé lovce, kteří nepřestanou, dokud jejich válka neskončí.'}],
+    [{en:'The Tiste schism',cs:'Rozkol Tiste'},{en:'Darkness, shadow and light',cs:'Temnota, stín a světlo'},{en:'The Tiste realm of Kurald Galain fractures. Andii, Edur and Liosan take separate paths, and the wound never really closes.',cs:'Říše Tiste Kurald Galain se rozpadá. Andii, Edur a Liosan se vydávají různými cestami a ta rána se nikdy doopravdy nezavře.'}],
+    [{en:'The empire',cs:'Říše'},{en:'Kellanved and Dancer',cs:'Kellanved a Dancer'},{en:'Two adventurers seize the island of Malaz and build an empire that will swallow Quon Tali, Seven Cities and Genabackis.',cs:'Dva dobrodruzi ovládnou ostrov Malaz a vybudují říši, která pohltí Quon Tali, Sedm měst i Genabackis.'}],
+    [{en:'The coup',cs:'Převrat'},{en:'Laseen takes the throne',cs:'Laseen usedne na trůn'},{en:'The Empress Laseen and her Claw remove Kellanved and Dancer. The old loyalists — above all the Bridgeburners — become inconvenient.',cs:'Císařovna Laseen a její Claw odstraní Kellanveda a Dancera. Staří loajalisté — především Paliči mostů — se stávají nepohodlnými.'}],
+    [{en:'Now',cs:'Teď'},{en:'A world at war',cs:'Svět ve válce'},{en:'Genabackis burns, Seven Cities rises in the Whirlwind, and an ancient crippled god pulls strings from beyond the world. The saga begins.',cs:'Genabackis hoří, Sedm měst povstává ve Vichru a dávný chromý bůh tahá za nitky zpoza světa. Sága začíná.'}]
   ];
   var LORE=[
-    {ic:'ring',min:2,title:{en:'The One Ring',cs:'Jeden prsten'},text:{en:'The most powerful ring in the world. Whoever puts it on vanishes — but the Ring slowly corrupts the heart and longs to return to its master. It can only be destroyed in the fire of the mountain where it was forged.',cs:'Nejmocnější prsten na světě. Kdo si ho navlékne, zmizí — jenže prsten pomalu kazí srdce a touží se vrátit ke svému pánovi. Zničit se dá jedině v ohni hory, kde byl ukován.'}},
-    {ic:'eye',min:2,title:{en:'Sauron, the Dark Lord',cs:'Sauron, temný pán'},text:{en:'The evil lord who made the Ring to rule all of Middle-earth. It was once cut from his hand, and he has hunted for it ever since. We see him as a huge blazing eye.',cs:'Zlý pán, který prsten vyrobil, aby ovládl celou Středozem. Prsten mu kdysi usekli z ruky a on ho od té doby hledá. Vídáme ho jako obrovské planoucí oko.'}},
-    {ic:'wraith',min:3,title:{en:'The Black Riders (Nazgûl)',cs:'Černí jezdci (Nazgûl)'},text:{en:'Nine wraiths on black horses. They were once men, but the rings turned them into Sauron’s servants. They have no faces and they sniff out the One Ring.',cs:'Devět přízraků na černých koních. Kdysi to byli lidé, ale prsteny je proměnily v Sauronovy služebníky. Nemají tvář a čenichají Jeden prsten.'}}
+    {ic:'deck',min:1,title:{en:'The Deck of Dragons',cs:'Balíček draků'},text:{en:'A living deck of cards used to read the powers of the world. Its Houses and Holds shift as gods rise, fall and change allegiance — and reading it is never safe.',cs:'Živý balíček karet, kterým se čtou mocnosti světa. Jeho Domy a Državy se mění, jak bohové stoupají, padají a mění strany — a číst ho není nikdy bezpečné.'}},
+    {ic:'warren',min:1,title:{en:'Warrens',cs:'Warreny'},text:{en:'Hidden realms of magic, each with its own flavour and dangers. Mages open warrens to travel, fight and summon. Some warrens are elder, some are wounded, and some are poisoned.',cs:'Skryté říše magie, každá s vlastní chutí a nebezpečím. Mágové otevírají warreny k cestování, boji i přivolávání. Některé jsou prastaré, některé raněné a některé otrávené.'}},
+    {ic:'chain',min:2,title:{en:'The Crippled God',cs:'Chromý bůh'},text:{en:'A god dragged into the mortal world and broken, then chained. His pain leaks into the warrens and his followers work to free him — while others would rather use him.',cs:'Bůh vtažený do smrtelného světa a zlomený, potom spoutaný řetězy. Jeho bolest prosakuje do warrenů a jeho následovníci ho chtějí osvobodit — jiní ho raději využívají.'}},
+    {ic:'flame',min:2,title:{en:'The Bridgeburners',cs:'Paliči mostů'},text:{en:'An elite Malazan unit, nearly wiped out at Pale. The survivors become legends, then ghosts, then something more. Their loyalty is to each other first and the empire second.',cs:'Elitní malazská jednotka, téměř zničená u Pale. Přeživší se stávají legendami, potom duchy a nakonec něčím víc. Jejich věrnost patří nejdřív sobě a teprve pak říši.'}},
+    {ic:'mask',min:2,title:{en:'The Claw',cs:'Claw'},text:{en:'The Empress’s assassins and spies. They are everywhere, they are patient, and they have a habit of becoming the thing they were sent to kill.',cs:'Vrazi a špehové císařovny. Jsou všude, jsou trpěliví a mají ve zvyku stát se tím, co měli zabít.'}},
+    {ic:'ascendant',min:3,title:{en:'Ascendants',cs:'Vystouplí'},text:{en:'Powerful beings who are not quite gods and not quite mortals. Ascension can be earned, stolen or forced — and it rarely makes anyone kinder.',cs:'Mocné bytosti, které nejsou tak docela bohové ani tak docela smrtelníci. Vystoupení se dá získat, ukrást i vynutit — a málokdy někoho udělá laskavějším.'}},
+    {ic:'eye',min:3,title:{en:'The Whirlwind',cs:'Vichr'},text:{en:'The rebellion of Seven Cities, preached by Sha’ik from the Holy Desert of Raraku. It promises the end of the Malazan occupation — and feeds on old prophecies and older anger.',cs:'Povstání Sedmi měst, které Ša’ik káže ve Svaté poušti Raraku. Slibuje konec malazské okupace a živí se starými proroctvími i ještě starším hněvem.'}},
+    {ic:'tower',min:4,title:{en:'The Azath Houses',cs:'Domy Azath'},text:{en:'Strange living houses that appear where power must be contained. Their doors open for some, close forever for others, and their gardens remember everyone who entered.',cs:'Podivné živé domy, které se objevují tam, kde je třeba uzavřít moc. Jejich dveře se některým otevřou, jiným navždy zavřou a jejich zahrady si pamatují každého, kdo vešel.'}}
   ];
 
   // ===== data: chapters =====
@@ -576,10 +622,32 @@
   // ===== Kids' chapter recap "What happened in this chapter" (after reading) =====
 
   // ===== state =====
-  var KEY=BOOK.meta.key;
+  var KEY=BOOK.meta.key, PREFS_KEY='malazan_preferences';
   var state={mode:'tata', theme:null, lang:'en', read:{}};
-  try{var s=JSON.parse(localStorage.getItem(KEY)); if(s){state.mode=s.mode||'tata'; state.theme=s.theme||null; state.lang=s.lang||'en'; state.read=s.read||{};}}catch(e){}
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  try{
+    var s=JSON.parse(localStorage.getItem(KEY)), prefs=JSON.parse(localStorage.getItem(PREFS_KEY));
+    if(s && s.read) state.read=s.read;
+    prefs=prefs||s;
+    if(prefs){
+      if(prefs.mode==='tata'||prefs.mode==='kluci') state.mode=prefs.mode;
+      if(prefs.theme==='light'||prefs.theme==='dark') state.theme=prefs.theme;
+      if(prefs.lang==='en'||prefs.lang==='cs') state.lang=prefs.lang;
+    }
+  }catch(e){}
+  // A fragment carries settings between file:// pages where storage may be isolated.
+  var carried=new URLSearchParams(location.hash.slice(1));
+  if(carried.get('prefs')==='1'){
+    var mode=carried.get('mode'), theme=carried.get('theme'), lang=carried.get('lang');
+    if(mode==='tata'||mode==='kluci') state.mode=mode;
+    if(theme==='light'||theme==='dark'||theme==='system') state.theme=theme==='system'?null:theme;
+    if(lang==='en'||lang==='cs') state.lang=lang;
+    try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+  }
+  function save(){
+    try{localStorage.setItem(PREFS_KEY,JSON.stringify({mode:state.mode,theme:state.theme,lang:state.lang}));
+      localStorage.setItem(KEY,JSON.stringify({read:state.read}));}catch(e){}
+    buildVolSwitch();
+  }
   function reachedGi(){var m=0; for(var k in state.read){if(state.read[k]&&+k>m)m=+k;} return m;}
   function readCount(){var n=0; for(var k in state.read){if(state.read[k])n++;} return n;}
 
@@ -592,72 +660,74 @@
   // T(key): translates a UI string from the UI dictionary
   var UI = {
     en: {
-      brand_title:"The Ring's Journey",
-      brand_sub:"A read-aloud guide to The Fellowship of the Ring",
-      mode_parent:"Parent", mode_kids:"Kids",
+      brand_title:"The Book of the Fallen",
+      brand_sub:"A reader’s guide to Steven Erikson’s Malazan Book of the Fallen",
+      mode_parent:"Guide", mode_kids:"Reader",
       theme_to_light:"Switch to light theme", theme_to_dark:"Switch to dark theme",
       lang_switch:"Switch to Czech",
-      journey:"Journey", chapters_of:"chapters", miles_unit:"miles",
-      tab_map:"Map", tab_chapters:"Chapters", tab_characters:"Characters", tab_world:"World",
-      map_hint:"The map shows the marked <b>route</b> and a “You are here” pin. The stops are on the <b>strip below the map</b> — tap one and the map carries you there. You can also drag and zoom the map.",
-      zoom_in:"Zoom in", zoom_out:"Zoom out", zoom_reset:"Frame the journey",
+      journey:"Saga", chapters_of:"movements", miles_unit:"leagues",
+      tab_map:"Map", tab_chapters:"Movements", tab_characters:"Characters", tab_world:"World",
+      map_title:"The Malazan world", map_current:"This volume", map_earlier:"Earlier volumes",
+      map_hint:"Drag to pan. Select a numbered stop to explore it.",
+      zoom_in:"Zoom in", zoom_out:"Zoom out", zoom_reset:"Frame the route", zoom_world:"Show whole atlas",
       subseg_gallery:"Gallery", subseg_relations:"Relations",
-      world_intro:"A little encyclopedia of the world — to fill the kids in. In Kids mode it opens up bit by bit: anything that would give the story away stays hidden until you’ve read that far.",
+      world_intro:"A small encyclopedia of the Malazan world. In Reader mode it opens gradually: anything that would spoil the story stays hidden until you have read that far.",
       info_summary:"How it works · about the names",
-      info_modes:"<b>Two modes.</b> <i>Parent</i> = getting ready to read (summary, what to look out for, questions for the kids, a “scariness meter”). <i>Kids</i> = no spoilers, only what you’ve already read, plus quizzes and collecting characters.",
-      info_unlock:"<b>Unlocking.</b> On each chapter, tap <i>Read</i> — that moves the “You are here” pin on the map, adds miles, and unlocks new characters and places. Progress is saved in your browser.",
-      info_names:"<b>Names.</b> We use Tolkien’s original English names (Baggins, Gamgee, Bree, Rivendell, Strider…). The map labels are in English too.",
-      footer:"Made with love for reading aloud · v1",
-      here_label:"You are here", strip_empty:"We haven’t set out yet — stops appear here once you’ve read a chapter.", stop_word:"Stop", place_locked:"They haven’t got here yet — read the chapter to unlock more.", place_empty:"Tap a stop below the map and it will carry you there.", fear_label:"Scariness",
-      charhint_kids:"Characters unlock as you meet them in the story. Tap one to learn more!",
-      charhint_parent:"An overview of the characters (Parent mode shows them all). Tap one for detail.",
-      h_story_so_far:"The story so far", char_locked_arc:"We don’t know this character well yet — keep reading and their story will fill in here.",
-      talk_label:"To talk about together:", say_label:"Say:", close:"Close", ring_name:"The One Ring",
-      world_races:"Peoples of Middle-earth", world_history:"A short history of the Ring",
-      relhint_kids:"How the characters connect. Whatever you haven’t read yet stays veiled.",
-      relhint_parent:"How the characters connect (Parent mode shows everything).",
+      info_modes:"<b>Two modes.</b> <i>Guide</i> = full spoiler notes (summary, what to watch for, questions, an intensity meter). <i>Reader</i> = no spoilers: only what you have already read, plus recaps and quizzes. The series is adult fiction; the intensity meter warns about the darkest scenes.",
+      info_unlock:"<b>Unlocking.</b> On each movement, tap <i>Read</i> — that moves the “You are here” pin, adds leagues, and unlocks new characters and places. Progress is saved in your browser.",
+      info_names:"<b>Names.</b> We use Erikson’s original names (Whiskeyjack, Apsalar, Anomander Rake…). Czech notes follow the Czech editions; the map labels are in English.",
+      footer:"A fan-made reader’s guide · not affiliated with Steven Erikson or the publishers",
+      here_label:"You are here", strip_empty:"The tale has not set out yet — stops appear here once you have read a movement.", stop_word:"Stop", place_locked:"The story has not reached this place yet — read on to unlock it.", place_empty:"Tap a stop below the map and it will carry you there.", fear_label:"Intensity",
+      charhint_kids:"Characters unlock as you meet them in the story. Tap one to learn more.",
+      charhint_parent:"An overview of the characters (Guide mode shows them all). Tap one for detail.",
+      h_story_so_far:"The story so far", char_locked_arc:"We do not know this character well yet — keep reading and their story will fill in here.",
+      talk_label:"To talk about:", say_label:"Say:", close:"Close", artifact_name:"The Deck of Dragons",
+      world_races:"Peoples of the Malazan world", world_history:"A short history of the Malazan Empire",
+      relhint_kids:"How the characters connect. Whatever you have not read yet stays veiled.",
+      relhint_parent:"How the characters connect (Guide mode shows everything).",
       read_q:"Read?", read_done:"Read",
-      h_summary:"Summary", h_focus:"What to look out for", h_questions:"Questions for the kids", h_words:"Words",
-      h_prev:"Previously", h_before_start:"Before we set out", h_whats_next:"What’s coming", h_what_happened:"What happened in this chapter", h_quiz:"Quiz — do you remember?",
-      locked_chapter:"We haven’t read this chapter yet. Let’s read it with a grown-up first!",
-      unlock_hint:"Once we’ve read the chapter, tap <b>Read</b> and the summary, quiz and new characters unlock.",
-      read_done_msg:"Read! Great job, traveller.",
-      fear_ok:"all good.", fear_mid:"tense, nothing terrible.", fear_high:"a stronger scene, get ready.",
-      key_moment:"Key moment:", illus_alt:"Painted illustration for the chapter", map_alt:"Map of Middle-earth"
+      h_summary:"Summary", h_focus:"What to look out for", h_questions:"Questions to think about", h_words:"Words & names",
+      h_prev:"Previously", h_before_start:"Before we set out", h_whats_next:"What’s coming", h_what_happened:"What happened in this movement", h_quiz:"Quiz — do you remember?",
+      locked_chapter:"We have not read this movement yet. Read it first, then come back for the recap and quiz.",
+      unlock_hint:"Once you have read the movement, tap <b>Read</b> and the recap, quiz and new characters unlock.",
+      read_done_msg:"Read! The tale continues.",
+      fear_ok:"all good.", fear_mid:"tense, but nothing graphic.", fear_high:"a dark scene — prepare yourself.",
+      key_moment:"Key moment:", illus_alt:"Illustration for the movement", map_alt:"Map of the Malazan world"
     },
     cs: {
-      brand_title:"Cesta Prstenu",
-      brand_sub:"Průvodce Společenstvem Prstenu — pro předčítání",
-      mode_parent:"Rodiče", mode_kids:"Děti",
+      brand_title:"Kniha padlých",
+      brand_sub:"Čtenářský průvodce Malazskou knihou padlých Stevena Eriksona",
+      mode_parent:"Průvodce", mode_kids:"Čtenář",
       theme_to_light:"Přepnout na světlý motiv", theme_to_dark:"Přepnout na tmavý motiv",
       lang_switch:"Přepnout do angličtiny",
-      journey:"Cesta", chapters_of:"kapitol", miles_unit:"mil",
-      tab_map:"Mapa", tab_chapters:"Kapitoly", tab_characters:"Postavy", tab_world:"Svět",
-      map_hint:"Na mapě je vyznačená <b>cesta</b> a značka „Tady jsme“. Zastávky najdeš na <b>liště pod mapou</b> — klikni a mapa tě k místu zaveze. Mapu můžeš i tahat a přiblížit.",
-      zoom_in:"Přiblížit", zoom_out:"Oddálit", zoom_reset:"Zaměřit cestu",
+      journey:"Sága", chapters_of:"částí", miles_unit:"lig",
+      tab_map:"Mapa", tab_chapters:"Části", tab_characters:"Postavy", tab_world:"Svět",
+      map_title:"Malazský svět", map_current:"Tento svazek", map_earlier:"Předchozí svazky",
+      map_hint:"Tažením posuneš mapu. Výběrem čísla zobrazíš zastávku.",
+      zoom_in:"Přiblížit", zoom_out:"Oddálit", zoom_reset:"Zaměřit cestu", zoom_world:"Zobrazit celý atlas",
       subseg_gallery:"Galerie", subseg_relations:"Vztahy",
-      world_intro:"Malá encyklopedie světa — hoď děti do obrazu. V režimu Děti se odkrývá postupně: co by prozradilo děj, zůstává skryté, dokud k tomu nedočtete.",
+      world_intro:"Malá encyklopedie Malazského světa. V režimu Čtenář se odkrývá postupně: co by prozradilo děj, zůstává skryté, dokud k tomu nedočteš.",
       info_summary:"Jak to funguje · o jménech",
-      info_modes:"<b>Dva režimy.</b> <i>Rodiče</i> = příprava na čtení (shrnutí, na co se zaměřit, otázky pro děti, „metr strašidelnosti“). <i>Děti</i> = bez spoilerů, jen to, co jste už četli, plus kvízy a sbírání postav.",
-      info_unlock:"<b>Odemykání.</b> U každé kapitoly klikni na <i>Přečteno</i> — tím se na mapě posune „Tady jsme“, přibudou míle a odemknou se nové postavy a místa. Postup se ukládá v prohlížeči.",
-      info_names:"<b>Jména.</b> Držíme se překladu <b>Stanislavy Pošustové</b> (Pytlík, Křepelka, Hůrka, Roklinka, Chodec…). Mapa má popisky anglicky.",
-      footer:"Postaveno s láskou k předčítání · v1",
-      here_label:"Tady jsme", strip_empty:"Zatím jsme nevyrazili — po přečtení kapitoly se tu objeví zastávky.", stop_word:"zastávka", place_locked:"Sem ještě nedošli — přečti kapitolu a odemkne se víc.", place_empty:"Klikni na zastávku pod mapou a mapa tě k ní zaveze.", fear_label:"Strašidelnost",
-      charhint_kids:"Postavy se odemykají, jakmile je v příběhu potkáte. Klikni a dozvíš se víc!",
-      charhint_parent:"Přehled postav (v režimu Rodiče vidíš všechny). Klikni pro detail; u jmen je i výslovnost pro děti.",
-      h_story_so_far:"Příběh zatím", char_locked_arc:"Tuhle postavu ještě moc neznáme — čtěte dál a její příběh se tu bude připisovat.",
-      talk_label:"K popovídání s dětmi:", say_label:"Vyslov:", close:"Zavřít", ring_name:"Jeden prsten",
-      world_races:"Rasy Středozemě", world_history:"Krátká historie Prstenu",
-      relhint_kids:"Jak spolu postavy souvisejí. Co jste ještě nečetli, zůstává zahalené.",
-      relhint_parent:"Jak spolu postavy souvisejí (v režimu Rodiče vidíš vše).",
+      info_modes:"<b>Dva režimy.</b> <i>Průvodce</i> = plné poznámky se spoilery (shrnutí, na co se zaměřit, otázky, metr intenzity). <i>Čtenář</i> = bez spoilerů, jen to, co už jsi přečetl, plus rekapitulace a kvízy. Série je určená dospělým; metr intenzity upozorňuje na nejtemnější scény.",
+      info_unlock:"<b>Odemykání.</b> U každé části klikni na <i>Přečteno</i> — tím se na mapě posune „Tady jsme“, přibudou ligy a odemknou se nové postavy a místa. Postup se ukládá v prohlížeči.",
+      info_names:"<b>Jména.</b> Držíme se původních jmen Stevena Eriksona (Whiskeyjack, Apsalar, Anomander Rake…). České poznámky sledují česká vydání; mapa má popisky anglicky.",
+      footer:"Fanouškovský čtenářský průvodce · neoficiální, bez spojení se Stevenem Eriksonem či vydavateli",
+      here_label:"Tady jsme", strip_empty:"Příběh ještě nevyrazil — po přečtení části se tu objeví zastávky.", stop_word:"zastávka", place_locked:"Sem příběh ještě nedošel — čti dál a místo se odemkne.", place_empty:"Klikni na zastávku pod mapou a mapa tě k ní zaveze.", fear_label:"Intenzita",
+      charhint_kids:"Postavy se odemykají, jakmile je v příběhu potkáš. Klikni a dozvíš se víc.",
+      charhint_parent:"Přehled postav (v režimu Průvodce vidíš všechny). Klikni pro detail.",
+      h_story_so_far:"Příběh zatím", char_locked_arc:"Tuhle postavu ještě moc neznáme — čti dál a její příběh se tu bude dopisovat.",
+      talk_label:"K zamyšlení:", say_label:"Vyslov:", close:"Zavřít", artifact_name:"Balíček draků",
+      world_races:"Národy Malazského světa", world_history:"Krátká historie Malazské říše",
+      relhint_kids:"Jak spolu postavy souvisejí. Co jsi ještě nečetl, zůstává zahalené.",
+      relhint_parent:"Jak spolu postavy souvisejí (v režimu Průvodce vidíš vše).",
       read_q:"Přečteno?", read_done:"Přečteno",
-      h_summary:"Shrnutí", h_focus:"Na co se zaměřit", h_questions:"Otázky pro děti", h_words:"Slovíčka",
-      h_prev:"Co bylo minule", h_before_start:"Než vyrazíme na cestu", h_whats_next:"Co nás čeká", h_what_happened:"Co se v kapitole stalo", h_quiz:"Kvíz — pamatuješ si?",
-      locked_chapter:"Tuhle kapitolu jsme ještě nečetli. Nejdřív si ji přečteme s rodičem!",
-      unlock_hint:"Až kapitolu přečteme, klikni na <b>Přečteno</b> a odemkne se shrnutí, kvíz i nové postavy.",
-      read_done_msg:"Přečteno! Skvělá práce, poutníku.",
-      fear_ok:"v pohodě.", fear_mid:"napínavé, nic hrozného.", fear_high:"silnější scéna, připrav se.",
-      key_moment:"Klíčový moment:", illus_alt:"Malovaná ilustrace ke kapitole", map_alt:"Mapa Středozemě"
+      h_summary:"Shrnutí", h_focus:"Na co se zaměřit", h_questions:"Otázky k zamyšlení", h_words:"Slova a jména",
+      h_prev:"Co bylo minule", h_before_start:"Než vyrazíme", h_whats_next:"Co nás čeká", h_what_happened:"Co se v této části stalo", h_quiz:"Kvíz — pamatuješ si?",
+      locked_chapter:"Tuhle část jsme ještě nečetli. Nejdřív si ji přečti a pak se sem vrať pro rekapitulaci a kvíz.",
+      unlock_hint:"Až část přečteš, klikni na <b>Přečteno</b> a odemkne se rekapitulace, kvíz i nové postavy.",
+      read_done_msg:"Přečteno! Příběh pokračuje.",
+      fear_ok:"v pohodě.", fear_mid:"napínavé, ale nic grafického.", fear_high:"temnější scéna — připrav se.",
+      key_moment:"Klíčový moment:", illus_alt:"Ilustrace k části", map_alt:"Mapa Malazského světa"
     }
   };
   if(BOOK.ui){ ['en','cs'].forEach(function(L){ if(BOOK.ui[L]){ for(var k in BOOK.ui[L]) UI[L][k]=BOOK.ui[L][k]; } }); } // per-book UI overrides
@@ -676,46 +746,95 @@
   }
 
   function buildRoute(){
-    // One continuous, cumulative journey map (shared ROUTES): earlier volumes in full, this volume up to
-    // where you've read (Kids) / all of it (Parent); later volumes stay hidden. Legs coloured by group.
-    var svg=$('#routeSvg'), rg=reachedGi(), isDad=state.mode==='tata', h='';
-    (typeof ROUTES!=='undefined'?ROUTES:[]).forEach(function(leg){
+    var rg=reachedGi(), guide=state.mode==='tata', h='', active=false, earlier=false;
+    ROUTES.forEach(function(leg){
       if(leg.vol>VOL) return;
-      var full = leg.vol<VOL;
-      var pts = leg.pts.filter(function(p){ return full || isDad || p[2]<=rg; });
-      if(pts.length<2) return;
+      var current=leg.vol===VOL;
+      var pts=leg.pts.filter(function(p){return !current || guide || p[2]<=rg;});
+      if(pts.length<2 || pts.every(function(p){return p[0]===pts[0][0] && p[1]===pts[0][1];})) return;
       var d=pts.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1];}).join(' ');
-      h+='<path d="'+d+'" fill="none" style="stroke:'+leg.color+'" stroke-width="2.4" '+
-        'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3.2" '+
-        'vector-effect="non-scaling-stroke" opacity="0.92"/>';
+      var line='<path d="'+d+'" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" ';
+      if(current){
+        active=true;
+        h+=line+'stroke="#fff0c8" stroke-width="5" opacity=".85"/>';
+        h+=line+'stroke="'+leg.color+'" stroke-width="3" stroke-dasharray="5 4"/>';
+      }else{
+        earlier=true;
+        h+=line+'stroke="#f5e5b8" stroke-width="3.5" opacity=".45"/>';
+        h+=line+'stroke="#4b5141" stroke-width="1.7" stroke-dasharray="1 5" opacity=".8"/>';
+      }
     });
-    svg.innerHTML=h;
+    $('#routeSvg').innerHTML=h;
+    $('#mapActiveKey').hidden=!active;
+    $('#mapPastKey').hidden=!earlier;
+    var route=ROUTES.find(function(leg){return leg.vol===VOL;});
+    if(route) $('#view-mapa').style.setProperty('--route-color',route.color);
   }
 
-  function currentPlace(){ var rg=reachedGi(),cur=null; PLACES.forEach(function(p){ if(p.gi<=rg&&(!cur||p.gi>cur.gi))cur=p; }); return cur; } // the furthest stop reached
-  function renderHere(){
-    // One small "You are here" marker at the furthest stop reached; the rest are on the strip below.
-    var box=$('#hereLayer'); box.innerHTML='';
-    var cur=currentPlace(); if(!cur) return;
-    var m=el('div','hereM'); m.style.left=cur.x+'%'; m.style.top=cur.y+'%';
-    m.innerHTML='<span class="hm-in" title="'+esc(T('here_label')+': '+t(cur.name))+'"></span>';
-    (function(cur){ $('.hm-in',m).addEventListener('click',function(ev){ev.stopPropagation(); showPlace(cur,true);}); })(cur);
-    box.appendChild(m);
+  var selectedStop=null;
+  function selectStop(p){
+    selectedStop=p.id;
+    goToPlace(p);
+    showPlace(p,p.gi<=reachedGi());
+    markSelectedStop();
   }
-  function renderStrip(){
-    var rg=reachedGi();
-    var strip=$('#mapstrip'); if(!strip) return; strip.innerHTML='';
-    var list = state.mode==='tata' ? PLACES : PLACES.filter(function(p){return p.gi<=rg;});
-    if(!list.length){ strip.innerHTML='<div class="strip-empty">'+esc(T('strip_empty'))+'</div>'; return; }
-    var cur=currentPlace(), curId=cur?cur.id:null;
-    list.forEach(function(p){
-      var reached=p.gi<=rg, isCur=curId===p.id;
-      var c=el('button','mchip'+(reached?'':' future')+(isCur?' on':''));
-      c.innerHTML='<span class="mchip-n">'+p.seq+'</span>'+icon(p.ic,'mchip-ic')+'<small>'+esc(t(p.name))+'</small>'+(isCur?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
-      c.addEventListener('click',function(){ goToPlace(p); showPlace(p,reached); Array.prototype.forEach.call(strip.children,function(x){x.classList.toggle('sel',x===c);}); });
-      strip.appendChild(c);
+  function markSelectedStop(){
+    document.querySelectorAll('.map-pin, .mchip').forEach(function(b){
+      var selected=b.dataset.stops.split(' ').includes(selectedStop);
+      b.classList.toggle(b.classList.contains('map-pin')?'selected':'sel',selected);
+      b.setAttribute('aria-pressed',String(selected));
     });
-    var on=strip.querySelector('.mchip.on'); if(on&&on.scrollIntoView) on.scrollIntoView({inline:'center',block:'nearest'});
+  }
+  function renderStops(){
+    var rg=reachedGi(), strip=$('#mapstrip'), pins=$('#pinLayer');
+    var list=state.mode==='tata' ? PLACES : PLACES.filter(function(p){return p.gi<=rg;});
+    var current=list.filter(function(p){return p.gi<=rg;}).slice(-1)[0];
+    var selected=list.find(function(p){return p.id===selectedStop;});
+    var groups=new Map();
+    strip.innerHTML='';
+    pins.innerHTML='';
+    if(selected){
+      showPlace(selected,selected.gi<=rg);
+    }else{
+      selectedStop=null;
+      $('#placePanel').className='place-panel empty';
+      $('#placePanel').textContent=T('place_empty');
+    }
+    if(!list.length){
+      strip.appendChild(el('div','strip-empty',esc(T('strip_empty'))));
+      return;
+    }
+    list.forEach(function(p){
+      var c=el('button','mchip'+(p===current?' on':''));
+      c.type='button';
+      c.dataset.stops=p.id;
+      c.innerHTML='<span class="mchip-n">'+p.seq+'</span><small>'+esc(t(p.name))+'</small>'+
+        (p===current?'<span class="mchip-here">'+esc(T('here_label'))+'</span>':'');
+      c.addEventListener('click',function(){selectStop(p);});
+      strip.appendChild(c);
+
+      var key=p.x+','+p.y;
+      if(!groups.has(key)) groups.set(key,[]);
+      groups.get(key).push(p);
+    });
+    groups.forEach(function(stops){
+      var here=stops.includes(current);
+      var names=stops.map(function(p){return p.seq+' · '+t(p.name);}).join(' / ');
+      var b=el('button','map-pin'+(here?' here':''));
+      b.type='button';
+      b.style.left=stops[0].x+'%';
+      b.style.top=stops[0].y+'%';
+      b.dataset.stops=stops.map(function(p){return p.id;}).join(' ');
+      b.textContent=stops.map(function(p){return p.seq;}).join('·');
+      b.title=(here?T('here_label')+' · ':'')+names;
+      b.setAttribute('aria-label',b.title);
+      b.addEventListener('click',function(){
+        var index=stops.findIndex(function(p){return p.id===selectedStop;});
+        selectStop(index<0 && here?current:stops[(index+1)%stops.length]);
+      });
+      pins.appendChild(b);
+    });
+    markSelectedStop();
   }
 
   function showPlace(p, reached){
@@ -744,22 +863,29 @@
         var card=el('div','ch'+(peek?'':' locked'));
         card.setAttribute('data-gi',c.gi);
         var head=el('div','ch-head');
-        head.innerHTML='<span class="ch-num">'+((BOOKLABEL[bk]||bk)+'·'+c.n)+'</span>'+
-          '<div class="ch-t"><h3>'+esc(t(c.title))+'</h3>'+(state.lang==='cs'?'<span class="en">'+esc(c.en)+'</span>':'')+
-          '<div class="fear">'+flames(c.fear)+'</div></div>';
-        var right=el('div',null,'');
+        var disclosure=el('button','ch-disclosure');
+        disclosure.type='button';
+        disclosure.disabled=!peek;
+        disclosure.setAttribute('aria-expanded','false');
+        disclosure.setAttribute('aria-controls','chapter-body-'+c.gi);
+        disclosure.innerHTML='<span class="ch-num">'+((BOOKLABEL[bk]||bk)+'·'+c.n)+'</span>'+
+          '<span class="ch-t"><span class="ch-title">'+esc(t(c.title))+'</span>'+(state.lang==='cs'?'<span class="en">'+esc(c.en)+'</span>':'')+
+          '<span class="fear">'+flames(c.fear)+'</span></span>';
         var rd=el('button','ch-read'+(done?' done':''), (done?icon('check')+T('read_done'):T('read_q')));
-        rd.addEventListener('click',function(ev){ev.stopPropagation(); state.read[c.gi]=!state.read[c.gi]; save(); rerender();});
+        rd.type='button';
+        rd.addEventListener('click',function(){state.read[c.gi]=!state.read[c.gi]; save(); rerender();});
         var car=el('span','caret','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>');
-        right.appendChild(rd);
-        head.appendChild(right); head.appendChild(car);
+        disclosure.appendChild(car);
+        head.appendChild(disclosure); head.appendChild(rd);
         card.appendChild(head);
         var body=el('div','ch-body');
+        body.id='chapter-body-'+c.gi;
         body.innerHTML = chapterBody(c, full, peek);
         card.appendChild(body);
-        if(peek){
-          head.addEventListener('click',function(){ card.classList.toggle('open'); });
-        }
+        disclosure.addEventListener('click',function(){
+          var open=card.classList.toggle('open');
+          disclosure.setAttribute('aria-expanded',String(open));
+        });
         box.appendChild(card);
       });
     });
@@ -831,7 +957,7 @@
       if(!unlocked){ frame='<div class="pframe fallback">'+icon('lock')+'</div>'; }
       else { var im=imgPortrait(ch.id,t(ch.name));
         frame = im ? '<div class="pframe">'+im+'</div>'
-                   : '<div class="pframe fallback">'+icon('lock')+'</div>'; }
+                   : '<div class="pframe fallback">'+icon(ch.ic)+'</div>'; }
       card.innerHTML=frame+
         '<h4>'+(unlocked?esc(t(ch.name)):'? ? ?')+'</h4><div class="race">'+esc(t(ch.rlab))+'</div>';
       if(unlocked){ card.setAttribute('tabindex','0'); card.setAttribute('role','button');
@@ -880,62 +1006,99 @@
   // ===== map: pan & zoom =====
   // Zoom by re-laying-out the map at a wider CSS width, so the browser re-samples the hi-res source
   // sharply — NOT transform:scale(), which only stretches a base-size GPU texture (blurry). Pan = translate.
-  var scale=1,minS=1,maxS=4,tx=0,ty=0;
+  var scale=1,minS=1,maxS=5,tx=0,ty=0;
   var stage=$('#mapStage'), vp=$('#mapVp');
-  function applyLayout(){ stage.style.width=(vp.clientWidth*scale)+'px'; }
-  function clamp(){
-    var vw=vp.clientWidth, vh=vp.clientHeight, sw=stage.offsetWidth, sh=stage.offsetHeight;
-    var minX=Math.min(0, vw - sw), minY=Math.min(0, vh - sh);
-    if(tx>0) tx=0; else if(tx<minX) tx=minX;
-    if(ty>0) ty=0; else if(ty<minY) ty=minY;
+  function applyLayout(){stage.style.width=(vp.clientWidth*scale)+'px';}
+  function boundAxis(offset, viewport, content){
+    return content<=viewport ? (viewport-content)/2 : Math.max(viewport-content,Math.min(0,offset));
   }
-  function applyT(){clamp(); stage.style.transform='translate('+tx+'px,'+ty+'px)';}
-  function setStageWidth(){
-    var prev=scale; scale=1; applyLayout();
-    var h=stage.offsetHeight;
-    if(h){ vp.style.height=Math.min(h, Math.round(window.innerHeight*0.72), 580)+'px'; }
-    scale=prev; applyLayout();
+  function applyT(){
+    tx=boundAxis(tx,vp.clientWidth,stage.offsetWidth);
+    ty=boundAxis(ty,vp.clientHeight,stage.offsetHeight);
+    stage.style.transform='translate('+tx+'px,'+ty+'px)';
   }
   function zoomAt(cx,cy,ns){
-    ns=Math.max(minS,Math.min(maxS,ns));
     var sw=stage.offsetWidth, sh=stage.offsetHeight;
-    var fx=sw?(cx-tx)/sw:0, fy=sh?(cy-ty)/sh:0;
-    scale=ns; applyLayout();
-    var sw2=stage.offsetWidth, sh2=stage.offsetHeight;
-    tx=cx-fx*sw2; ty=cy-fy*sh2; applyT();
-  }
-  function frameJourney(){
-    var vpW=vp.clientWidth, vpH=vp.clientHeight;
-    scale=1; applyLayout();
-    var baseW=stage.offsetWidth, baseH=stage.offsetHeight; if(!baseH){return;}
-    var mf=BOOK.meta.mapFrame||{x0:0,x1:1,y0:0,y1:1}, fx0=mf.x0,fx1=mf.x1,fy0=mf.y0,fy1=mf.y1;  // region of the shared map to frame
-    var regW=(fx1-fx0)*baseW, regH=(fy1-fy0)*baseH;
-    var s=Math.min(vpW/regW, vpH/regH)*0.96;
-    s=Math.max(minS,Math.min(maxS,s));
-    scale=s; applyLayout();
-    var sw=stage.offsetWidth, sh=stage.offsetHeight;
-    tx=vpW/2 - ((fx0+fx1)/2)*sw;
-    ty=vpH/2 - ((fy0+fy1)/2)*sh;
+    if(!sw || !sh) return;
+    stage.classList.remove('smooth');
+    var fx=(cx-tx)/sw, fy=(cy-ty)/sh;
+    scale=Math.max(minS,Math.min(maxS,ns));
+    applyLayout();
+    tx=cx-fx*stage.offsetWidth;
+    ty=cy-fy*stage.offsetHeight;
     applyT();
   }
+  function frameMap(frame){
+    var w=vp.clientWidth, h=vp.clientHeight;
+    if(!w || !h) return;
+    stage.classList.remove('smooth');
+    var baseHeight=w*3/5;
+    minS=Math.min(1,h/baseHeight);
+    var fit=Math.min(w/((frame.x1-frame.x0)*w),h/((frame.y1-frame.y0)*baseHeight));
+    scale=Math.max(minS,Math.min(maxS,fit*(frame===worldFrame?1:.92)));
+    applyLayout();
+    tx=w/2-(frame.x0+frame.x1)/2*stage.offsetWidth;
+    ty=h/2-(frame.y0+frame.y1)/2*stage.offsetHeight;
+    applyT();
+  }
+  var worldFrame={x0:0,x1:1,y0:0,y1:1};
+  var mapWidth=0,mapHeight=0;
+  function frameJourney(){
+    vp.classList.remove('overview');
+    frameMap(BOOK.meta.mapFrame||worldFrame);
+    mapWidth=vp.clientWidth; mapHeight=vp.clientHeight;
+  }
+  function frameWorld(){
+    vp.classList.add('overview');
+    frameMap(worldFrame);
+    mapWidth=vp.clientWidth; mapHeight=vp.clientHeight;
+  }
+  function resizeMap(){
+    if(!vp.clientWidth) return;
+    if(vp.classList.contains('overview')) frameWorld();
+    else frameJourney();
+  }
   function goToPlace(p){
-    scale=Math.min(maxS,3.4); applyLayout();
-    var sw=stage.offsetWidth, sh=stage.offsetHeight; if(!sh)return;
-    tx=vp.clientWidth/2 - (p.x/100)*sw;
-    ty=vp.clientHeight/2 - (p.y/100)*sh;
-    stage.classList.add('smooth'); applyT();
+    var oldScale=scale;
+    vp.classList.remove('overview');
+    mapHeight=vp.clientHeight;
+    scale=Math.max(scale,3.4);
+    stage.classList.toggle('smooth',scale===oldScale);
+    applyLayout();
+    tx=vp.clientWidth/2-p.x/100*stage.offsetWidth;
+    ty=vp.clientHeight/2-p.y/100*stage.offsetHeight;
+    applyT();
   }
   $('#zin').addEventListener('click',function(){zoomAt(vp.clientWidth/2,vp.clientHeight/2,scale*1.4);});
   $('#zout').addEventListener('click',function(){zoomAt(vp.clientWidth/2,vp.clientHeight/2,scale/1.4);});
-  $('#zreset').addEventListener('click',function(){frameJourney();});
-  vp.addEventListener('wheel',function(e){e.preventDefault(); stage.classList.remove('smooth'); var r=vp.getBoundingClientRect(); zoomAt(e.clientX-r.left,e.clientY-r.top, scale*(e.deltaY<0?1.15:0.87));},{passive:false});
-  // drag
-  var drag=false,lx=0,ly=0,moved=0,pid=null;
-  vp.addEventListener('pointerdown',function(e){drag=true;moved=0;lx=e.clientX;ly=e.clientY;pid=e.pointerId;vp.setPointerCapture(pid);vp.classList.add('grabbing'); stage.classList.remove('smooth');});
-  vp.addEventListener('pointermove',function(e){if(!drag)return; var dx=e.clientX-lx,dy=e.clientY-ly; lx=e.clientX;ly=e.clientY; moved+=Math.abs(dx)+Math.abs(dy); tx+=dx;ty+=dy; applyT();});
-  function endDrag(){drag=false;vp.classList.remove('grabbing'); if(pid!=null){try{vp.releasePointerCapture(pid);}catch(e){}pid=null;}}
-  vp.addEventListener('pointerup',endDrag); vp.addEventListener('pointercancel',endDrag);
-  window.addEventListener('resize',function(){setStageWidth(); frameJourney();});
+  $('#zreset').addEventListener('click',frameJourney);
+  $('#zworld').addEventListener('click',frameWorld);
+  vp.addEventListener('wheel',function(e){
+    e.preventDefault();
+    var r=vp.getBoundingClientRect();
+    zoomAt(e.clientX-r.left,e.clientY-r.top,scale*(e.deltaY<0?1.15:0.87));
+  },{passive:false});
+
+  var lx=0,ly=0,pid=null;
+  vp.addEventListener('pointerdown',function(e){
+    if(pid!==null || e.button!==0 || e.target.closest('button')) return;
+    lx=e.clientX; ly=e.clientY; pid=e.pointerId;
+    vp.setPointerCapture(pid);
+    vp.classList.add('grabbing');
+    stage.classList.remove('smooth');
+  });
+  vp.addEventListener('pointermove',function(e){
+    if(e.pointerId!==pid) return;
+    tx+=e.clientX-lx; ty+=e.clientY-ly;
+    lx=e.clientX; ly=e.clientY;
+    applyT();
+  });
+  vp.addEventListener('lostpointercapture',function(e){
+    if(e.pointerId!==pid) return;
+    pid=null;
+    vp.classList.remove('grabbing');
+  });
+  window.addEventListener('resize',resizeMap);
 
   // ===== toggles =====
   $('#modeswitch').addEventListener('click',function(e){var b=e.target.closest('button'); if(!b)return;
@@ -964,14 +1127,15 @@
     box.innerHTML=LANGS.map(function(l){ return '<button class="flagbtn" type="button" data-lang="'+l.code+'" title="'+esc(l.label)+'" aria-label="'+esc(l.label)+'">'+l.flag+'</button>'; }).join('');
     box.addEventListener('click',function(e){ var b=e.target.closest('.flagbtn'); if(!b)return; state.lang=b.getAttribute('data-lang'); save(); applyLang(); rerender(); });
   }
-  function roman(n){ return ['','I','II','III','IV','V','VI'][n]||String(n); }
+  function roman(n){ return ['','I','II','III','IV','V','VI','VII','VIII','IX','X'][n]||String(n); }
   function buildVolSwitch(){
     var box=$('#volswitch'); if(!box) return;
     if(!VOLUMES || VOLUMES.length<2){ box.style.display='none'; return; }
+    var fragment='#prefs=1&mode='+encodeURIComponent(state.mode)+'&theme='+encodeURIComponent(state.theme||'system')+'&lang='+encodeURIComponent(state.lang);
     box.innerHTML=VOLUMES.map(function(v){
       var inner='<span class="voln">'+esc(roman(v.order))+'</span><span>'+esc(t(v.short))+'</span>';
       return v.current ? '<span class="vol on" aria-current="page">'+inner+'</span>'
-                       : '<a class="vol" href="'+esc(v.file)+'">'+inner+'</a>';
+                       : '<a class="vol" href="'+esc(v.file+fragment)+'">'+inner+'</a>';
     }).join('');
   }
   function applyLang(){
@@ -993,6 +1157,7 @@
     var v=b.getAttribute('data-view');
     Array.prototype.forEach.call($('#tabs').children,function(x){x.classList.toggle('on',x===b); x.setAttribute('aria-selected', x===b?'true':'false');});
     ['mapa','kapitoly','postavy','svet'].forEach(function(id){$('#view-'+id).classList.toggle('on',id===v);});
+    if(v==='mapa' && (mapWidth!==vp.clientWidth || mapHeight!==vp.clientHeight)) resizeMap();
   });
   $('#subseg').addEventListener('click',function(e){var b=e.target.closest('button'); if(!b)return;
     var s=b.getAttribute('data-sub');
@@ -1002,7 +1167,7 @@
 
   // ===== render: World =====
   function renderWorld(){
-    // In Kids mode we only reveal what will not spoil the story: lore by min-gi, the Ring history only from chapter 2.
+    // Reader mode reveals lore and the saga timeline only after the relevant reading threshold.
     var isDad=state.mode==='tata', rg=reachedGi();
     var LOREALL = LORE.concat(BOOK.loreExtra||[]);
     var lore = isDad ? LOREALL : LOREALL.filter(function(l){return (l.min||0)<=rg;});
@@ -1022,14 +1187,14 @@
 
   // ===== render: Relations =====
   function relNode(id, role){
-    var isRing=id==='ring';
+    var isArtifact=id==='artifact';
     var ch=CHARMAP[id];
-    var unlocked = isRing || (ch && charUnlocked(ch));
-    var raceCls = isRing?'r-carodej':(ch?'r-'+ch.race:'');
+    var unlocked = isArtifact || (ch && charUnlocked(ch));
+    var raceCls = isArtifact?'r-god':(ch?'r-'+ch.race:'');
     if(!unlocked) return '<div class="node locked"><div class="medallion">'+icon('lock')+'</div><small>?</small></div>';
-    var nm = isRing ? T('ring_name') : t(ch.short||ch.name);
-    var im = isRing?null:imgPortrait(id,nm);
-    var inner = im||icon(isRing?'ring':ch.ic);
+    var nm = isArtifact ? T('artifact_name') : t(ch.short||ch.name);
+    var im = isArtifact?null:imgPortrait(id,nm);
+    var inner = im||icon(isArtifact?'deck':ch.ic);
     return '<div class="node '+raceCls+'"><div class="medallion'+(im?' pm':'')+'">'+inner+'</div><small>'+esc(nm)+(role?'<br>'+esc(role):'')+'</small></div>';
   }
   function relArrow(label){
@@ -1037,29 +1202,26 @@
   }
   function renderRelations(){
     $('#relHint').textContent = T(state.mode==='kluci' ? 'relhint_kids' : 'relhint_parent');
-    var R=BOOK.relations||{}, h='';
+    var R=BOOK.relations||{}, h='', rg=reachedGi();
+    function visible(item){return state.mode==='tata'||rg>=(typeof item.min==='number' && item.min>=1 && item.min<=6 ? item.min : 6);}
     (R.blocks||[]).forEach(function(b){
+      if(!visible(b)) return;
       h+='<div class="rel-block"><h3>'+esc(t(b.title))+'</h3><p class="rsub">'+esc(t(b.sub))+'</p><div class="chain">'+
         (b.chain||[]).map(function(s){ return s.id!=null ? relNode(s.id, s.role?t(s.role):'') : relArrow(t(s.arrow)); }).join('')+'</div></div>';
     });
-    if(R.ensemble){ var e=R.ensemble;
+    if(R.ensemble && visible(R.ensemble)){ var e=R.ensemble;
       h+='<div class="rel-block"><h3>'+esc(t(e.title))+'</h3><p class="rsub">'+esc(t(e.sub))+'</p><div class="nine">'+
         (e.ids||[]).map(function(id){return relNode(id, t(CHARMAP[id].rlab));}).join('')+'</div><p class="ninecap">'+esc(t(e.cap))+'</p></div>';
     }
     $('#relations').innerHTML=h;
   }
 
-  function rerender(){ updateProgress(); buildRoute(); renderHere(); renderStrip(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
+  function rerender(){ updateProgress(); buildRoute(); renderStops(); renderChapters(); renderChars(); renderRelations(); renderWorld(); }
 
   // ===== init =====
   function init(){
-    buildLangSel(); buildVolSwitch(); applyLang(); syncMode(); // language + theme + mode; content goes through rerender()
-    var img=$('#mapImg');
-    var done=false;
-    function ready(){ setStageWidth(); frameJourney(); rerender(); done=true; }
-    if(img.complete && img.naturalWidth) ready(); else img.addEventListener('load',ready);
-    // fallback (kdyby load nedorazil)
-    setTimeout(function(){ if(!done) ready(); },400);
+    save(); buildLangSel(); applyLang(); syncMode(); // language + theme + mode; content goes through rerender()
+    resizeMap(); rerender();
   }
   init();
 })();

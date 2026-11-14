@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1200" width="2000" height="1200" role="img" aria-labelledby="title desc">
+  <title id="title">The Malazan world</title>
+  <desc id="desc">A stylized reader’s atlas showing Seven Cities in the northwest, Genabackis in the east, Quon Tali in the center, and Lether in the southwest.</desc>
+  <defs>
+    <radialGradient id="sea" cx="44%" cy="40%" r="76%">
+      <stop stop-color="#294a4e"/><stop offset=".65" stop-color="#1d373e"/><stop offset="1" stop-color="#13272e"/>
+    </radialGradient>
+    <linearGradient id="land" x2=".2" y2="1">
+      <stop stop-color="#ddd7b6"/><stop offset=".52" stop-color="#c7c09a"/><stop offset="1" stop-color="#adab87"/>
+    </linearGradient>
+    <radialGradient id="sand">
+      <stop stop-color="#bc8a57" stop-opacity=".64"/><stop offset="1" stop-color="#bc8a57" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="green">
+      <stop stop-color="#556e56" stop-opacity=".52"/><stop offset="1" stop-color="#556e56" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="graticule" width="100" height="100" patternUnits="userSpaceOnUse" x="50" y="50">
+      <path d="M0 100V0H100" fill="none" stroke="#a6b8ae" stroke-opacity=".16"/>
+      <path d="M-4 0H4M0 0v4" stroke="#c6c8ab" stroke-opacity=".36"/>
+    </pattern>
+    <pattern id="paper" width="20" height="17" patternUnits="userSpaceOnUse">
+      <path d="M2 3h2m9 2h1m-5 8h2m7-4h1M3 16h1" stroke="#342d21" stroke-width=".8" stroke-opacity=".2"/>
+      <path d="M5 8h2m9 6h1m-8-13h1" stroke="#f7efce" stroke-width=".8" stroke-opacity=".26"/>
+    </pattern>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <path d="M0 0v6" stroke="#655643" stroke-opacity=".28" stroke-width="1.6"/>
+    </pattern>
+    <path id="seven" d="M141 183l17-13 6-21 27-7 13-17 28 4 28-17 39 9 20-8 31 11 24-5 35 19 23-7 23 11 24-12 35 4 19 11 22-9 28 15 43-3 17 11 21-7 31 9 30-9 23 15 29-4 19 18 16 5 3 16 12 10 21 33 18 10 5 15 16 11-1 25-14 8 12 20-16 11 2 23-22 13-8 26-24 3-12 17-24-3-12 18-14 4-8 18-22 9-19-13-25 8-6-10-30-2-12-17-30 10-20-8-28 17-20-13-26 1-9-23-18-2-11-24-22-1-7-16-19 3-13-23-19 2-10-13-25 8-14-11-18 15-26-1-16 18-26-7-15 9-20-6-26 9-18-12-21 6-8-18-21 3-12-13-16 1-17-24-12-5-3-20-19-10 3-20-11-12 8-20-3-9 5-21-2-13z"/>
+    <path id="genabackis" d="M1390 124l22-12 11 9 21-13 28 8 21-12 21 16 32-12 21 19 23-7 20 14 27-4 12 17 27 3 14 24 24 7 5 22 23 12-5 20 29 16-1 17 15 10-1 27 19 24-6 22 14 19-10 20 12 27-18 13 7 21-19 11 6 22-19 11-5 31-14 9 5 21-23 7-8 20-26 2-10 22-22-1-18 20-24-4-17 15-22-7-18 8-21-18-15 3-17-26-23-7-7-25-21-5 1-22-24-13 4-20-25-6-12-23-18 1-2-25-20-9 7-19-16-18 4-24-17-7-8-27-20-8 5-19-26-12 4-24-16-14 11-23-11-18 13-20-6-12 18-20-4-15 24-9 2-18z"/>
+    <path id="quon" d="M783 522l17-17 23 4 24-18 28 7 21-11 22 13 31-6 8 16 26 3 19 27-8 14 16 22-12 24 11 13-17 28-23 11-7 21-22 6-11 22-26 7-17-9-19 7-16-18-23-7 3-23-26-9 8-25-19-9 6-24-18-16 8-18-8-15z"/>
+    <path id="lether" d="M81 741l28-18 25 8 27-17 21 2 23-20 32 10 25-14 29 7 24-12 23 12 30-9 19 16 32-3 27 16 32-6 25 17 23-7 27 13 37-12 18 12 36-2 23 16 38-9 22 13 30-6 18 18 31 4 14 16 19 3 3 23 22 5-1 18 27 13-3 20 20 11-13 16 13 17-12 13 1 24-28 16-11 20-36 3-17 22-30-4-27 17-24-9-26 17-33-9-25 16-31-9-22 7-30-20-24 8-34-20-34 5-18-15-26 1-20-17-32 7-27-16-35 4-16-15-31 4-23-19-27 3-14-16-35 1-13-19-23 4-10-20-20-10 8-18-28-19 6-16-21-18 12-14-20-18 14-13z"/>
+    <path id="jacuruku" d="M449 559l22-14 27 5 19-15 21 12 31-2 16 18 16 5 3 21 13 10-14 24-19 7-9 24-28 4-26 14-18-10-19 6-16-17-23-4 5-21-20-9 7-17-10-16z"/>
+    <path id="korel" d="M1047 753l19-13 19 4 23-14 21 13 24-4 15 13 25 4 12 18 20 5 6 19 22 14-8 18 12 18-17 12 4 17-28 10-13-13-24 8-17-13-23 4-15-21-24-7 2-17-25-11 3-20-24-7 5-16z"/>
+    <path id="stratem" d="M1183 942l22-15 26 9 22-13 23 13 27-2 19 16 25-6 25 15 22-6 18 15 31 1 13 20 20 4 13 22-9 17 11 20-24 16-7 19-26 1-24 15-25-11-18 12-25-9-24 8-24-18-22 8-26-16-25 5-13-22-21-7 3-22-17-12 9-19-13-13z"/>
+    <path id="assail" d="M1545 740l20-16 15 8 25-17 18 7 16-10 24 15 26-2 12 22 17 6-4 22 26 10-9 22 14 17-11 18 12 21-22 12 1 19-23 7-11 20-25 4-17 13-28-10-23 8-24-17-24 3-8-18-24-5 2-21-19-12 9-22-14-14 14-17-7-22 20-8z"/>
+    <path id="islands" d="M851 209l16-12 5-16 17-10 15 5 6 17-8 15 1 14-16 11-19-5z M913 218l10-9 9 6-4 15-13 2z M823 441l16-12 14 6 10 14-14 13-20-4z M873 417l15-11 13 4 9 17-11 13-19-3z M921 431l11-10 12 3 5 12-10 13-14-4z M960 453l13-8 9 8-8 16-14-4z M838 718l15-10 19 7 6 14-12 13-18-3z M808 704l9-8 12 7-2 10-14 4z M1131 657l15-8 14 7 2 14-14 9-13-6z M1320 403l12-12 15 1 10 14-10 14-17-3z M1381 566l12-12 15 8-3 14-15 7z M1477 639l13-11 14 5 2 12-13 10-14-6z M264 960l15-11 17 7 8 15-15 9-17-5z M838 999l15-8 11 8-8 12-13 1z M1640 656l12-11 12 6-2 14-12 4z M1690 671l10-8 9 5-3 12-12 2z M1810 480l16-12 15 8-5 20-17 1z"/>
+    <g id="shores">
+      <use href="#seven"/><use href="#genabackis"/><use href="#quon"/><use href="#lether"/>
+      <use href="#jacuruku"/><use href="#korel"/><use href="#stratem"/><use href="#assail"/><use href="#islands"/>
+    </g>
+    <clipPath id="landmask"><use href="#seven"/><use href="#genabackis"/><use href="#quon"/><use href="#lether"/><use href="#jacuruku"/><use href="#korel"/><use href="#stratem"/><use href="#assail"/><use href="#islands"/></clipPath>
+    <g id="peak" stroke="#584c38" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-19 7q6-8 11-12l6-13 5 6 3-1 5 11 8 9q-12-4-19 1z" fill="#d9c8a1"/>
+      <path d="M-2-18l3 9-4 5 4 3-1 9q7-5 19-1l-8-9-5-11-3 1z" fill="url(#hatch)" stroke="none"/>
+      <path d="M-2-18l3 9-4 5 4 3-1 8M4 0l4 5m-14-8-5 7" fill="none"/>
+    </g>
+    <g id="ridge">
+      <use href="#peak" transform="translate(0 -9) scale(.91)"/>
+      <use href="#peak" transform="translate(22 -12) scale(1.03)"/>
+      <use href="#peak" transform="translate(39 3) scale(.78)"/>
+      <use href="#peak" transform="translate(-19 5) scale(.72)"/>
+      <use href="#peak" transform="translate(10 9) scale(.84)"/>
+    </g>
+    <g id="tree" fill="#849174" stroke="#3e5948" stroke-width="1" stroke-linejoin="round">
+      <path d="M0-10l-4 6h2l-4 6h12l-4-6h2z"/><path d="M0 2v4" fill="none"/>
+    </g>
+    <g id="woods">
+      <use href="#tree" transform="translate(3 -15)"/><use href="#tree" transform="translate(-14 -5) scale(.86)"/>
+      <use href="#tree" transform="translate(18 -10) scale(.76)"/><use href="#tree" transform="translate(1 1) scale(1.16)"/>
+      <use href="#tree" transform="translate(28 1) scale(.85)"/><use href="#tree" transform="translate(14 9)"/>
+      <use href="#tree" transform="translate(-13 11) scale(.8)"/><use href="#tree" transform="translate(30 13) scale(.67)"/>
+    </g>
+    <g id="dunes" fill="none" stroke="#886042" stroke-width="1.5" stroke-linecap="round">
+      <path d="M-31 8q13-15 25 0m-16 9q15-14 28 0m-1-23q14-14 28 1m-14 10q9-9 18 1m-61-14q9-8 17 1"/>
+      <path d="M-12 7h12m21-14h14M2 18h12" opacity=".53"/>
+    </g>
+    <g id="waves" stroke="#91ada6" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <path d="M-27 0q9-6 18 0t18 0 18 0M-16 9q8-5 16 0t16 0"/>
+    </g>
+    <g id="town">
+      <circle r="5" fill="#f0dfb3" stroke="#3e3a2d" stroke-width="1.5"/>
+      <circle r="2" fill="#3e3a2d"/>
+    </g>
+    <g id="city">
+      <path d="M-7 5v-9h4v-5h6v5h4v9z" fill="#f2e4be" stroke="#3e3a2d" stroke-width="1.5"/>
+      <path d="M-1 5V1h2v4" fill="none" stroke="#3e3a2d" stroke-width="1.5"/>
+    </g>
+    <style>
+      text{font-family:Georgia,serif}
+      .continent,.area,.settlement{paint-order:stroke;stroke:#d8cba4;stroke-linejoin:round}
+      .continent{font-size:31px;font-weight:bold;letter-spacing:6px;fill:#343b2d;stroke-width:3;text-anchor:middle}
+      .continent .subregion{font-size:22px;letter-spacing:3px}
+      .continent .island{font-size:17px;letter-spacing:2px}
+      .area{font-size:16px;letter-spacing:2.7px;fill:#594e34;stroke-width:2.5;text-anchor:middle}
+      .settlement{font-size:17px;font-style:italic;fill:#332d25;stroke-width:2.6}
+      .ocean{font-size:19px;letter-spacing:6px;font-style:italic;fill:#bdd0c2;text-anchor:middle;opacity:.75}
+      .river{fill:none;stroke:#506e66;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .tributary{stroke-width:1.2;opacity:.75}
+    </style>
+  </defs>
+
+  <rect width="2000" height="1200" fill="url(#sea)"/>
+  <rect x="30" y="30" width="1940" height="1140" fill="url(#graticule)"/>
+  <g fill="none" stroke="#a2b2a1">
+    <use href="#shores" stroke-width="38" opacity=".10"/>
+    <use href="#shores" stroke-width="27" opacity=".15"/>
+    <use href="#shores" stroke-width="16" opacity=".26"/>
+  </g>
+  <use href="#shores" fill="url(#land)" stroke="#c2b68d" stroke-width="4" stroke-linejoin="round"/>
+  <g clip-path="url(#landmask)">
+    <ellipse cx="656" cy="321" rx="237" ry="157" fill="url(#sand)"/>
+    <ellipse cx="290" cy="270" rx="230" ry="130" fill="url(#green)"/>
+    <ellipse cx="1540" cy="331" rx="210" ry="233" fill="url(#green)"/>
+    <ellipse cx="1655" cy="560" rx="153" ry="118" fill="url(#sand)"/>
+    <ellipse cx="320" cy="820" rx="237" ry="121" fill="url(#green)"/>
+    <ellipse cx="650" cy="937" rx="196" ry="148" fill="url(#sand)"/>
+    <ellipse cx="519" cy="611" rx="117" ry="83" fill="url(#green)"/>
+    <ellipse cx="885" cy="586" rx="103" ry="110" fill="url(#green)"/>
+    <rect width="2000" height="1200" fill="url(#paper)"/>
+    <use href="#shores" fill="none" stroke="#494c38" stroke-width="7" stroke-opacity=".28"/>
+    <use href="#shores" fill="none" stroke="#f4e8be" stroke-width="3.5" stroke-opacity=".63"/>
+  </g>
+  <use href="#shores" fill="none" stroke="#514c38" stroke-width="1.65" stroke-linejoin="round"/>
+
+  <g class="river">
+    <path d="M1574 210q-12 27-34 34t-20 26q1 18-33 23l-23-6-32 22-40 3-20 15"/>
+    <path d="M1690 353q-24 16-31 36l-29 15q-16 15-42 11l-21-11-25 18-52-2-26 17-45 1"/>
+    <path d="M1688 466l-18 20 7 18-19 30-5 24-25 20-13 46"/>
+    <path d="M580 244q14 20 5 38l-24 17-3 28-26 15-15 34-22 22"/>
+    <path d="M742 254l-20 20-31 3-17 17-6 23-31 18-9 23-21 15-13 40"/>
+    <path d="M898 549l-14 20 4 19-20 18 5 19-17 18-5 38"/>
+    <path d="M401 772l-34 22-27 1-20 16-43 9-21 23-37-2-26 19-39 4-29 23-24 4"/>
+    <path d="M810 900l-24 14-9 25-22 17-6 29-27 17-12 57"/>
+    <path d="M542 565l-20 27-7 23-38 27m1175 124-15 34 5 20-22 21-11 45"/>
+    <path class="tributary" d="M1530 209l-7 24 8 18m-109 32 10 26m244 31-11 21-6 28m-76 44 5-18m76 94 13-5m-998-208 29 11m-164 6 14 14m-251 53 12 24m2-161 13-22m14 291 1 20m-583 35 22-4 17 11m46-86 16 20 29 11m-24-55-15 25-14 10m466 135-17-5-12-17"/>
+  </g>
+  <g fill="#738d79" stroke="#526751" stroke-width="1.4">
+    <path d="M1443 372l10-10 18 1 12-8 14 7-9 10-19 2-10 7z"/>
+    <path d="M311 785l8-14 13-7 14 6 4 12-11 12-12-4z"/>
+    <path d="M837 582l9-9 16 3 3 9-11 7-13-4z"/>
+  </g>
+
+  <g opacity=".89">
+    <use href="#ridge" transform="translate(215 174) rotate(-12) scale(1.2)"/><use href="#ridge" transform="translate(298 186) rotate(11)"/><use href="#ridge" transform="translate(370 208) rotate(15)"/><use href="#ridge" transform="translate(452 223) rotate(-9)"/><use href="#ridge" transform="translate(521 207) rotate(11) scale(.81)"/><use href="#ridge" transform="translate(663 211) rotate(-14)"/><use href="#ridge" transform="translate(724 229) rotate(23) scale(.82)"/>
+    <use href="#ridge" transform="translate(1416 171) rotate(-15)"/><use href="#ridge" transform="translate(1476 160) rotate(-16) scale(1.22)"/><use href="#ridge" transform="translate(1544 175) rotate(20) scale(1.1)"/><use href="#ridge" transform="translate(1609 190) rotate(20)"/><use href="#ridge" transform="translate(1654 226) rotate(40) scale(.91)"/><use href="#ridge" transform="translate(1683 275) rotate(26) scale(1.1)"/><use href="#ridge" transform="translate(1710 332) rotate(30) scale(.95)"/><use href="#ridge" transform="translate(1701 392) rotate(-36)"/><use href="#ridge" transform="translate(1614 370) rotate(-14) scale(.81)"/><use href="#ridge" transform="translate(1540 405) rotate(-14) scale(.7)"/><use href="#ridge" transform="translate(1691 457) rotate(47)"/><use href="#ridge" transform="translate(1570 554) rotate(-8) scale(.79)"/><use href="#ridge" transform="translate(1633 531) rotate(18) scale(.89)"/>
+    <use href="#ridge" transform="translate(872 545) rotate(-10) scale(.91)"/><use href="#ridge" transform="translate(923 573) rotate(43) scale(.8)"/><use href="#ridge" transform="translate(939 622) rotate(39) scale(.69)"/>
+    <use href="#ridge" transform="translate(224 762) rotate(-16) scale(.88)"/><use href="#ridge" transform="translate(419 759) rotate(18) scale(.93)"/><use href="#ridge" transform="translate(478 782) rotate(15) scale(.86)"/><use href="#ridge" transform="translate(559 812) rotate(49)"/><use href="#ridge" transform="translate(586 867) rotate(53)"/><use href="#ridge" transform="translate(601 916) rotate(66) scale(.81)"/><use href="#ridge" transform="translate(605 974) rotate(61) scale(.79)"/><use href="#ridge" transform="translate(773 856) rotate(14) scale(.87)"/><use href="#ridge" transform="translate(791 966) rotate(31) scale(.73)"/>
+    <use href="#ridge" transform="translate(509 583) rotate(-10) scale(.77)"/><use href="#ridge" transform="translate(1125 776) rotate(27) scale(.83)"/><use href="#ridge" transform="translate(1184 805) rotate(25) scale(.85)"/><use href="#ridge" transform="translate(1588 776) rotate(-30) scale(.77)"/><use href="#ridge" transform="translate(1638 754) rotate(4)"/><use href="#ridge" transform="translate(1695 780) rotate(45) scale(.87)"/><use href="#ridge" transform="translate(1677 833) rotate(-18) scale(.86)"/><use href="#ridge" transform="translate(1263 965) rotate(7)"/><use href="#ridge" transform="translate(1335 980) rotate(16)"/><use href="#ridge" transform="translate(1398 1002) rotate(20) scale(.8)"/>
+  </g>
+  <g opacity=".82">
+    <use href="#woods" x="161" y="230"/><use href="#woods" x="205" y="251"/><use href="#woods" x="252" y="227"/><use href="#woods" x="313" y="294"/><use href="#woods" x="354" y="280"/><use href="#woods" x="403" y="319"/><use href="#woods" x="480" y="352"/><use href="#woods" x="528" y="374"/>
+    <use href="#woods" x="1397" y="222"/><use href="#woods" x="1432" y="239"/><use href="#woods" x="1593" y="265"/><use href="#woods" x="1627" y="282"/><use href="#woods" x="1656" y="320"/><use href="#woods" x="1586" y="451"/><use href="#woods" x="1623" y="434"/><use href="#woods" x="1649" y="462"/><use href="#woods" x="1550" y="495"/><use href="#woods" x="1586" y="507"/><use href="#woods" x="1625" y="589"/>
+    <use href="#woods" x="165" y="765"/><use href="#woods" x="197" y="787"/><use href="#woods" x="247" y="805"/><use href="#woods" x="268" y="827"/><use href="#woods" x="182" y="894"/><use href="#woods" x="211" y="921"/><use href="#woods" x="339" y="857"/><use href="#woods" x="367" y="880"/><use href="#woods" x="377" y="947"/><use href="#woods" x="411" y="955"/><use href="#woods" x="789" y="885"/><use href="#woods" x="817" y="958"/>
+    <use href="#woods" x="460" y="598"/><use href="#woods" x="496" y="625"/><use href="#woods" x="553" y="603"/><use href="#woods" x="568" y="631"/><use href="#woods" x="817" y="540"/><use href="#woods" x="835" y="558"/><use href="#woods" x="906" y="654"/><use href="#woods" x="1146" y="817"/><use href="#woods" x="1620" y="813"/><use href="#woods" x="1656" y="861"/><use href="#woods" x="1283" y="1044"/><use href="#woods" x="1340" y="1059"/>
+  </g>
+  <g opacity=".76">
+    <use href="#dunes" x="486" y="255"/><use href="#dunes" x="541" y="266"/><use href="#dunes" x="611" y="242"/><use href="#dunes" x="600" y="292"/><use href="#dunes" x="647" y="265"/><use href="#dunes" x="620" y="317"/><use href="#dunes" x="698" y="337"/><use href="#dunes" x="661" y="373"/><use href="#dunes" x="730" y="373"/><use href="#dunes" x="766" y="307"/><use href="#dunes" x="803" y="330"/>
+    <use href="#dunes" x="648" y="883"/><use href="#dunes" x="676" y="907"/><use href="#dunes" x="649" y="936"/><use href="#dunes" x="687" y="954"/><use href="#dunes" x="656" y="983"/><use href="#dunes" x="694" y="1012"/><use href="#dunes" x="1542" y="580"/>
+  </g>
+
+  <g opacity=".53">
+    <use href="#waves" x="283" y="473"/><use href="#waves" x="374" y="518"/><use href="#waves" x="143" y="569"/><use href="#waves" x="212" y="627"/>
+    <use href="#waves" x="628" y="500"/><use href="#waves" x="705" y="535"/><use href="#waves" x="681" y="625"/><use href="#waves" x="776" y="691"/>
+    <use href="#waves" x="1002" y="193"/><use href="#waves" x="1071" y="252"/><use href="#waves" x="1230" y="216"/><use href="#waves" x="1027" y="411"/><use href="#waves" x="1162" y="413"/><use href="#waves" x="1232" y="471"/><use href="#waves" x="1076" y="582"/><use href="#waves" x="1272" y="592"/><use href="#waves" x="1237" y="695"/>
+    <use href="#waves" x="1820" y="352"/><use href="#waves" x="1827" y="579"/><use href="#waves" x="1870" y="712"/>
+    <use href="#waves" x="961" y="906"/><use href="#waves" x="1049" y="985"/><use href="#waves" x="1105" y="1121"/><use href="#waves" x="1517" y="1053"/><use href="#waves" x="1811" y="969"/><use href="#waves" x="480" y="1072"/>
+  </g>
+
+  <g class="continent">
+    <text x="356" y="254">SEVEN CITIES</text><text x="1516" y="213">GENABACKIS</text>
+    <text x="881" y="608" class="subregion">QUON TALI</text>
+    <text x="461" y="823">LETHER</text><text x="522" y="624" class="island">JACURUKU</text>
+    <text x="1146" y="842" class="subregion">KORELRI</text><text x="1325" y="1023" class="subregion">STRATEM</text>
+    <text x="1624" y="867" class="subregion">ASSAIL</text>
+  </g>
+  <g class="area">
+    <text x="636" y="310">RARAKU</text><text x="896" y="389" fill="#c9cdb5" stroke="#29474a">FALAR</text>
+    <text x="918" y="157" fill="#c9cdb5" stroke="#29474a">OTATARAL ISLAND</text>
+    <text x="1566" y="317">RHIVI PLAINS</text><text x="1542" y="530">PLAIN OF LAMATATH</text>
+    <text x="259" y="751">TISTE EDUR LANDS</text><text x="440" y="861">AWL’DAN</text>
+    <text x="655" y="858">GLASS DESERT</text>
+  </g>
+  <g class="settlement">
+    <use href="#town" x="756" y="264"/><text x="766" y="254">Hissar</text>
+    <use href="#town" x="768" y="216"/><text x="784" y="208">Ehrlitan</text>
+    <use href="#town" x="624" y="360"/><text x="611" y="355" text-anchor="end">Y’Ghatan</text>
+    <use href="#city" x="708" y="432"/><text x="722" y="442">Aren</text>
+    <use href="#town" x="876" y="564"/><text x="889" y="556">Li Heng</text>
+    <use href="#city" x="860" y="732"/><text x="879" y="739">Malaz City</text>
+    <use href="#city" x="1456" y="300"/><text x="1439" y="295" text-anchor="end">Pale</text>
+    <use href="#city" x="1476" y="384"/><text x="1459" y="402" text-anchor="end">Darujhistan</text>
+    <use href="#town" x="1648" y="384"/><text x="1660" y="371">Capustan</text>
+    <use href="#town" x="1724" y="492"/><text x="1736" y="506">Coral</text>
+    <use href="#town" x="1596" y="576"/><text x="1585" y="600" text-anchor="end">Morn</text>
+    <use href="#city" x="300" y="852"/><text x="286" y="876" text-anchor="end">Letheras</text>
+    <use href="#town" x="360" y="804"/><text x="373" y="798">Bluerose</text>
+    <use href="#city" x="852" y="936"/><text x="867" y="931">Kolanse</text>
+  </g>
+  <g class="ocean">
+    <text x="332" y="78">DRYJNA OCEAN</text><text x="1150" y="333">MENINGALLE OCEAN</text>
+    <text x="250" y="530">HORN OCEAN</text><text x="1159" y="537">REACHER’S OCEAN</text>
+    <text x="1417" y="709">RIVAN SEA</text><text x="1010" y="1036">WHITE SPIRES OCEAN</text>
+    <text x="1876" y="520" transform="rotate(90 1876 520)">RUST OCEAN</text>
+  </g>
+
+  <g transform="translate(1853 153)" fill="none" stroke="#bfb38c">
+    <circle r="62" opacity=".68"/><circle r="49" opacity=".65"/><circle r="40" stroke-dasharray="1 4"/>
+    <path d="M-57 0H57M0-57V57M-35-35l70 70m0-70-70 70" opacity=".58"/>
+    <path d="M0-55 8-8 52 0 8 8 0 51-8 8-52 0-8-8z" fill="#182e36"/>
+    <path d="M0-55v55l-8-8zM52 0H0l8-8zM0 51V0l8 8zM-52 0H0l-8 8z" fill="#d4c399" stroke="none"/>
+    <circle r="4" fill="#e0cba0"/>
+    <text y="-73" fill="#ded0a8" stroke="none" text-anchor="middle" font-size="21">N</text>
+  </g>
+  <g fill="none" stroke="#bfb38c" opacity=".65">
+    <rect x="25" y="25" width="1950" height="1150" stroke-width="2"/>
+    <rect x="32" y="32" width="1936" height="1136"/>
+    <path d="M48 67V48h19m1866 0h19v19M48 1133v19h19m1866 0h19v-19" stroke-width="2"/>
+  </g>
+</svg>

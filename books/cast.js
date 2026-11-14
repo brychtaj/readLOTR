@@ -1,2840 +1,779 @@
-// The saga cast — shared across all volumes and injected into every build.
-// One entry per character, in a fixed saga order (Fellowship, then Two Towers newcomers, then Return of the King).
-// intro = first appearance {vol, gi}; arc.beats are tagged with the book (vol) they belong to, so a
-// character's "story so far" grows across the whole saga.
+// The saga cast — shared across all ten volumes and injected into every build.
+// L(en, cs) keeps the bilingual data compact. intro = first appearance {vol, gi}.
+// arc.beats are tagged with the volume (vol) and movement (gi) they belong to, so a character's
+// "story so far" grows across the whole saga and never spoils anything the reader has not reached.
+var L = function (en, cs) { return { en: en, cs: cs }; };
+
 var CAST = [
- {
-  "id": "bilbo",
-  "intro": {
-   "vol": 1,
-   "gi": 1
+  {
+    id: 'paran', intro: { vol: 1, gi: 1 },
+    name: L('Ganoes Paran', 'Ganoes Paran'), en: 'Ganoes Paran',
+    race: 'malazan', rlab: L('Malazan captain', 'Malazský kapitán'), ic: 'sword',
+    kid: L('A young noble who wanted to be a soldier more than anything. He is clever and stubborn, and the gods take an inconvenient interest in him.', 'Mladý šlechtic, který chtěl být vojákem víc než co jiného. Je chytrý a tvrdohlavý a bohové se o něj nepohodlně zajímají.'),
+    dad: L('A captain of the Malazan Empire, son of a noble house and a reluctant pawn of Oponn. His death and return make him one of the saga’s strangest witnesses.', 'Kapitán Malazské říše, syn šlechtického rodu a neochotný pěšák Oponn. Jeho smrt a návrat z něj dělají jednoho z nejpodivnějších svědků ságy.'),
+    arc: { ahead: L('Can a man stay loyal to an empire that no longer deserves him?', 'Může člověk zůstat věrný říši, která si ho už nezaslouží?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Witnesses the siege of Pale and is given command of the decimated Bridgeburners.', 'Přihlíží obléhání Pale a dostane velení nad zdecimovanými Paliči mostů.') },
+        { vol: 1, gi: 3, text: L('Is killed by the Hounds of Shadow — and returned to life by the twin gods of chance.', 'Zabijí ho Honiči stínu — a dvojčata náhody ho vrátí do života.') },
+        { vol: 3, gi: 6, text: L('Becomes Master of the Deck of Dragons, a mortal voice among the gods.', 'Stane se Pánem Balíčku draků, smrtelným hlasem mezi bohy.') },
+        { vol: 6, gi: 2, text: L('Takes command of Onearm’s Host after Dujek’s death.', 'Po Dujekově smrti převezme velení Onearmova vojska.') },
+        { vol: 10, gi: 5, text: L('Stands at the centre of the final game of the Deck.', 'Stojí ve středu poslední hry Balíčku.') }
+      ] }
   },
-  "name": {
-   "en": "Bilbo Baggins",
-   "cs": "Bilbo Pytlík"
+  {
+    id: 'whiskeyjack', intro: { vol: 1, gi: 1 },
+    name: L('Whiskeyjack', 'Whiskeyjack'), en: 'Whiskeyjack',
+    race: 'malazan', rlab: L('Bridgeburner sergeant', 'Seržant Paličů mostů'), ic: 'sword',
+    kid: L('The calm, gruff leader of the Bridgeburners. His soldiers would follow him anywhere, and he carries old wounds from a war he no longer believes in.', 'Klidný, mrzutý vůdce Paličů mostů. Vojáci by ho následovali kamkoli a on si nese staré rány z války, které už nevěří.'),
+    dad: L('A legendary sergeant of the old guard, demoted by Laseen and sent to die. His loyalty to his soldiers is the closest thing the saga has to a moral centre.', 'Legendární seržant staré gardy, degradovaný Laseen a poslaný na smrt. Jeho věrnost vojákům je sáze nejblíž morálnímu středu.'),
+    arc: { ahead: L('What is a soldier owed by the empire he served?', 'Co dluží říše vojákovi, kterému sloužil?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Survives the slaughter at Pale with a handful of Bridgeburners.', 'Přežije masakr u Pale s hrstkou Paličů mostů.') },
+        { vol: 1, gi: 6, text: L('Joins Dujek in open rebellion against the Empress.', 'Přidá se k Dujekovi v otevřené vzpouře proti císařovně.') },
+        { vol: 3, gi: 1, text: L('Negotiates the alliance with Caladan Brood and Anomander Rake.', 'Vyjedná spojenectví s Caladanem Broodem a Anomanderem Rakem.') },
+        { vol: 3, gi: 5, text: L('Is struck down by Kallor before the walls of Coral.', 'Před hradbami Coral ho srazí Kallor.') },
+        { vol: 3, gi: 6, text: L('Is laid to rest with his fallen soldiers inside Moon’s Spawn.', 'Je uložen k odpočinku se svými padlými vojáky uvnitř Měsíčního přízraku.') }
+      ] }
   },
-  "en": "Bilbo Baggins",
-  "race": "hobit",
-  "rlab": {
-   "en": "Hobbit",
-   "cs": "Hobit"
+  {
+    id: 'quickben', intro: { vol: 1, gi: 1 },
+    name: L('Quick Ben', 'Quick Ben'), en: 'Quick Ben',
+    race: 'malazan', rlab: L('Bridgeburner mage', 'Mág Paličů mostů'), ic: 'warren',
+    kid: L('A wizard with more secrets than sleeves. He always has a plan, usually several, and he never tells anyone the whole truth.', 'Čaroděj, který má víc tajemství než rukávů. Vždycky má plán, obvykle několik, a nikdy nikomu neřekne celou pravdu.'),
+    dad: L('A Bridgeburner cadre mage of impossible versatility. He carries the souls of twelve other mages and treats gods as problems to be out-thought.', 'Cadre mág Paličů mostů s nemožnou všestranností. Nese duše dvanácti dalších mágů a bohy považuje za problém, který se dá přechytračit.'),
+    arc: { ahead: L('How much of victory is preparation, and how much is nerve?', 'Kolik z vítězství je příprava a kolik kuráž?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Helps hold the Bridgeburners together at Pale.', 'Pomůže udržet Paliče mostů pohromadě u Pale.') },
+        { vol: 1, gi: 5, text: L('Fights the Claw and the Hounds through the streets of Darujhistan.', 'Bojuje s Claw a Honiči v ulicích Darujhistanu.') },
+        { vol: 3, gi: 5, text: L('Uses Hood’s own warren to trap the Pannion Seer.', 'Použije samotný warren Hooda, aby polapil Pannionského Vědmu.') },
+        { vol: 6, gi: 3, text: L('Defends the First Throne against the Letherii.', 'Brání První trůn proti Letheriům.') },
+        { vol: 9, gi: 5, text: L('Faces the Nah’ruk beside the Bonehunters.', 'Postaví se Nah’rukům po boku Lovců kostí.') }
+      ] }
   },
-  "ic": "hobit",
-  "say": {
-   "cs": "BIL-bo"
+  {
+    id: 'kalam', intro: { vol: 1, gi: 1 },
+    name: L('Kalam Mekhar', 'Kalam Mekhar'), en: 'Kalam Mekhar',
+    race: 'malazan', rlab: L('Bridgeburner assassin', 'Vrah Paličů mostů'), ic: 'sword',
+    kid: L('A huge, quiet assassin from Seven Cities. He is dangerous when he is angry, and he is angry most of the time.', 'Obrovský tichý vrah ze Sedmi měst. Když se rozzlobí, je nebezpečný — a rozzlobený je většinou.'),
+    dad: L('A Claw-trained killer who chose the Bridgeburners over the Empress. His loyalty is personal, never institutional.', 'Vrah vycvičený v Claw, který dal přednost Paličům mostů před císařovnou. Jeho věrnost je osobní, nikdy institucionální.'),
+    arc: { ahead: L('When does vengeance become just another chain?', 'Kdy se pomsta stane jen dalším řetězem?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Survives Pale and takes the fight into Darujhistan.', 'Přežije Pale a přenese boj do Darujhistanu.') },
+        { vol: 2, gi: 3, text: L('Carries the Book of the Apocalypse to Sha’ik in Raraku.', 'Nese Knihu apokalypsy Ša’ik do Raraku.') },
+        { vol: 6, gi: 4, text: L('Escapes the trap in Malaz City, badly wounded but alive.', 'Unikne pasti v Malaz City, těžce raněný, ale živý.') }
+      ] }
   },
-  "portrait": "__IMG_bilbo__",
-  "short": {
-   "en": "Bilbo",
-   "cs": "Bilbo"
+  {
+    id: 'fiddler', intro: { vol: 1, gi: 1 },
+    name: L('Fiddler', 'Fiddler'), en: 'Fiddler',
+    race: 'malazan', rlab: L('Bridgeburner sapper', 'Ženista Paličů mostů'), ic: 'flame',
+    kid: L('A soldier who loves explosions and cards. He looks ordinary, which is exactly why people keep underestimating him.', 'Voják, který miluje výbuchy a karty. Vypadá obyčejně, a právě proto ho lidé pořád podceňují.'),
+    dad: L('A sapper and squad mage with a gift for reading the Deck. He survives more massacres than anyone should and keeps choosing to march anyway.', 'Ženista a eskadronní mág s darem číst Balíček. Přežije víc masakrů, než by kdokoli měl, a přesto se pořád rozhoduje jít dál.'),
+    arc: { ahead: L('What keeps a veteran marching after he has seen enough?', 'Co drží veterána na pochodu, když už viděl dost?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Fights at Pale and later in the streets of Darujhistan.', 'Bojuje u Pale a později v ulicích Darujhistanu.') },
+        { vol: 2, gi: 1, text: L('Sets out across Seven Cities with Kalam, Crokus and Apsalar.', 'Vydá se přes Sedm měst s Kalamem, Crokusem a Apsalar.') },
+        { vol: 3, gi: 5, text: L('Fights in the tunnels beneath Coral.', 'Bojuje v tunelech pod Coralem.') },
+        { vol: 6, gi: 1, text: L('Survives the fire of Y’Ghatan and becomes one of the Bonehunters.', 'Přežije požár Y’Ghatanu a stane se jedním z Lovců kostí.') },
+        { vol: 9, gi: 1, text: L('Marches with Tavore into the Letherii wastelands.', 'Vyráží s Tavore do letherských pustin.') }
+      ] }
   },
-  "kid": {
-   "en": "An old adventurer and Frodo’s uncle. He once found the magic Ring. He loves stories, poems and a quiet life.",
-   "cs": "Starý dobrodruh a Frodův strýček. Kdysi ten kouzelný prsten našel. Miluje příběhy, básničky a klid."
+  {
+    id: 'apsalar', intro: { vol: 1, gi: 1 },
+    name: L('Apsalar', 'Apsalar'), en: 'Apsalar (Sorry)',
+    race: 'human', rlab: L('Possessed assassin', 'Posadnutá vražedkyně'), ic: 'mask',
+    kid: L('A quiet young woman from a fishing village. For a while something else looked out through her eyes — and she is still learning who she is.', 'Tichá mladá žena z rybářské vesnice. Nějakou dobu se jí dívala z očí něco jiného — a ona se pořád učí, kdo vlastně je.'),
+    dad: L('Once the vessel of Cotillion, the Rope. Freed from possession, she inherits his skills and a great deal of his guilt. Her name means “sorry” for a reason.', 'Kdysi nádoba Cotilliona, Provazu. Po osvobození z posednutí zdědí jeho dovednosti i velkou část jeho viny. Její jméno znamená „promiň" oprávněně.'),
+    arc: { ahead: L('Can you ever be free of something that used your body?', 'Můžeš se někdy osvobodit od něčeho, co používalo tvé tělo?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Arrives with the Bridgeburners as Sorry, a killer with no memory of her crimes.', 'Přijde s Paliči mostů jako Sorry, vražedkyně bez paměti na své zločiny.') },
+        { vol: 1, gi: 5, text: L('Is released from Cotillion’s possession during the convergence in Darujhistan.', 'Během střetu v Darujhistanu je osvobozena z Cotillionova posednutí.') },
+        { vol: 2, gi: 3, text: L('Crosses Raraku and begins to understand what was done to her.', 'Přejde Raraku a začne chápat, co jí bylo uděláno.') },
+        { vol: 4, gi: 3, text: L('Guards the Throne of Shadow on Drift Avalii.', 'Střeží Trůn stínu na Drift Avalii.') },
+        { vol: 4, gi: 6, text: L('Accepts Cotillion’s service again — on her own terms.', 'Přijme Cotillionovu službu znovu — ale za svých podmínek.') }
+      ] }
   },
-  "dad": {
-   "en": "The Ring’s original finder, and Frodo’s relative. After the party he leaves for Rivendell.",
-   "cs": "Původní nálezce Prstenu, Frodův příbuzný. Po oslavě odchází do Roklinky."
+  {
+    id: 'tattersail', intro: { vol: 1, gi: 1 },
+    name: L('Tattersail', 'Tattersail'), en: 'Tattersail',
+    race: 'malazan', rlab: L('Cadre mage', 'Cadre mágyně'), ic: 'warren',
+    kid: L('A powerful and kind-hearted army wizard. She is one of the few people at Pale who tries to save lives instead of spending them.', 'Mocná a laskavá armádní čarodějka. Je jednou z mála lidí u Pale, kdo se snaží životy zachraňovat, ne jimi platit.'),
+    dad: L('A veteran cadre mage, large of body and heart, caught between the Empire’s orders and her own conscience. Her story does not end when her body does.', 'Zkušená cadre mágyně velkého těla i srdce, rozpolcená mezi rozkazy říše a vlastním svědomím. Její příběh nekončí, když skončí její tělo.'),
+    arc: { ahead: L('What survives us — memory, love, or just power?', 'Co po nás zůstává — paměť, láska, nebo jen moc?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Brings the survivors of Pale together and protects the Bridgeburners.', 'Shromáždí přeživší z Pale a ochrání Paliče mostů.') },
+        { vol: 1, gi: 4, text: L('Faces the Jaghut Tyrant and pays a terrible price.', 'Postaví se Jaghutskému Tyranovi a zaplatí strašlivou cenu.') },
+        { vol: 3, gi: 3, text: L('Returns as part of Silverfox, carrying old grief and new power.', 'Vrátí se jako součást Silverfox, se starým žalem i novou mocí.') }
+      ] }
   },
-  "arc": {
-   "ahead": {
-    "en": "Why is it sometimes so hard to give up something we love?",
-    "cs": "Proč je někdy tak těžké vzdát se něčeho, co máme rádi?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 1,
-     "text": {
-      "en": "Celebrates his 111th birthday and vanishes using the Ring.",
-      "cs": "Oslaví 111. narozeniny a pomocí prstenu zmizí."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "It comes up that he was the one who found the Ring long ago.",
-      "cs": "Připomene se, že prsten kdysi našel právě on."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "Happily meets Frodo again in Rivendell.",
-      "cs": "Znovu se šťastně setká s Frodem v Roklince."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "Offers to carry the Ring — but he’s grown too old.",
-      "cs": "Nabídne se, že prsten odnese — ale je už moc starý."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "Very old and sleepy now, he sails West from the Grey Havens with Frodo.",
-      "cs": "Teď už velmi starý a ospalý odpluje s Frodem na západ ze Šedých přístavů."
-     }
-    }
-   ]
+  {
+    id: 'rake', intro: { vol: 1, gi: 1 },
+    name: L('Anomander Rake', 'Anomander Rake'), en: 'Anomander Rake',
+    race: 'tiste', rlab: L('Lord of Moon’s Spawn', 'Pán Měsíčního přízraku'), ic: 'moon',
+    kid: L('A tall, silver-haired lord of the Tiste Andii who lives in a floating fortress. He carries a huge sword and is far older than the empire.', 'Vysoký stříbrovlasý pán Tiste Andii, který žije v létajícím hradu. Nese obrovský meč a je mnohem starší než říše.'),
+    dad: L('The Son of Darkness, last great lord of the Tiste Andii, and master of the floating Moon’s Spawn. He is feared as a monster and chooses, again and again, to be something else.', 'Syn temnoty, poslední velký pán Tiste Andii a vládce létajícího Měsíčního přízraku. Bojí se ho jako netvora a on se znovu a znovu rozhoduje být něčím jiným.'),
+    arc: { ahead: L('Is mercy strength, or the last disguise of despair?', 'Je milosrdenství síla, nebo poslední převlek zoufalství?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Withdraws from Pale after a duel with the Malazan mages.', 'Po duelu s malazskými mágy se stáhne z Pale.') },
+        { vol: 1, gi: 4, text: L('Fights the Jaghut Tyrant above Darujhistan.', 'Bojuje s Jaghutským Tyranem nad Darujhistánem.') },
+        { vol: 1, gi: 6, text: L('Offers an alliance to the outlawed Malazan army.', 'Nabídne spojenectví vyvržené malazské armádě.') },
+        { vol: 3, gi: 5, text: L('Rises from the sea in Moon’s Spawn to break the Pannion siege.', 'Vynoří se z moře v Měsíčním přízraku a zlomí pannionské obléhání.') },
+        { vol: 8, gi: 6, text: L('Makes the choice that ends his long story — and changes Dragnipur forever.', 'Učiní volbu, která ukončí jeho dlouhý příběh — a navždy změní Dragnipur.') }
+      ] }
+  },
+  {
+    id: 'kruppe', intro: { vol: 1, gi: 2 },
+    name: L('Kruppe', 'Kruppe'), en: 'Kruppe',
+    race: 'human', rlab: L('Darujhistan schemer', 'Darujhistanský intrikán'), ic: 'book',
+    kid: L('A round, talkative little man who loves pastries and knows everybody’s business. He pretends to be a fool, but he notices everything.', 'Kulatý upovídaný mužík, který miluje koláče a zná všechny záležitosti. Dělá ze sebe blázna, ale všímá si všeho.'),
+    dad: L('A Darujhistan broker of secrets, pastries and improbable schemes. Behind the comedy is one of the sharpest minds in the city — and perhaps in the saga.', 'Darujhistanský prostředník tajemství, koláčů a nepravděpodobných plánů. Za komedií se skrývá jedna z nejbystřejších myslí města — a možná celé ságy.'),
+    arc: { ahead: L('Why do the powerful always underestimate the fool?', 'Proč mocní vždycky podceňují blázna?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('Welcomes the reader to Darujhistan and immediately starts meddling.', 'Přivítá čtenáře v Darujhistánu a okamžitě začne do všeho mluvit.') },
+        { vol: 1, gi: 5, text: L('Helps turn the fête into a very bad night for the Claw.', 'Pomůže proměnit slavnost ve velmi špatnou noc pro Claw.') },
+        { vol: 3, gi: 6, text: L('Brokers peace between Silverfox and the Mhybe.', 'Zprostředkuje smír mezi Silverfox a Mhybe.') },
+        { vol: 8, gi: 2, text: L('Is still in Darujhistan, still eating, still three steps ahead.', 'Je pořád v Darujhistánu, pořád jí a pořád o tři kroky napřed.') }
+      ] }
+  },
+  {
+    id: 'crokus', intro: { vol: 1, gi: 2 },
+    name: L('Crokus', 'Crokus'), en: 'Crokus (Cutter)',
+    race: 'human', rlab: L('Darujhistan thief', 'Darujhistanský zloděj'), ic: 'sword',
+    kid: L('A young thief with a good heart and bad luck. He would rather be brave than sensible, especially when someone he cares about is in danger.', 'Mladý zloděj s dobrým srdcem a špatným štěstím. Radši je statečný než rozumný, zvlášť když je v nebezpečí někdo, na kom mu záleží.'),
+    dad: L('A Darujhistan thief touched by Oponn and later remade as the killer Cutter. His growing up is one of the saga’s quiet tragedies.', 'Darujhistanský zloděj poznamenaný Oponn a později přetvořený v zabijáka Cuttera. Jeho dospívání je jednou z tichých tragédií ságy.'),
+    arc: { ahead: L('What does love cost when it asks you to become someone else?', 'Co stojí láska, když po tobě chce, abys byl někým jiným?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('Steals a foreign coin and catches the attention of Oponn.', 'Ukradne cizí minci a upoutá pozornost Oponn.') },
+        { vol: 1, gi: 5, text: L('Fights through the fête beside Apsalar and the Bridgeburners.', 'Probojuje se slavností po boku Apsalar a Paličů mostů.') },
+        { vol: 2, gi: 1, text: L('Travels into Seven Cities with Fiddler, Kalam and Apsalar.', 'Cestuje do Sedmi měst s Fiddlerem, Kalamem a Apsalar.') },
+        { vol: 4, gi: 3, text: L('Guards the Throne of Shadow and takes the name Cutter.', 'Střeží Trůn stínu a přijme jméno Cutter.') },
+        { vol: 8, gi: 2, text: L('Returns to Darujhistan as a very different man.', 'Vrátí se do Darujhistánu jako velmi jiný muž.') }
+      ] }
+  },
+  {
+    id: 'lorn', intro: { vol: 1, gi: 2 },
+    name: L('Adjunct Lorn', 'Pobočník Lorn'), en: 'Adjunct Lorn',
+    race: 'malazan', rlab: L('Adjunct to the Empress', 'Pobočník císařovny'), ic: 'crown',
+    kid: L('The Empress’s right hand in the field. She is calm, elegant and absolutely certain that the empire comes first.', 'Pravá ruka císařovny v poli. Je klidná, elegantní a naprosto přesvědčená, že říše je na prvním místě.'),
+    dad: L('Laseen’s Adjunct, sent to Genabackis to solve the Darujhistan problem by any means. Her certainty is both her strength and her undoing.', 'Laseenin pobočník, vyslaný na Genabackis, aby vyřešil darujhistanský problém jakýmikoli prostředky. Její jistota je její silou i záhubou.'),
+    arc: { ahead: L('What happens when duty asks you to become a monster?', 'Co se stane, když povinnost požaduje, abys byl netvor?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('Arrives in Genabackis with Tool and a secret plan.', 'Přijde na Genabackis s Toolem a tajným plánem.') },
+        { vol: 1, gi: 4, text: L('Releases the Jaghut Tyrant as a weapon against Darujhistan.', 'Vypustí Jaghutského Tyrana jako zbraň proti Darujhistánu.') },
+        { vol: 1, gi: 5, text: L('Her plan collapses in the fires of the fête.', 'Její plán se zhroutí v ohni slavnosti.') }
+      ] }
+  },
+  {
+    id: 'tool', intro: { vol: 1, gi: 2 },
+    name: L('Onos Toolan', 'Onos Toolan'), en: 'Onos Toolan (Tool)',
+    race: 'imass', rlab: L('T’lan Imass warrior', 'T’lan Imasský bojovník'), ic: 'imass',
+    kid: L('An undead warrior made of dust and old stone. He speaks little, keeps his promises, and is much kinder than he looks.', 'Nemrtvý bojovník z prachu a starého kamene. Moc nemluví, drží slovo a je mnohem laskavější, než vypadá.'),
+    dad: L('A T’lan Imass Bonecaster’s kin, bound to Lorn’s service and then to his own long search for meaning. His journey from weapon to person is one of the saga’s great arcs.', 'Příbuzný t’lan imasské kostěné kouzelnice, připoutaný k Lornině službě a pak k vlastnímu dlouhému hledání smyslu. Jeho cesta od zbraně k osobě je jedním z velkých oblouků ságy.'),
+    arc: { ahead: L('Can something that has forgotten how to live learn again?', 'Může se něco, co zapomnělo žít, znovu naučit?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('Serves Adjunct Lorn as her executioner and guide.', 'Slouží pobočníkovi Lorn jako kat a průvodce.') },
+        { vol: 1, gi: 4, text: L('Fights the Tyrant he helped release.', 'Bojuje s Tyranem, kterého pomohl vypustit.') },
+        { vol: 3, gi: 6, text: L('Is restored to mortal flesh at the end of the Pannion war.', 'Na konci pannionské války je navrácen do smrtelného těla.') },
+        { vol: 7, gi: 2, text: L('Witnesses Toc’s sacrifice among the Awl.', 'Je svědkem Tocovy oběti mezi Awly.') },
+        { vol: 9, gi: 3, text: L('Faces the destruction of his family and his people.', 'Čelí zničení své rodiny a svého lidu.') }
+      ] }
+  },
+  {
+    id: 'cotillion', intro: { vol: 1, gi: 1 },
+    name: L('Cotillion', 'Cotillion'), en: 'Cotillion (The Rope)',
+    race: 'god', rlab: L('God of assassins', 'Bůh vrahů'), ic: 'mask',
+    kid: L('The patron god of assassins, who moves through the world on secret errands. He is not as cruel as his reputation suggests — but he is not safe either.', 'Patron vrahů, který světem prochází na tajných úkolech. Není tak krutý, jak tvrdí jeho pověst — ale ani bezpečný.'),
+    dad: L('Dancer, the Emperor’s friend, who escaped death by ascending to godhood. He shares the House of Shadow with Shadowthrone and plays a very long game with the Crippled God.', 'Dancer, císařův přítel, který unikl smrti vystoupením mezi bohy. S Shadowthronem sdílí Dům stínu a hraje velmi dlouhou hru s Chromým bohem.'),
+    arc: { ahead: L('Can a god repay a debt to a mortal?', 'Může bůh splatit dluh smrtelníkovi?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Possesses Sorry and uses her to move through the Malazan camp.', 'Posedne Sorry a použije ji k pohybu v malazském táboře.') },
+        { vol: 1, gi: 5, text: L('Withdraws from Sorry as part of a bargain with Rake.', 'Stáhne se ze Sorry v rámci dohody s Rakem.') },
+        { vol: 2, gi: 3, text: L('Reveals that he and Shadowthrone were Kellanved and Dancer.', 'Prozradí, že on a Shadowthrone byli Kellanved a Dancer.') },
+        { vol: 4, gi: 3, text: L('Sends Cutter and Apsalar to guard the Throne of Shadow.', 'Pošle Cuttera a Apsalar střežit Trůn stínu.') },
+        { vol: 10, gi: 5, text: L('Takes his place in the final game for the Crippled God.', 'Zaujme své místo v poslední hře o Chromého boha.') }
+      ] }
+  },
+  {
+    id: 'shadowthrone', intro: { vol: 1, gi: 2 },
+    name: L('Shadowthrone', 'Shadowthrone'), en: 'Shadowthrone',
+    race: 'god', rlab: L('God of shadow', 'Bůh stínu'), ic: 'tower',
+    kid: L('The strange, giggling god of shadow. He appears where he is least wanted and always seems to know more than he says.', 'Podivný, chichotající se bůh stínu. Objevuje se tam, kde ho chtějí nejméně, a vždycky vypadá, že ví víc, než říká.'),
+    dad: L('Kellanved, the first Emperor, who cheated death and made himself a god. His humour is impossible to read and his plans span centuries.', 'Kellanved, první císař, který obešel smrt a udělal ze sebe boha. Jeho humor se nedá číst a jeho plány sahají staletí dopředu.'),
+    arc: { ahead: L('Is a joke ever just a joke with a god?', 'Je kdy u boha vtip jen vtipem?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('Watches the Darujhistan game from the shadows.', 'Sleduje darujhistanskou hru ze stínů.') },
+        { vol: 2, gi: 3, text: L('Works with Cotillion to steer the Whirlwind.', 'Spolupracuje s Cotillionem na usměrnění Vichru.') },
+        { vol: 6, gi: 2, text: L('Helps Paran contain the plague of Poliel.', 'Pomůže Paranovi zadržet mor Poliel.') },
+        { vol: 10, gi: 5, text: L('Brings his House into the final convergence.', 'Přivede svůj Dům do závěrečného střetu.') }
+      ] }
+  },
+  {
+    id: 'dujek', intro: { vol: 1, gi: 1 },
+    name: L('Dujek Onearm', 'Dujek Jednoruký'), en: 'Dujek Onearm',
+    race: 'malazan', rlab: L('High Fist', 'Vysoký pěst'), ic: 'crown',
+    kid: L('A famous general with one arm. He is tough, fair and tired of wars that never end.', 'Slavný generál s jednou rukou. Je drsný, spravedlivý a unavený z válek, které nikdy nekončí.'),
+    dad: L('High Fist of the Malazan 2nd Army in Genabackis. He loves his soldiers more than his career, which makes him dangerous to an Empress.', 'Vysoký pěst malazské 2. armády na Genabackis. Miluje své vojáky víc než kariéru, což ho dělá nebezpečným pro císařovnu.'),
+    arc: { ahead: L('What is the difference between treason and conscience?', 'Jaký je rozdíl mezi velezradou a svědomím?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Takes Pale at a cost he will never forget.', 'Dobude Pale za cenu, kterou nikdy nezapomene.') },
+        { vol: 1, gi: 6, text: L('Turns his army against Laseen and joins Rake’s alliance.', 'Obrátí svou armádu proti Laseen a přidá se k Rakově alianci.') },
+        { vol: 3, gi: 1, text: L('Marches with the 5th Army against the Pannion Domin.', 'Vyráží s 5. armádou proti Pannionskému Dómu.') },
+        { vol: 6, gi: 2, text: L('Dies of the plague before the rebellion is finally broken.', 'Zemře na mor, než je rebelie konečně zlomena.') }
+      ] }
+  },
+  {
+    id: 'laseen', intro: { vol: 1, gi: 1 },
+    name: L('Empress Laseen', 'Císařovna Laseen'), en: 'Empress Laseen',
+    race: 'malazan', rlab: L('Empress of Malaz', 'Císařovna Malazu'), ic: 'crown',
+    kid: L('The ruler of the Malazan Empire. She took the throne from the old Emperor and trusts almost no one.', 'Vládkyně Malazské říše. Vzala trůn starému císaři a skoro nikomu nevěří.'),
+    dad: L('The Empress who ended the old guard and built an empire on fear and efficiency. She is not a simple villain — only a ruler who has run out of safe choices.', 'Císařovna, která skoncovala se starou gardou a postavila říši na strachu a výkonnosti. Není jednoduchá záporačka — jen vládkyně, které došly bezpečné volby.'),
+    arc: { ahead: L('Can you rule by fear and still be just?', 'Můžeš vládnout strachem a přitom být spravedlivý?'),
+      beats: [
+        { vol: 1, gi: 1, text: L('Sends the old guard to die in Genabackis.', 'Pošle starou gardu zemřít na Genabackis.') },
+        { vol: 1, gi: 6, text: L('Declares Dujek and the Bridgeburners outlaws.', 'Prohlásí Dujeka a Paliče mostů za vyvrhele.') },
+        { vol: 6, gi: 4, text: L('Faces Tavore and the Bonehunters in Malaz City.', 'V Malaz City čelí Tavore a Lovcům kostí.') }
+      ] }
+  },
+  {
+    id: 'felisin', intro: { vol: 2, gi: 1 },
+    name: L('Felisin Paran', 'Felisin Paran'), en: 'Felisin Paran',
+    race: 'human', rlab: L('Noble outcast', 'Vyvržená šlechtična'), ic: 'mask',
+    kid: L('A young noble girl who loses everything and is sent to a terrible island prison. She is clever, angry and determined to survive.', 'Mladá šlechtična, která ztratí všechno a je poslána na hrozný ostrovní trestanecký tábor. Je chytrá, rozzlobená a rozhodnutá přežít.'),
+    dad: L('The youngest Paran sister, handed to the otataral mines as a political prisoner. Her survival hardens into something the Whirlwind can use.', 'Nejmladší ze sester Paranových, vydaná otataralským dolům jako politický vězeň. Její přežití ztvrdne v něco, co Vichr dokáže využít.'),
+    arc: { ahead: L('Does suffering make a person stronger, or merely more dangerous?', 'Dělá utrpení člověka silnějším, nebo jen nebezpečnějším?'),
+      beats: [
+        { vol: 2, gi: 1, text: L('Is stripped of her name and sent to the otataral mines.', 'Je zbavena jména a poslána do otataralských dolů.') },
+        { vol: 2, gi: 3, text: L('Escapes the island with Heboric and Baudin.', 'Uteče z ostrova s Heboricem a Baudinem.') },
+        { vol: 2, gi: 5, text: L('Becomes the new Sha’ik, vessel of the Whirlwind.', 'Stane se novou Ša’ik, nádobou Vichru.') },
+        { vol: 4, gi: 5, text: L('Is killed by her sister Tavore, who does not recognise her.', 'Zabije ji sestra Tavore, která ji nepozná.') }
+      ] }
+  },
+  {
+    id: 'heboric', intro: { vol: 2, gi: 1 },
+    name: L('Heboric Light Touch', 'Heboric Light Touch'), en: 'Heboric',
+    race: 'human', rlab: L('Excommunicated priest', 'Exkomunikovaný kněz'), ic: 'flask',
+    kid: L('A former priest with no hands, exiled for telling the truth. He is bitter, brave and strangely gentle.', 'Bývalý kněz bez rukou, vyhnaný za to, že řekl pravdu. Je zatrpklý, statečný a podivně jemný.'),
+    dad: L('A historian and High Priest of Fener whose hands were taken as punishment. His touch becomes a bridge between gods, jade and the dead.', 'Historik a velekněz Fenera, kterému byly jako trest odebrány ruce. Jeho dotek se stane mostem mezi bohy, jádem a mrtvými.'),
+    arc: { ahead: L('What is a priest without a god — and what is a god without a priest?', 'Co je kněz bez boha — a co je bůh bez kněze?'),
+      beats: [
+        { vol: 2, gi: 1, text: L('Is shipped to the otataral mines with Felisin.', 'Je poslán do otataralských dolů s Felisin.') },
+        { vol: 2, gi: 2, text: L('Touches the jade finger and pulls Fener into the mortal world.', 'Dotkne se jádrového prstu a vtáhne Fenera do smrtelného světa.') },
+        { vol: 2, gi: 6, text: L('Becomes Ghost Hands, a living relic of the Whirlwind.', 'Stane se Rukama duchů, živou relikvií Vichru.') },
+        { vol: 4, gi: 5, text: L('Witnesses the end of the Whirlwind and the death of Felisin.', 'Je svědkem konce Vichru a smrti Felisin.') }
+      ] }
+  },
+  {
+    id: 'duiker', intro: { vol: 2, gi: 1 },
+    name: L('Duiker', 'Duiker'), en: 'Duiker',
+    race: 'malazan', rlab: L('Imperial historian', 'Císařský historik'), ic: 'book',
+    kid: L('A historian who follows the army with a notebook. He wants to write down what really happened, even when the truth is unbearable.', 'Historik, který chodí s armádou a zápisníkem. Chce zaznamenat, co se skutečně stalo, i když je pravda nesnesitelná.'),
+    dad: L('The Imperial Historian attached to Coltaine’s 7th Army. His account of the Chain of Dogs turns a defeat into a story that will outlive the empire.', 'Císařský historik přidělený ke 7. armádě Coltaina. Jeho záznam Řetězu psů promění porážku v příběh, který přežije říši.'),
+    arc: { ahead: L('Who decides what history remembers?', 'Kdo rozhoduje, co si historie zapamatuje?'),
+      beats: [
+        { vol: 2, gi: 1, text: L('Joins Coltaine’s march with the refugees of Seven Cities.', 'Připojí se k pochodování Coltaina s uprchlíky Sedmi měst.') },
+        { vol: 2, gi: 4, text: L('Records the battles of the Chain of Dogs as they happen.', 'Zaznamenává bitvy Řetězu psů tak, jak se dějí.') },
+        { vol: 2, gi: 6, text: L('Survives to tell what happened at Aren — though not unchanged.', 'Přežije, aby mohl vyprávět, co se stalo u Aren — i když ne nezměněn.') },
+        { vol: 3, gi: 6, text: L('Tells the story of the Chain of Dogs to the surviving Bridgeburners.', 'Vypráví příběh Řetězu psů přeživším Paličům mostů.') }
+      ] }
+  },
+  {
+    id: 'coltaine', intro: { vol: 2, gi: 1 },
+    name: L('Coltaine', 'Coltaine'), en: 'Coltaine',
+    race: 'human', rlab: L('Wickan warleader', 'Wickanský válečník'), ic: 'crown',
+    kid: L('A fierce warleader with crow feathers in his hair. He has to lead thousands of ordinary people across a hostile land.', 'Divoký válečník s havraními pery ve vlasech. Musí vést tisíce obyčejných lidí přes nepřátelskou zemi.'),
+    dad: L('The Wickan commander of the 7th Army, given an impossible evacuation. His Chain of Dogs becomes the defining legend of Malazan courage.', 'Wickanský velitel 7. armády, kterému bylo svěřeno nemožné evakuovat. Jeho Řetěz psů se stane určující legendou malazské odvahy.'),
+    arc: { ahead: L('What is a leader willing to spend to save strangers?', 'Co je vůdce ochoten vydat, aby zachránil cizí lidi?'),
+      beats: [
+        { vol: 2, gi: 1, text: L('Takes command of the 7th and the refugee column.', 'Převezme velení 7. armády a uprchlického proudu.') },
+        { vol: 2, gi: 4, text: L('Beats the rebel army at Hissar against impossible odds.', 'Porazí rebelskou armádu u Hissaru proti nemožné přesile.') },
+        { vol: 2, gi: 6, text: L('Dies at Aren after bringing the refugees through.', 'Zemře u Aren poté, co provedl uprchlíky.') }
+      ] }
+  },
+  {
+    id: 'icarium', intro: { vol: 2, gi: 2 },
+    name: L('Icarium', 'Icarium'), en: 'Icarium',
+    race: 'jaghut', rlab: L('Half-Jaghut wanderer', 'Poloviční Jaghut'), ic: 'jaghut',
+    kid: L('A gentle wanderer who builds clocks and cannot remember his past. When he gets angry, terrible things happen that he never remembers.', 'Jemný poutník, který staví hodiny a nepamatuje si svou minulost. Když se rozzlobí, dějí se hrozné věci, na které si nikdy nevzpomene.'),
+    dad: L('An immortal half-Jaghut whose rage has emptied cities. His companion Mappo keeps him from remembering — and from becoming the destroyer again.', 'Nesmrtelný poloviční Jaghut, jehož vztek vyprázdnil města. Jeho společník Mappo mu brání vzpomínat — a znovu se stát ničitelem.'),
+    arc: { ahead: L('Is forgetting a mercy, or the cruelest kind of prison?', 'Je zapomnění milost, nebo nejkrutější druh vězení?'),
+      beats: [
+        { vol: 2, gi: 2, text: L('Crosses Raraku with Mappo, seeking the Path of Hands.', 'Přejde Raraku s Mappem a hledá Cestu rukou.') },
+        { vol: 6, gi: 3, text: L('Unleashes his full power at the First Throne.', 'Uvolní svou plnou moc u Prvního trůnu.') },
+        { vol: 7, gi: 1, text: L('Arrives in Letheras as a challenger to Rhulad.', 'Přijde do Letherasu jako vyzývatel Rhulada.') },
+        { vol: 7, gi: 6, text: L('Tries to remake K’rul’s warrens and breaks something vast.', 'Pokusí se předělat K’rulovy warreny a rozbije něco obrovského.') }
+      ] }
+  },
+  {
+    id: 'mappo', intro: { vol: 2, gi: 2 },
+    name: L('Mappo Runt', 'Mappo Runt'), en: 'Mappo Runt',
+    race: 'human', rlab: L('Trell warrior', 'Trellský bojovník'), ic: 'sword',
+    kid: L('A huge, kind traveler who looks after Icarium. He carries a secret that makes him sad even when he smiles.', 'Obrovský laskavý poutník, který se stará o Icaria. Nese tajemství, kvůli kterému je smutný, i když se usmívá.'),
+    dad: L('A Trell warrior sworn to watch Icarium and, if necessary, stop him. His friendship is real; so is his betrayal.', 'Trellský bojovník zavázaný hlídat Icaria a v případě potřeby ho zastavit. Jeho přátelství je opravdové — a stejně opravdová je jeho zrada.'),
+    arc: { ahead: L('Can you love someone you were sent to destroy?', 'Můžeš milovat někoho, koho tě poslali zničit?'),
+      beats: [
+        { vol: 2, gi: 2, text: L('Guides Icarium through the Holy Desert.', 'Provází Icaria Svatou pouští.') },
+        { vol: 2, gi: 6, text: L('Chooses friendship over the Nameless Ones’ orders — for now.', 'Zvolí přátelství před rozkazy Bezjmenných — prozatím.') },
+        { vol: 6, gi: 3, text: L('Is separated from Icarium by the Nameless Ones.', 'Je od Icaria oddělen Bezjmennými.') },
+        { vol: 8, gi: 2, text: L('Searches for Icarium across the world.', 'Hledá Icaria po celém světě.') }
+      ] }
+  },
+  {
+    id: 'pust', intro: { vol: 2, gi: 2 },
+    name: L('Iskaral Pust', 'Iskaral Pust'), en: 'Iskaral Pust',
+    race: 'human', rlab: L('High Priest of Shadow', 'Velekněz stínu'), ic: 'mask',
+    kid: L('A scruffy, giggling priest who talks to himself and lives in a dusty temple. Nobody can tell whether he is mad or the cleverest person in the room.', 'Otrhaný chichotající se kněz, který mluví sám se sebou a žije v zaprášeném chrámu. Nikdo nepozná, jestli je šílený, nebo nejchytřejší v místnosti.'),
+    dad: L('Shadowthrone’s High Priest in Raraku, a master of misdirection and domestic chaos. His wife and his mule are nearly as dangerous as he is.', 'Shadowthronův velekněz v Raraku, mistr klamání a domácího chaosu. Jeho žena a jeho mula jsou skoro stejně nebezpečné jako on.'),
+    arc: { ahead: L('Is madness a mask, a method, or both?', 'Je šílenství maska, metoda, nebo obojí?'),
+      beats: [
+        { vol: 2, gi: 2, text: L('Shelters Icarium and Mappo in his temple in Raraku.', 'Ukryje Icaria a Mappa ve svém chrámu v Raraku.') },
+        { vol: 2, gi: 6, text: L('Helps the travellers find the road to Tremorlor.', 'Pomůže poutníkům najít cestu k Tremorloru.') },
+        { vol: 4, gi: 6, text: L('Keeps meddling in the affairs of gods and mortals alike.', 'Plete se do záležitostí bohů i smrtelníků.') }
+      ] }
+  },
+  {
+    id: 'karsa', intro: { vol: 2, gi: 3 },
+    name: L('Karsa Orlong', 'Karsa Orlong'), en: 'Karsa Orlong (Toblakai)',
+    race: 'human', rlab: L('Teblor warrior', 'Teblorský bojovník'), ic: 'sword',
+    kid: L('A gigantic warrior from the mountains who wants to see the world and conquer it. He is arrogant, brave and slowly learning that strength is not enough.', 'Obrovský bojovník z hor, který chce vidět svět a dobýt ho. Je arogantní, statečný a pomalu zjišťuje, že síla nestačí.'),
+    dad: L('A Teblor of the Uryd, descendant of the Toblakai. His war on civilisation begins as conquest and becomes a long, brutal education in consequence.', 'Teblor z rodu Urydů, potomek Toblakaiů. Jeho válka s civilizací začíná jako dobývání a stává se dlouhým, brutálním vzděláváním v následcích.'),
+    arc: { ahead: L('Can a man who trusts only his sword ever learn to trust anything else?', 'Může muž, který věří jen svému meči, někdy uvěřit něčemu jinému?'),
+      beats: [
+        { vol: 2, gi: 3, text: L('Appears as the Toblakai guarding Sha’ik in Raraku.', 'Objeví se jako Toblakai střežící Ša’ik v Raraku.') },
+        { vol: 4, gi: 1, text: L('Leaves his mountain home with two companions and a promise of glory.', 'Opustí svůj horský domov se dvěma druhy a slibem slávy.') },
+        { vol: 4, gi: 4, text: L('Refuses the Crippled God’s offer to become his Knight of Chains.', 'Odmítne nabídku Chromého boha stát se jeho Rytířem řetězů.') },
+        { vol: 7, gi: 1, text: L('Comes to Letheras to challenge Emperor Rhulad.', 'Přijde do Letherasu vyzvat císaře Rhulada.') },
+        { vol: 7, gi: 5, text: L('Cuts down Rhulad and walks away from the sword.', 'Sekne Rhulada a odejde od meče.') }
+      ] }
+  },
+  {
+    id: 'leoman', intro: { vol: 2, gi: 3 },
+    name: L('Leoman of the Flails', 'Leoman z cepů'), en: 'Leoman of the Flails',
+    race: 'human', rlab: L('Whirlwind commander', 'Velitel Vichru'), ic: 'flame',
+    kid: L('A rebel commander with a burning hatred of the empire. He is charming, ruthless and always thinking about the next battle.', 'Rebelský velitel s planoucí nenávistí k říši. Je okouzlující, nemilosrdný a pořád myslí na další bitvu.'),
+    dad: L('Sha’ik’s most trusted captain, a master of desert war and betrayal. He believes in the Whirlwind long after its goddess stops believing in him.', 'Nejdůvěryhodnější kapitán Ša’ik, mistr pouštní války a zrady. Věří ve Vichr ještě dlouho poté, co v něj přestane věřit jeho bohyně.'),
+    arc: { ahead: L('What remains of a holy war when the prophecy fails?', 'Co zůstane ze svaté války, když proroctví selže?'),
+      beats: [
+        { vol: 2, gi: 3, text: L('Guards Sha’ik in Raraku and receives the Book of the Apocalypse.', 'Střeží Ša’ik v Raraku a přijme Knihu apokalypsy.') },
+        { vol: 2, gi: 5, text: L('Survives the fall of the old Sha’ik and keeps fighting.', 'Přežije pád staré Ša’ik a bojuje dál.') },
+        { vol: 4, gi: 5, text: L('Withdraws from Raraku with the last of the rebels.', 'Stáhne se z Raraku s posledními rebely.') },
+        { vol: 6, gi: 1, text: L('Turns Y’Ghatan into a trap for the 14th Army.', 'Promění Y’Ghatan v past pro 14. armádu.') }
+      ] }
+  },
+  {
+    id: 'itkovian', intro: { vol: 3, gi: 1 },
+    name: L('Itkovian', 'Itkovian'), en: 'Itkovian',
+    race: 'human', rlab: L('Grey Swords priest', 'Kněz Šedých mečů'), ic: 'flame',
+    kid: L('A quiet warrior-priest who believes that pain should be carried, not passed on. He is gentle in a world that has no use for gentleness.', 'Tichý bojovník-kněz, který věří, že bolest se má nést, ne předávat dál. Je jemný ve světě, který pro jemnost nemá využití.'),
+    dad: L('A Grey Swords priest of Fener who takes the suffering of others into himself. His mercy becomes a new kind of godhood.', 'Kněz Šedých mečů Fenera, který do sebe bere utrpení jiných. Jeho milosrdenství se stane novým druhem božství.'),
+    arc: { ahead: L('Can compassion be a weapon?', 'Může být soucit zbraní?'),
+      beats: [
+        { vol: 3, gi: 1, text: L('Leads the Grey Swords’ defense of Capustan.', 'Vede obranu Capustanu Šedými meči.') },
+        { vol: 3, gi: 2, text: L('Faces the cannibal Anaster and refuses to look away.', 'Čelí kanibalovi Anasterovi a odmítá odvrátit zrak.') },
+        { vol: 3, gi: 6, text: L('Takes the pain of the T’lan Imass into himself and dies giving peace.', 'Vezme do sebe bolest T’lan Imassů a zemře, aby dal mír.') },
+        { vol: 8, gi: 3, text: L('Is remembered as the Redeemer, founder of a new cult.', 'Je připomínán jako Vykupitel, zakladatel nového kultu.') }
+      ] }
+  },
+  {
+    id: 'gruntle', intro: { vol: 3, gi: 1 },
+    name: L('Gruntle', 'Gruntle'), en: 'Gruntle',
+    race: 'human', rlab: L('Caravan guard', 'Karavanní strážce'), ic: 'sword',
+    kid: L('A big, grumpy caravan guard with a soft spot for his friends. When something terrible happens, something tiger-like wakes up inside him.', 'Velký mrzutý strážce karavan, který má slabost pro přátele. Když se stane něco hrozného, probudí se v něm něco tygřího.'),
+    dad: L('A caravan guard who becomes the Mortal Sword of Treach, the Tiger of Summer. His rage is holy, and it is not entirely his own.', 'Strážce karavan, který se stane Smrtelným mečem Treache, Tygra léta. Jeho vztek je svatý — a ne úplně jeho vlastní.'),
+    arc: { ahead: L('Is rage a gift, a curse, or simply a god looking for a hand?', 'Je vztek dar, prokletí, nebo jen bůh hledající ruku?'),
+      beats: [
+        { vol: 3, gi: 1, text: L('Escorts a caravan toward Capustan and meets the Grey Swords.', 'Doprovází karavanu k Capustanu a potká Šedé meče.') },
+        { vol: 3, gi: 2, text: L('Loses someone he loves in the sack of the city.', 'Při vyplenění města ztratí někoho, koho miluje.') },
+        { vol: 3, gi: 3, text: L('Becomes Treach’s Mortal Sword and hunts the Pannion army.', 'Stane se Treachovým Smrtelným mečem a loví pannionskou armádu.') },
+        { vol: 8, gi: 2, text: L('Returns to Darujhistan, still followed by Trake’s priests.', 'Vrátí se do Darujhistánu, pořád následován Trakeovými kněžími.') }
+      ] }
+  },
+  {
+    id: 'toc', intro: { vol: 3, gi: 1 },
+    name: L('Toc the Younger', 'Toc mladší'), en: 'Toc the Younger',
+    race: 'human', rlab: L('Malazan scout', 'Malazský zvěd'), ic: 'eye',
+    kid: L('A one-eyed scout who has been through more than most soldiers. He keeps doing the right thing even when it costs him everything.', 'Jednooký zvěd, který si prošel víc než většina vojáků. Pořád dělá správnou věc, i když ho to stojí všechno.'),
+    dad: L('A Malazan outrider lost in the warren of chaos, then used as a vessel by the elder god Togg. His fate is one of the saga’s quietest tragedies.', 'Malazský jezdec ztracený ve warrenu chaosu, kterého později použije starý bůh Togg jako nádobu. Jeho osud je jednou z nejtišších tragédií ságy.'),
+    arc: { ahead: L('What is left of a man when gods use him as a door?', 'Co zůstane z člověka, když ho bohové použijí jako dveře?'),
+      beats: [
+        { vol: 3, gi: 1, text: L('Emerges from the warren of chaos with Togg inside him.', 'Vynoří se z warrenu chaosu s Toggem uvnitř.') },
+        { vol: 3, gi: 4, text: L('Is captured and tortured by the Pannion Seer.', 'Je zajat a mučen Pannionským Vědmou.') },
+        { vol: 3, gi: 6, text: L('Receives a new body and a second chance.', 'Dostane nové tělo a druhou šanci.') },
+        { vol: 7, gi: 2, text: L('Dies saving Awl children from the Letherii.', 'Zemře, když zachraňuje awlské děti před Letherii.') }
+      ] }
+  },
+  {
+    id: 'kallor', intro: { vol: 3, gi: 1 },
+    name: L('Kallor', 'Kallor'), en: 'Kallor',
+    race: 'ascendant', rlab: L('The High King', 'Vysoký král'), ic: 'crown',
+    kid: L('An ancient king who destroyed his own empire rather than give it up. He is still alive, still bitter and still dangerous.', 'Dávný král, který radši zničil svou říši, než aby se jí vzdal. Je pořád naživu, pořád zatrpklý a pořád nebezpečný.'),
+    dad: L('Kallor Egwene Vayl, the High King who burned a continent to deny his enemies victory. He serves Caladan Brood now, and his patience is older than empires.', 'Kallor Egwene Vayl, Vysoký král, který spálil kontinent, aby svým nepřátelům odepřel vítězství. Teď slouží Caladanu Broodovi a jeho trpělivost je starší než říše.'),
+    arc: { ahead: L('Can someone who has betrayed everything ever be trusted?', 'Dá se věřit někomu, kdo zradil všechno?'),
+      beats: [
+        { vol: 3, gi: 1, text: L('Serves as Caladan Brood’s second in the allied camp.', 'Slouží jako druhý muž Caladana Brooda ve spojeneckém táboře.') },
+        { vol: 3, gi: 5, text: L('Kills Whiskeyjack before the walls of Coral.', 'Zabije Whiskeyjacka před hradbami Coral.') },
+        { vol: 8, gi: 3, text: L('Joins Nimander’s group on the road to Black Coral.', 'Přidá se ke skupině Nimandera na cestě k Černému Coral.') }
+      ] }
+  },
+  {
+    id: 'korlat', intro: { vol: 3, gi: 1 },
+    name: L('Korlat', 'Korlat'), en: 'Korlat',
+    race: 'tiste', rlab: L('Tiste Andii commander', 'Velitelka Tiste Andii'), ic: 'moon',
+    kid: L('A Tiste Andii warrior who commands Rake’s soldiers. She is calm in battle and much less calm around the man she loves.', 'Tiste Andii válečnice, která velí Rakovým vojákům. V bitvě je klidná a mnohem méně klidná kolem muže, kterého miluje.'),
+    dad: L('Anomander Rake’s field commander and, briefly, Whiskeyjack’s hope for a life after war. Her grief is one of the quiet engines of the later books.', 'Polní velitelka Anomandera Raka a na krátko Whiskeyjackova naděje na život po válce. Její žal je jedním z tichých motorů pozdějších knih.'),
+    arc: { ahead: L('How does an immortal grieve?', 'Jak truchlí nesmrtelný?'),
+      beats: [
+        { vol: 3, gi: 1, text: L('Commands the Tiste Andii in the march against the Pannion.', 'Velí Tiste Andii na pochodu proti Pannionům.') },
+        { vol: 3, gi: 5, text: L('Loses Whiskeyjack at Coral.', 'Ztratí Whiskeyjacka u Coral.') },
+        { vol: 3, gi: 6, text: L('Carries his memory into the long peace that follows.', 'Nese jeho památku do dlouhého míru, který následuje.') }
+      ] }
+  },
+  {
+    id: 'silverfox', intro: { vol: 3, gi: 3 },
+    name: L('Silverfox', 'Silverfox'), en: 'Silverfox',
+    race: 'ascendant', rlab: L('Reborn shaman', 'Znovuzrozená šamanka'), ic: 'star',
+    kid: L('A strange child who grows too fast and remembers lives she never lived. She is loved and feared by the people who made her.', 'Podivné dítě, které roste příliš rychle a pamatuje si životy, které nežilo. Lidé, kteří ji stvořili, ji milují i se jí bojí.'),
+    dad: L('The joint rebirth of Tattersail, Nightchill and the Mhybe’s daughter — a new being carrying old souls. She becomes the focus of the T’lan Imass’s hope.', 'Společné znovuzrození Tattersail, Nightchill a dcery Mhybe — nová bytost nesoucí staré duše. Stane se ohniskem naděje T’lan Imassů.'),
+    arc: { ahead: L('Whose life is it when you carry three?', 'Čí život to je, když neseš tři?'),
+      beats: [
+        { vol: 3, gi: 3, text: L('Is born from the convergence of old powers.', 'Zrodí se ze střetu starých mocí.') },
+        { vol: 3, gi: 6, text: L('Opens the warren of Tellann to the T’lan Imass and makes peace with her mother.', 'Otevře warren Tellann T’lan Imassům a usmíří se s matkou.') }
+      ] }
+  },
+  {
+    id: 'tavore', intro: { vol: 2, gi: 1 },
+    name: L('Tavore Paran', 'Tavore Paran'), en: 'Tavore Paran',
+    race: 'human', rlab: L('Adjunct of the 14th', 'Pobočník 14. armády'), ic: 'crown',
+    kid: L('A cold, controlled commander who never explains herself. She carries more guilt than anyone knows and keeps marching anyway.', 'Chladná, sebeovládaná velitelka, která se nikdy nevysvětluje. Nese víc viny, než kdokoli ví, a přesto jde dál.'),
+    dad: L('The Adjunct who takes command of the 14th Army and turns recruits into the Bonehunters. Her discipline hides a grief that will shape the end of the world.', 'Pobočník, který převezme velení 14. armády a promění rekruty v Lovce kostí. Její disciplína skrývá žal, který ovlivní konec světa.'),
+    arc: { ahead: L('How much of yourself can you sacrifice before there is nothing left to command?', 'Kolik ze sebe můžeš obětovat, než nezbude nic, čemu velet?'),
+      beats: [
+        { vol: 2, gi: 1, text: L('Is named Adjunct after her sister is sent to the mines.', 'Je jmenována pobočníkem poté, co je její sestra poslána do dolů.') },
+        { vol: 4, gi: 1, text: L('Takes the 14th Army into Seven Cities to end the Whirlwind.', 'Vede 14. armádu do Sedmi měst, aby ukončila Vichr.') },
+        { vol: 4, gi: 5, text: L('Kills Sha’ik without knowing it is Felisin.', 'Zabije Ša’ik, aniž by věděla, že je to Felisin.') },
+        { vol: 6, gi: 1, text: L('Leads the Bonehunters out of the fire of Y’Ghatan.', 'Vyvede Lovce kostí z ohně Y’Ghatanu.') },
+        { vol: 9, gi: 1, text: L('Marches into the Letherii wastelands on a mission no one understands.', 'Vyráží do letherských pustin na misi, které nikdo nerozumí.') }
+      ] }
+  },
+  {
+    id: 'trull', intro: { vol: 4, gi: 2 },
+    name: L('Trull Sengar', 'Trull Sengar'), en: 'Trull Sengar',
+    race: 'tiste', rlab: L('Tiste Edur exile', 'Tiste Edur ve vyhnanství'), ic: 'tiste',
+    kid: L('A Tiste Edur prince who was shamed and cast out by his own people. He is thoughtful, gentle and trying to understand a world that keeps hurting him.', 'Tiste Edur princ, který byl zahanben a vyhnán vlastním lidem. Je přemýšlivý, jemný a snaží se pochopit svět, který ho pořád zraňuje.'),
+    dad: L('A Tiste Edur warrior exiled for a crime he did not commit. His friendship with the T’lan Imass Onrack becomes one of the saga’s great partnerships.', 'Tiste Edur válečník vyhnaný za zločin, který nespáchal. Jeho přátelství s T’lan Imassem Onrackem se stane jedním z velkých partnerství ságy.'),
+    arc: { ahead: L('Can an exile ever go home?', 'Může se vyhnanec někdy vrátit domů?'),
+      beats: [
+        { vol: 4, gi: 2, text: L('Is freed from his imprisonment by Onrack.', 'Onrack ho osvobodí z vězení.') },
+        { vol: 4, gi: 6, text: L('Reaches the First Throne with Onrack and begins his story.', 'Dostane se s Onrackem k Prvnímu trůnu a začne vyprávět svůj příběh.') },
+        { vol: 5, gi: 1, text: L('Returns to his brothers and the sword that will destroy them.', 'Vrátí se ke svým bratrům a meči, který je zničí.') },
+        { vol: 7, gi: 5, text: L('Is stabbed in the ruins of Letheras.', 'Je bodnut v troskách Letherasu.') }
+      ] }
+  },
+  {
+    id: 'onrack', intro: { vol: 4, gi: 2 },
+    name: L('Onrack the Broken', 'Onrack Zlomený'), en: 'Onrack the Broken',
+    race: 'imass', rlab: L('T’lan Imass warrior', 'T’lan Imasský bojovník'), ic: 'imass',
+    kid: L('An undead warrior who has been alone for a very long time. He is patient, curious and surprisingly good company.', 'Nemrtvý bojovník, který byl velmi dlouho sám. Je trpělivý, zvědavý a překvapivě dobrá společnost.'),
+    dad: L('A T’lan Imass broken from his clan and his purpose. His journey with Trull restores something he thought long dead.', 'T’lan Imass odloučený od svého klanu i smyslu. Jeho cesta s Trollem obnoví něco, co považoval za dávno mrtvé.'),
+    arc: { ahead: L('What is a purpose worth after the war it served is over?', 'Co stojí účel po válce, které sloužil?'),
+      beats: [
+        { vol: 4, gi: 2, text: L('Frees Trull Sengar from his long imprisonment.', 'Osvobodí Trulla Sengara z dlouhého vězení.') },
+        { vol: 4, gi: 6, text: L('Escorts Trull to the First Throne.', 'Doprovodí Trulla k Prvnímu trůnu.') },
+        { vol: 7, gi: 3, text: L('Defends the Refugium against Silchas Ruin’s betrayal.', 'Brání Refugium proti zradě Silchase Ruina.') }
+      ] }
+  },
+  {
+    id: 'tehol', intro: { vol: 5, gi: 1 },
+    name: L('Tehol Beddict', 'Tehol Beddict'), en: 'Tehol Beddict',
+    race: 'human', rlab: L('Letherii financier', 'Letherský finančník'), ic: 'book',
+    kid: L('A brilliant, ragged man who lives on a roof and seems to own nothing. He is secretly smarter than everyone in the city.', 'Geniální otrhaný muž, který žije na střeše a zdá se, že nic nevlastní. Tajně je chytřejší než celé město.'),
+    dad: L('A former financial genius who destroyed his own fortune and now works to destroy Lether’s economy from within. His jokes are a weapon and a shield.', 'Bývalý finanční génius, který zničil vlastní jmění a teď pracuje na zničení letherské ekonomiky zevnitř. Jeho vtipy jsou zbraň i štít.'),
+    arc: { ahead: L('Can one man bankrupt an empire — and survive it?', 'Může jeden muž zbankrotovat říši — a přežít to?'),
+      beats: [
+        { vol: 5, gi: 1, text: L('Plots against Lether’s rulers from a rooftop with his servant Bugg.', 'Kuje plány proti letherským vládcům na střeše se svým sluhou Buggem.') },
+        { vol: 5, gi: 6, text: L('Is nearly killed — and saved by a god.', 'Je téměř zabit — a zachrání ho bůh.') },
+        { vol: 7, gi: 4, text: L('Returns to public life as the Letherii Empire collapses.', 'Vrátí se do veřejného života, když se letherská říše hroutí.') },
+        { vol: 7, gi: 6, text: L('Is proclaimed Emperor by the will of the people.', 'Je prohlášen císařem z vůle lidu.') }
+      ] }
+  },
+  {
+    id: 'bugg', intro: { vol: 5, gi: 1 },
+    name: L('Bugg', 'Bugg'), en: 'Bugg (Mael)',
+    race: 'god', rlab: L('Tehol’s manservant', 'Teholův sluha'), ic: 'water',
+    kid: L('Tehol’s quiet, polite servant. He does the washing, fixes the roof and is much, much more than he appears.', 'Teholův tichý, zdvořilý sluha. Pere prádlo, opravuje střechu a je mnohem, mnohem víc, než se zdá.'),
+    dad: L('Mael, the Elder God of the Sea, walking the world as a very patient manservant. He is one of the oldest powers in existence and prefers to be underestimated.', 'Mael, starý bůh moře, který chodí světem jako velmi trpělivý sluha. Je jednou z nejstarších mocností a radši je podceňován.'),
+    arc: { ahead: L('Why would a god choose to serve?', 'Proč by si bůh vybral sloužit?'),
+      beats: [
+        { vol: 5, gi: 1, text: L('Serves Tehol and quietly keeps him alive.', 'Slouží Teholovi a potichu ho drží naživu.') },
+        { vol: 5, gi: 4, text: L('Deals with the creatures escaping the Azath House.', 'Vypořádá se s bytostmi unikajícími z Domu Azath.') },
+        { vol: 5, gi: 6, text: L('Reveals himself as Mael and saves Tehol’s life.', 'Odhalí se jako Mael a zachrání Teholovi život.') },
+        { vol: 7, gi: 4, text: L('Returns to Letheras to face the Crippled God’s plans.', 'Vrátí se do Letherasu čelit plánům Chromého boha.') }
+      ] }
+  },
+  {
+    id: 'brys', intro: { vol: 5, gi: 1 },
+    name: L('Brys Beddict', 'Brys Beddict'), en: 'Brys Beddict',
+    race: 'human', rlab: L('King’s champion', 'Králův šampion'), ic: 'sword',
+    kid: L('Tehol’s brother, a noble soldier who follows the rules and fights with a sword better than anyone. He is loyal to a kingdom that does not deserve him.', 'Teholův bratr, ušlechtilý voják, který dodržuje pravidla a umí šermovat lépe než kdokoli. Je věrný království, které si ho nezaslouží.'),
+    dad: L('The Letherii King’s champion, a man of duty caught between a rotten court and a family of plotters. His death and return are both very Letherii.', 'Šampion letherského krále, muž povinnosti mezi shnilým dvorem a rodinou intrikánů. Jeho smrt i návrat jsou velmi letherské.'),
+    arc: { ahead: L('What does honour mean in a state that has none?', 'Co znamená čest ve státě, který ji nemá?'),
+      beats: [
+        { vol: 5, gi: 1, text: L('Serves King Diskanar while trying to protect his brothers.', 'Slouží králi Diskanarovi a snaží se ochránit bratry.') },
+        { vol: 5, gi: 5, text: L('Fights Rhulad and is forced to drink poison.', 'Bojuje s Rhuladem a je donucen vypít jed.') },
+        { vol: 7, gi: 4, text: L('Returns from death, changed and claimed by a forgotten god.', 'Vrátí se ze smrti, změněný a nárokovaný zapomenutým bohem.') },
+        { vol: 7, gi: 6, text: L('Helps bring down the old Letherii order.', 'Pomůže svrhnout starý letherský řád.') }
+      ] }
+  },
+  {
+    id: 'rhulad', intro: { vol: 5, gi: 1 },
+    name: L('Rhulad Sengar', 'Rhulad Sengar'), en: 'Rhulad Sengar',
+    race: 'tiste', rlab: L('Emperor of the Edur', 'Císař Edurů'), ic: 'crown',
+    kid: L('The youngest Sengar brother, who wanted glory more than anything. A cursed sword gives him power — and takes everything else.', 'Nejmladší z bratrů Sengarů, který chtěl slávu víc než cokoli. Prokletý meč mu dá moc — a vezme všechno ostatní.'),
+    dad: L('A Tiste Edur prince resurrected by the Crippled God and made Emperor of a war he cannot stop. Every death remakes him, and every remaking costs him more of himself.', 'Tiste Edur princ vzkříšený Chromým bohem a učiněný císařem války, kterou nedokáže zastavit. Každá smrt ho přetvoří a každé přetvoření ho stojí víc z něj samého.'),
+    arc: { ahead: L('How many times can a man die before he stops being himself?', 'Kolikrát může člověk zemřít, než přestane být sám sebou?'),
+      beats: [
+        { vol: 5, gi: 1, text: L('Takes the cursed sword and is killed by the Jheck.', 'Vezme prokletý meč a zabijí ho Jheckové.') },
+        { vol: 5, gi: 3, text: L('Is resurrected and seizes the Edur throne.', 'Je vzkříšen a zmocní se edurského trůnu.') },
+        { vol: 5, gi: 5, text: L('Is maimed by Brys and left screaming on the palace floor.', 'Brys ho zmrzačí a nechá ho křičet na podlaze paláce.') },
+        { vol: 7, gi: 5, text: L('Is cut down by Karsa Orlong and finally released.', 'Karsa Orlong ho nakonec srazí a osvobodí.') }
+      ] }
+  },
+  {
+    id: 'udinaas', intro: { vol: 5, gi: 2 },
+    name: L('Udinaas', 'Udinaas'), en: 'Udinaas',
+    race: 'human', rlab: L('Indebted slave', 'Zadlužený otrok'), ic: 'eye',
+    kid: L('A quiet slave who sees things others cannot. He is trying to survive a world that treats him as property.', 'Tichý otrok, který vidí věci, které jiní nevidí. Snaží se přežít ve světě, který s ním zachází jako s majetkem.'),
+    dad: L('A Letherii slave bound to the Sengar household, haunted by visions and marked by the Crippled God. His survival is a series of compromises he refuses to call surrender.', 'Letherský otrok připoutaný k domu Sengarů, pronásledovaný vidinami a poznamenaný Chromým bohem. Jeho přežití je série kompromisů, které odmítá nazvat kapitulací.'),
+    arc: { ahead: L('What is freedom worth if it costs someone else theirs?', 'Co stojí svoboda, když stojí někoho jiného tu jeho?'),
+      beats: [
+        { vol: 5, gi: 2, text: L('Serves the Sengar brothers and witnesses Rhulad’s resurrection.', 'Slouží bratrům Sengarovým a je svědkem Rhuladova vzkříšení.') },
+        { vol: 5, gi: 4, text: L('Enters the Azath House and frees Silchas Ruin.', 'Vstoupí do Domu Azath a osvobodí Silchase Ruina.') },
+        { vol: 5, gi: 6, text: L('Escapes Letheras with the survivors of the Azath.', 'Uteče z Letherasu s přeživšími z Azathu.') },
+        { vol: 7, gi: 3, text: L('Flees through the Refugium with Silchas Ruin’s group.', 'Uteče přes Refugium se skupinou Silchase Ruina.') }
+      ] }
+  },
+  {
+    id: 'seren', intro: { vol: 5, gi: 2 },
+    name: L('Seren Pedac', 'Seren Pedac'), en: 'Seren Pedac',
+    race: 'human', rlab: L('Letherii envoy', 'Letherská vyslankyně'), ic: 'scroll',
+    kid: L('A clever diplomat who is used to being the only woman in the room. She wants to stop a war, but nobody wants to listen.', 'Chytrá diplomatka, která je zvyklá být v místnosti jediná žena. Chce zastavit válku, ale nikdo ji neposlouchá.'),
+    dad: L('A Letherii envoy and translator who understands both the Edur and the empire better than their rulers do. Her greatest weapon is refusing to lie.', 'Letherská vyslankyně a překladatelka, která rozumí Edurům i říši lépe než jejich vládci. Její největší zbraní je odmítání lhát.'),
+    arc: { ahead: L('Can words stop a war that has already begun?', 'Mohou slova zastavit válku, která už začala?'),
+      beats: [
+        { vol: 5, gi: 2, text: L('Negotiates with the Edur and watches the treaty collapse.', 'Vyjednává s Edury a sleduje zhroucení smlouvy.') },
+        { vol: 5, gi: 5, text: L('Survives the fall of Letheras and the Edur conquest.', 'Přežije pád Letherasu a edurské dobytí.') },
+        { vol: 7, gi: 3, text: L('Travels through the Refugium with Trull and the survivors.', 'Cestuje přes Refugium s Trollem a přeživšími.') }
+      ] }
+  },
+  {
+    id: 'hellian', intro: { vol: 6, gi: 1 },
+    name: L('Hellian', 'Hellian'), en: 'Hellian',
+    race: 'malazan', rlab: L('Bonehunter sergeant', 'Seržantka Lovců kostí'), ic: 'flame',
+    kid: L('A sergeant who is always looking for a drink and somehow always finds a way to win. Her soldiers would die for her, mostly because they have no choice.', 'Seržantka, která pořád hledá něco na pití a nějak vždycky najde cestu k vítězství. Její vojáci by pro ni zemřeli, hlavně protože nemají na výběr.'),
+    dad: L('A drunken, foul-mouthed sergeant of the 14th who turns out to be one of its best officers. Her chaos is carefully aimed.', 'Opilá, sprostá seržantka 14. armády, která se ukáže jako jedna z jejích nejlepších důstojnic. Její chaos je pečlivě mířený.'),
+    arc: { ahead: L('How much can you hide behind a bottle?', 'Kolik se dá schovat za láhev?'),
+      beats: [
+        { vol: 6, gi: 1, text: L('Fights her way out of Y’Ghatan with her squad.', 'Probojuje se se svou četou z Y’Ghatanu.') },
+        { vol: 6, gi: 5, text: L('Becomes one of the Bonehunters’ most reliable sergeants.', 'Stane se jednou z nejspolehlivějších seržantek Lovců kostí.') },
+        { vol: 9, gi: 3, text: L('Marches into the Letherii wastelands with Tavore.', 'Vyráží s Tavore do letherských pustin.') }
+      ] }
+  },
+  {
+    id: 'bottle', intro: { vol: 6, gi: 1 },
+    name: L('Bottle', 'Bottle'), en: 'Bottle',
+    race: 'malazan', rlab: L('Bonehunter mage', 'Mág Lovců kostí'), ic: 'warren',
+    kid: L('A young mage who can talk to rats and hates being noticed. He is braver than he thinks and cleverer than he lets on.', 'Mladý mág, který umí mluvit s krysami a nesnáší, když si ho někdo všimne. Je statečnější, než si myslí, a chytřejší, než dává najevo.'),
+    dad: L('A squad mage of the 14th with a gift for rats, ghosts and uncomfortable truths. He grows from a nervous recruit into one of the Bonehunters’ quiet pillars.', 'Eskadronní mág 14. armády s darem pro krysy, duchy a nepříjemné pravdy. Z nervózního rekruta vyroste v jednoho z tichých pilířů Lovců kostí.'),
+    arc: { ahead: L('Can a person who fears everything still be brave?', 'Může být člověk, který se bojí všeho, pořád statečný?'),
+      beats: [
+        { vol: 6, gi: 1, text: L('Survives the fire of Y’Ghatan with his squad.', 'Přežije požár Y’Ghatanu se svou četou.') },
+        { vol: 6, gi: 3, text: L('Uses his rats and his wits at the First Throne.', 'Použije své krysy a důvtip u Prvního trůnu.') },
+        { vol: 9, gi: 4, text: L('Faces the Nah’ruk in the Glass Desert.', 'Čelí Nah’rukům ve Skleněné poušti.') }
+      ] }
+  },
+  {
+    id: 'mallick', intro: { vol: 6, gi: 2 },
+    name: L('Mallick Rel', 'Mallick Rel'), en: 'Mallick Rel',
+    race: 'human', rlab: L('Imperial adviser', 'Císařský rádce'), ic: 'mask',
+    kid: L('A smooth, smiling official who always seems to be on the winning side. He is very good at making other people take the blame.', 'Hladký usměvavý úředník, který jako by vždycky stál na vítězné straně. Velmi dobře umí ostatním podstrčit vinu.'),
+    dad: L('A Jhistal priest and political survivor who serves whoever is useful and betrays whoever is not. His rise is one of the saga’s most unsettling arcs.', 'Jhistalský kněz a politický přeživší, který slouží, dokud je to užitečné, a zrazuje, když už ne. Jeho vzestup je jedním z nejznepokojivějších oblouků ságy.'),
+    arc: { ahead: L('How far can a man rise without ever fighting?', 'Jak vysoko může člověk vystoupat, aniž kdy bojoval?'),
+      beats: [
+        { vol: 6, gi: 2, text: L('Advises Laseen while the empire comes apart.', 'Radí Laseen, zatímco se říše rozpadá.') },
+        { vol: 6, gi: 4, text: L('Survives the Malaz City confrontation and keeps his influence.', 'Přežije střet v Malaz City a udrží si vliv.') },
+        { vol: 10, gi: 6, text: L('Is left standing when the old order falls.', 'Zůstane stát, když starý řád padne.') }
+      ] }
+  },
+  {
+    id: 'redmask', intro: { vol: 7, gi: 1 },
+    name: L('Redmask', 'Redmask'), en: 'Redmask',
+    race: 'human', rlab: L('Awl warleader', 'Awlský válečník'), ic: 'mask',
+    kid: L('A masked warleader who wants to unite his people against the Letherii. Nobody knows who he really is, including him.', 'Maskovaný válečník, který chce sjednotit svůj lid proti Letheriům. Nikdo neví, kdo doopravdy je — možná ani on sám.'),
+    dad: L('The mysterious leader of the Awl, raised among enemies and armed with K’Chain Che’Malle guardians. His war is just and his methods are not.', 'Záhadný vůdce Awlů, vychovaný mezi nepřáteli a vyzbrojený strážci K’Chain Che’Malle. Jeho válka je spravedlivá a jeho metody ne.'),
+    arc: { ahead: L('Is a leader’s cause more important than the truth?', 'Je vůdcova věc důležitější než pravda?'),
+      beats: [
+        { vol: 7, gi: 1, text: L('Unites the Awl and defeats the first Letherii army.', 'Sjednotí Awly a porazí první letherskou armádu.') },
+        { vol: 7, gi: 2, text: L('Is executed by his own K’Chain guardians when he fails them.', 'Je popraven vlastními strážci K’Chain, když je zklame.') }
+      ] }
+  },
+  {
+    id: 'samar', intro: { vol: 7, gi: 1 },
+    name: L('Samar Dev', 'Samar Dev'), en: 'Samar Dev',
+    race: 'human', rlab: L('Bonecaster / inventor', 'Kostěná kouzelnice / vynálezkyně'), ic: 'scroll',
+    kid: L('A sharp-tongued traveller who knows old magic and how to fix things. She finds Karsa infuriating and cannot quite leave him.', 'Ostrá poutnice, která zná starou magii a umí opravit skoro všechno. Karsa ji nesmírně štve a přesto ho nedokáže úplně opustit.'),
+    dad: L('A self-taught Bonecaster and maker of clever devices, bound to Karsa by a knife and a debt. Her patience with him is a kind of heroism.', 'Samouká kostěná kouzelnice a tvůrkyně důmyslných přístrojů, připoutaná k Karsovi nožem a dluhem. Její trpělivost s ním je druh hrdinství.'),
+    arc: { ahead: L('Can you change a man who refuses to change?', 'Můžeš změnit muže, který se odmítá změnit?'),
+      beats: [
+        { vol: 7, gi: 1, text: L('Travels with Karsa to Letheras as his reluctant companion.', 'Cestuje s Karsou do Letherasu jako neochotná společnice.') },
+        { vol: 7, gi: 5, text: L('Witnesses Karsa’s fight with Rhulad and the Crippled God’s offer.', 'Je svědkem Karsova boje s Rhuladem a nabídky Chromého boha.') },
+        { vol: 8, gi: 2, text: L('Crosses the Plain of Lamatath with Karsa.', 'Přejde Planinu Lamatath s Karsou.') }
+      ] }
+  },
+  {
+    id: 'beak', intro: { vol: 7, gi: 4 },
+    name: L('Beak', 'Beak'), en: 'Beak',
+    race: 'malazan', rlab: L('Bonehunter mage', 'Mág Lovců kostí'), ic: 'flame',
+    kid: L('A gentle young soldier who is much smarter than people think. He carries a light inside him that can save everyone — once.', 'Jemný mladý voják, který je mnohem chytřejší, než si lidé myslí. Nese v sobě světlo, které může zachránit všechny — jednou.'),
+    dad: L('A mage of the 14th with a terrible gift and a childlike kindness. His brief life is one of the series’ most beloved and most devastating.', 'Mág 14. armády se strašlivým darem a dětskou laskavostí. Jeho krátký život je jedním z nejmilovanějších a nejničivějších v sérii.'),
+    arc: { ahead: L('What is a light worth if it can only be used once?', 'Co stojí světlo, které se dá použít jen jednou?'),
+      beats: [
+        { vol: 7, gi: 4, text: L('Joins the marines outside Letheras and makes friends at last.', 'Připojí se k námořníkům před Letherasem a konečně najde přátele.') },
+        { vol: 7, gi: 4, text: L('Spends his life to save the army from a wave of magic.', 'Obětuje život, aby armádu zachránil před vlnou magie.') }
+      ] }
+  },
+  {
+    id: 'endest', intro: { vol: 8, gi: 1 },
+    name: L('Endest Silann', 'Endest Silann'), en: 'Endest Silann',
+    race: 'tiste', rlab: L('High Mage of Moon’s Spawn', 'Velekněz Měsíčního přízraku'), ic: 'moon',
+    kid: L('An old Tiste Andii mage who has served Rake for a very long time. He is tired, faithful and full of regrets.', 'Starý Tiste Andii mág, který Rakovi slouží velmi dlouho. Je unavený, věrný a plný výčitek.'),
+    dad: L('The broken High Mage of Moon’s Spawn, keeper of Rake’s oldest promises. His weariness hides a devotion that outlasts empires.', 'Zlomený velekněz Měsíčního přízraku, strážce Rakových nejstarších slibů. Jeho únava skrývá oddanost, která přežije říše.'),
+    arc: { ahead: L('What do you do when your purpose finally asks everything of you?', 'Co uděláš, když tvůj účel konečně chce všechno?'),
+      beats: [
+        { vol: 8, gi: 1, text: L('Is summoned by Rake for a task he does not want to understand.', 'Rake ho povolá k úkolu, kterému nechce rozumět.') },
+        { vol: 8, gi: 6, text: L('Helps Rake make his final choice over Dragnipur.', 'Pomůže Rakovi učinit poslední volbu nad Dragnipur.') }
+      ] }
+  },
+  {
+    id: 'seerd', intro: { vol: 8, gi: 1 },
+    name: L('Seerdomin', 'Seerdomin'), en: 'Seerdomin',
+    race: 'human', rlab: L('Former Pannion officer', 'Bývalý pannionský důstojník'), ic: 'sword',
+    kid: L('A former enemy soldier who now guards a shrine. He is trying to be better than the man he was.', 'Bývalý nepřátelský voják, který teď střeží svatyni. Snaží se být lepším člověkem, než byl.'),
+    dad: L('A Pannion officer who served the Seer and now guards the Redeemer’s cult in Black Coral. His penance is quiet, daily and never finished.', 'Pannionský důstojník, který sloužil Vědmovi a teď střeží kult Vykupitele v Černém Coral. Jeho pokání je tiché, každodenní a nikdy nekončí.'),
+    arc: { ahead: L('Can a former monster become a guardian?', 'Může se z bývalého netvora stát strážce?'),
+      beats: [
+        { vol: 8, gi: 1, text: L('Guards the Redeemer’s shrine against a corrupting god.', 'Střeží Vykupitelovu svatyni před korumpujícím bohem.') },
+        { vol: 8, gi: 3, text: L('Faces the thing that wants to bend Itkovian’s cult.', 'Čelí věci, která chce zohnout Itkovianův kult.') },
+        { vol: 8, gi: 6, text: L('Survives the convergence and chooses to keep serving.', 'Přežije střet a rozhodne se sloužit dál.') }
+      ] }
+  },
+  {
+    id: 'kalyth', intro: { vol: 9, gi: 1 },
+    name: L('Kalyth', 'Kalyth'), en: 'Kalyth',
+    race: 'human', rlab: L('Destriant of the K’Chain', 'Destriant K’Chain'), ic: 'kchain',
+    kid: L('A woman chosen by the K’Chain Che’Malle to speak for them. She is terrified, stubborn and the only hope of a dying people.', 'Žena vyvolená K’Chain Che’Malle, aby za ně mluvila. Je vyděšená, tvrdohlavá a jediná naděje umírajícího lidu.'),
+    dad: L('The Destriant of the K’Chain Che’Malle, elevated by the Matron and burdened with a species’ survival. Her courage is the ordinary kind: getting up anyway.', 'Destriant K’Chain Che’Malle, povýšená Matronou a obtížená přežitím druhu. Její odvaha je toho obyčejného druhu: prostě vstát a jít dál.'),
+    arc: { ahead: L('What do you owe a people that chose you without asking?', 'Co dlužíš lidu, který si tě vybral, aniž by se ptal?'),
+      beats: [
+        { vol: 9, gi: 1, text: L('Is named Destriant and sent to find the K’Chain’s Mortal Sword and Shield Anvil.', 'Je jmenována Destriant a vyslána najít K’Chainí Smrtelný meč a Kovadlinu štítu.') },
+        { vol: 9, gi: 5, text: L('Faces the Nah’ruk attack with the Bonehunters.', 'Čelí útoku Nah’ruků s Lovci kostí.') },
+        { vol: 10, gi: 5, text: L('Stands with the K’Chain in the final battle at the Spire.', 'Stojí s K’Chain v poslední bitvě u Věže.') }
+      ] }
+  },
+  {
+    id: 'hetan', intro: { vol: 9, gi: 1 },
+    name: L('Hetan', 'Hetan'), en: 'Hetan',
+    race: 'human', rlab: L('Barghast warleader', 'Barghastská válečnice'), ic: 'sword',
+    kid: L('A fierce Barghast woman who leads warriors and argues with gods. She loves her family fiercely and shows it by shouting.', 'Divoká Barghastská žena, která vede bojovníky a hádá se s bohy. Svou rodinu miluje zuřivě a dává to najevo křikem.'),
+    dad: L('Tool’s wife and a warleader of the White Face Barghast. Her death at the hands of her own people breaks something in Tool that cannot be repaired.', 'Toolova žena a válečnice Bílých tváří Barghastů. Její smrt rukama vlastního lidu zlomí v Toolovi něco, co se nedá opravit.'),
+    arc: { ahead: L('What happens to a people when its leaders stop listening?', 'Co se stane s lidem, když jeho vůdci přestanou naslouchat?'),
+      beats: [
+        { vol: 9, gi: 1, text: L('Leads her clan toward the Barghast gathering.', 'Vede svůj klan k barghastskému shromáždění.') },
+        { vol: 9, gi: 3, text: L('Is murdered by Barghast warriors during the succession struggle.', 'Je zavražděna barghastskými bojovníky během boje o nástupnictví.') }
+      ] }
+  },
+  {
+    id: 'stormy', intro: { vol: 6, gi: 1 },
+    name: L('Stormy', 'Stormy'), en: 'Stormy',
+    race: 'malazan', rlab: L('Bonehunter sergeant', 'Seržant Lovců kostí'), ic: 'flame',
+    kid: L('A tough soldier with a loud voice and a soft heart. He has survived so many battles that he has stopped expecting to survive the next one.', 'Drsný voják s hlasitým hlasem a měkkým srdcem. Přežil tolik bitev, že už ani nečeká, že přežije další.'),
+    dad: L('A veteran sergeant of the 14th, one of the few soldiers who has been everywhere and still complains about the food. His friendship with Gesler is legendary.', 'Zkušený seržant 14. armády, jeden z mála vojáků, kteří byli všude a pořád si stěžují na jídlo. Jeho přátelství s Geslerem je legendární.'),
+    arc: { ahead: L('What keeps a soldier going when he has already outlived his luck?', 'Co drží vojáka na nohou, když už dávno přežil své štěstí?'),
+      beats: [
+        { vol: 6, gi: 1, text: L('Fights through the Y’Ghatan fire with Gesler.', 'Probojuje se ohněm Y’Ghatanu s Geslerem.') },
+        { vol: 9, gi: 4, text: L('Faces the Nah’ruk in the Glass Desert.', 'Čelí Nah’rukům ve Skleněné poušti.') },
+        { vol: 10, gi: 5, text: L('Stands with the Bonehunters at the Spire.', 'Stojí s Lovci kostí u Věže.') }
+      ] }
+  },
+  {
+    id: 'gesler', intro: { vol: 6, gi: 1 },
+    name: L('Gesler', 'Gesler'), en: 'Gesler',
+    race: 'malazan', rlab: L('Bonehunter sergeant', 'Seržant Lovců kostí'), ic: 'sword',
+    kid: L('A calm, sarcastic soldier who has seen it all. He pretends not to care, but he cares more than almost anyone.', 'Klidný, sarkastický voják, který už viděl všechno. Předstírá, že ho to nezajímá, ale zajímá ho to víc než skoro kohokoli.'),
+    dad: L('A veteran of the 14th and Stormy’s oldest friend. He carries the weight of command lightly, which is how his soldiers know he feels it.', 'Veterán 14. armády a nejstarší přítel Stormyho. Nese tíhu velení lehce, a právě proto jeho vojáci vědí, že ji cítí.'),
+    arc: { ahead: L('Is there such a thing as a good soldier in a bad war?', 'Existuje něco jako dobrý voják ve špatné válce?'),
+      beats: [
+        { vol: 6, gi: 1, text: L('Leads his squad out of the Y’Ghatan fire.', 'Vyvede svou četu z ohně Y’Ghatanu.') },
+        { vol: 9, gi: 4, text: L('Fights the Nah’ruk beside Stormy and the K’Chain.', 'Bojuje s Nah’ruky po boku Stormyho a K’Chain.') },
+        { vol: 10, gi: 5, text: L('Makes his last stand at the Spire.', 'Padne v posledním boji u Věže.') }
+      ] }
+  },
+  {
+    id: 'crippled', intro: { vol: 10, gi: 1 },
+    name: L('The Crippled God', 'Chromý bůh'), en: 'The Crippled God',
+    race: 'god', rlab: L('The chained god', 'Spoutaný bůh'), ic: 'chain',
+    kid: L('A broken god from another world, chained and used by powerful people. He is terrifying, but he is also in terrible pain.', 'Zlomený bůh z jiného světa, spoutaný a využívaný mocnými. Je děsivý, ale také strašně trpí.'),
+    dad: L('A god torn from his own world, broken and chained beneath the earth. His pain poisons the warrens; his freedom is the prize every faction in the saga is really fighting over.', 'Bůh vytržený ze svého světa, zlomený a spoutaný pod zemí. Jeho bolest otravuje warreny; jeho svoboda je cena, o kterou ve skutečnosti bojují všechny frakce ságy.'),
+    arc: { ahead: L('Does a god deserve mercy?', 'Zaslouží si bůh milosrdenství?'),
+      beats: [
+        { vol: 1, gi: 2, text: L('His influence is felt in the games of gods and mortals.', 'Jeho vliv je cítit ve hrách bohů i smrtelníků.') },
+        { vol: 3, gi: 5, text: L('Kallor serves his interests during the Pannion war.', 'Kallor během pannionské války slouží jeho zájmům.') },
+        { vol: 5, gi: 3, text: L('Resurrects Rhulad and makes him Emperor of the Edur.', 'Vzkřísí Rhulada a učiní ho císařem Edurů.') },
+        { vol: 7, gi: 5, text: L('Offers Karsa the sword and is refused.', 'Nabídne Karsovi meč a je odmítnut.') },
+        { vol: 10, gi: 5, text: L('Faces the final choice between revenge and release.', 'Čelí poslední volbě mezi pomstou a vysvobozením.') }
+      ] }
   }
- },
- {
-  "id": "frodo",
-  "intro": {
-   "vol": 1,
-   "gi": 1
-  },
-  "name": {
-   "en": "Frodo Baggins",
-   "cs": "Frodo Pytlík"
-  },
-  "en": "Frodo Baggins",
-  "race": "hobit",
-  "rlab": {
-   "en": "Hobbit",
-   "cs": "Hobit"
-  },
-  "ic": "hobit",
-  "say": {
-   "cs": "FRO-do"
-  },
-  "portrait": "__IMG_frodo__",
-  "short": {
-   "en": "Frodo",
-   "cs": "Frodo"
-  },
-  "kid": {
-   "en": "The hero. A young hobbit who agrees to carry the dangerous Ring. Small, but brave and kind.",
-   "cs": "Hlavní hrdina. Mladý hobit, který se uvolí odnést nebezpečný prsten. Malý, ale statečný a hodný."
-  },
-  "dad": {
-   "en": "The Ring-bearer.",
-   "cs": "Nositel Prstenu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can such a small hobbit walk that huge road all the way to the end?",
-    "cs": "Dokáže tak malý hobit tu obrovskou cestu ujít až do konce?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 1,
-     "text": {
-      "en": "At the party, Bilbo gives him the magic Ring and the house at Bag End.",
-      "cs": "Na oslavě dostane od Bilba kouzelný prsten a domek Dno pytle."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "Gandalf tells him how dangerous the Ring is — he must leave the Shire.",
-      "cs": "Od Gandalfa se dozví, jak nebezpečný prsten je — musí odejít z Kraje."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 3,
-     "text": {
-      "en": "He sets out; for the first time a Black Rider appears before him.",
-      "cs": "Vyráží na cestu; poprvé se před ním objeví Černý jezdec."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 4,
-     "text": {
-      "en": "He hurries across the fields and mushrooms down to the river.",
-      "cs": "Utíká přes pole a houby až k řece."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 5,
-     "text": {
-      "en": "He finds out his friends know everything and will go with him.",
-      "cs": "Zjistí, že kamarádi o všem vědí a půjdou s ním."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "In the Old Forest he tries to free his friends from Old Man Willow.",
-      "cs": "Ve Starém hvozdu se snaží vysvobodit kamarády ze Staré vrby."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 7,
-     "text": {
-      "en": "He rests at Tom Bombadil’s; his Ring has no power over Tom.",
-      "cs": "Odpočine si u Toma Bombadila; jeho prsten na Toma nefunguje."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 8,
-     "text": {
-      "en": "In the barrow a wight nearly gets him — bravely he calls for Tom.",
-      "cs": "V mohyle ho málem dostane duch — statečně přivolá Toma."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 9,
-     "text": {
-      "en": "In the inn the Ring slips onto his finger by accident and he vanishes.",
-      "cs": "V hospodě mu omylem sklouzne prsten na prst a zmizí."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 10,
-     "text": {
-      "en": "He decides to trust the mysterious Strider.",
-      "cs": "Rozhodne se věřit tajemnému Chodci."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 11,
-     "text": {
-      "en": "On Weathertop a Black Rider stabs him with a cursed knife.",
-      "cs": "Na Větrově ho Černý jezdec bodne prokletým nožem."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 12,
-     "text": {
-      "en": "Wounded, he escapes on an elven horse to the Ford.",
-      "cs": "Zraněný unikne na elfském koni k Brodu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "He wakes up healed in Rivendell, among friends.",
-      "cs": "Probudí se uzdravený v Roklince mezi přáteli."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "He offers, himself, to carry the Ring to Mordor.",
-      "cs": "Sám se nabídne, že odnese prsten do Mordoru."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "He sets out south with the Nine companions.",
-      "cs": "Vyráží s Devíti společníky na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "At Moria’s gate a tentacle grabs him — he only just escapes.",
-      "cs": "U brány Morie ho chytí chapadlo — jen tak tak unikne."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "In Moria he loses Gandalf.",
-      "cs": "V Morii přijde o Gandalfa."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 18,
-     "text": {
-      "en": "He finds comfort in the magic wood of Lórien.",
-      "cs": "Najde útěchu v kouzelném lese Lórien."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 19,
-     "text": {
-      "en": "He offers the Ring to Galadriel; she resists.",
-      "cs": "Nabídne prsten Galadriel; ta odolá."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 20,
-     "text": {
-      "en": "He is given a phial of light and sails off down the river.",
-      "cs": "Dostane lahvičku se světlem a vyplouvá po řece."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 21,
-     "text": {
-      "en": "He sails the Great River and feels someone is watching.",
-      "cs": "Pluje po Velké řece a cítí, že je někdo sleduje."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "He decides to go on alone — so as not to endanger his friends.",
-      "cs": "Rozhodne se jít dál sám — aby neohrozil přátele."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 12,
-     "text": {
-      "en": "Catches Gollum in Emyn Muil and, out of pity, spares him and takes him as a guide.",
-      "cs": "V Emyn Muil chytí Gluma a ze soucitu ho ušetří a vezme jako průvodce."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 14,
-     "text": {
-      "en": "Finds the Black Gate shut, and dares to trust Gollum’s secret way south.",
-      "cs": "Najde Černou bránu zavřenou a odváží se svěřit Glumově tajné cestě na jih."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 16,
-     "text": {
-      "en": "Meets Faramir and passes the great test — the Ring goes on, untaken.",
-      "cs": "Potká Faramira a projde velkou zkouškou — Prsten jde dál, nevzat."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 20,
-     "text": {
-      "en": "Is stung by Shelob in the dark and falls as if dead.",
-      "cs": "Ve tmě ho bodne Odula a padne jako mrtvý."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 11,
-     "text": {
-      "en": "Rescued from the orc-tower by Sam, he takes up the Ring for the last, hardest stretch.",
-      "cs": "Sam ho zachrání z věže skřetů; on vezme Prsten na poslední, nejtěžší úsek."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 13,
-     "text": {
-      "en": "At the fire he cannot let the Ring go — yet it is destroyed all the same, and he is freed of it.",
-      "cs": "U ohně nedokáže Prsten pustit — a přesto je zničen, a on je ho zbaven."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 14,
-     "text": {
-      "en": "Wakes safe at Cormallen, honoured before all as the hero who bore the Ring.",
-      "cs": "Probudí se v bezpečí na Cormallenu, ctěn přede všemi jako hrdina, který nesl Prsten."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "Wounded deep within, he sails from the Grey Havens into the West to find peace.",
-      "cs": "Zraněn hluboko uvnitř odpluje ze Šedých přístavů do Zámoří, aby našel klid."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "gandalf",
-  "intro": {
-   "vol": 1,
-   "gi": 1
-  },
-  "name": {
-   "en": "Gandalf",
-   "cs": "Gandalf"
-  },
-  "en": "Gandalf",
-  "race": "carodej",
-  "rlab": {
-   "en": "Wizard",
-   "cs": "Čaroděj"
-  },
-  "ic": "carodej",
-  "say": {
-   "cs": "GEN-dalf"
-  },
-  "portrait": "__IMG_gandalf__",
-  "short": {
-   "en": "Gandalf",
-   "cs": "Gandalf"
-  },
-  "kid": {
-   "en": "A wise wizard with a long beard, a hat and a staff. He can do fireworks and mighty magic. A friend to hobbits.",
-   "cs": "Moudrý čaroděj s dlouhým vousem, kloboukem a holí. Umí ohňostroje i mocná kouzla. Přítel hobitů."
-  },
-  "dad": {
-   "en": "The Grey wizard, guide and protector. In Moria he falls with the Balrog into the deep.",
-   "cs": "Šedý čaroděj, průvodce a ochránce. V Morii padá s Balrogem do hlubiny."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What would you do if someone so wise suddenly vanished?",
-    "cs": "Co byste dělali, kdyby vám najednou zmizel někdo tak moudrý?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 1,
-     "text": {
-      "en": "Brings the fireworks and helps Bilbo slip away.",
-      "cs": "Přiveze ohňostroj a pomůže Bilbovi odejít."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "Reveals that Frodo’s ring is the One.",
-      "cs": "Odhalí, že Frodův prsten je ten Jeden."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "Meets Frodo again in Rivendell.",
-      "cs": "Znovu se sejde s Frodem v Roklince."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "At the Council he helps decide the Ring’s fate.",
-      "cs": "Na Radě pomáhá rozhodnout o osudu prstenu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Leads the Nine companions south.",
-      "cs": "Vede Devět společníků na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "Leads them into Moria when the mountain won’t let them pass.",
-      "cs": "Zavede je do Morie, když je hora nepustí."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "On the bridge he faces the Balrog and falls with it into the deep.",
-      "cs": "Na mostě se postaví Balrogovi a padne s ním do hlubiny."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 5,
-     "text": {
-      "en": "Returns from death as Gandalf the White and reunites with the hunters.",
-      "cs": "Vrátí se ze smrti jako Gandalf Bílý a znovu se setká s lovci."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 6,
-     "text": {
-      "en": "Frees King Théoden from the shadow on his mind.",
-      "cs": "Osvobodí krále Théodena od stínu na jeho mysli."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Rides off and returns at dawn with help to turn the battle.",
-      "cs": "Odjede a za rozbřesku se vrátí s pomocí, která zvrátí bitvu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 11,
-     "text": {
-      "en": "Sees the danger of the seeing-stone and races to Gondor with Pippin.",
-      "cs": "Prohlédne nebezpečí vidoucího kamene a tryskem míří do Gondoru s Pipinem."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 1,
-     "text": {
-      "en": "Brings Pippin to Gondor and rouses the city to prepare for war.",
-      "cs": "Přiveze Pipina do Gondoru a vyburcuje město k přípravě na válku."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 4,
-     "text": {
-      "en": "Stands alone in the broken gate to face the Witch-king himself.",
-      "cs": "Postaví se sám do prolomené brány, aby čelil samotnému králi-čaroději."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 9,
-     "text": {
-      "en": "Counsels the last, desperate march to the Black Gate.",
-      "cs": "Doporučí poslední, zoufalý pochod k Černé bráně."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 14,
-     "text": {
-      "en": "The eagles come; his long, patient labour is crowned at last with victory.",
-      "cs": "Přiletí orli; jeho dlouhá, trpělivá práce je konečně korunována vítězstvím."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "His task in Middle-earth done, he sails over Sea from the Grey Havens.",
-      "cs": "Když je jeho úkol ve Středozemi splněn, odpluje přes Moře ze Šedých přístavů."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "sam",
-  "intro": {
-   "vol": 1,
-   "gi": 2
-  },
-  "name": {
-   "en": "Samwise Gamgee",
-   "cs": "Samvěd „Sam\" Křepelka"
-  },
-  "en": "Samwise Gamgee",
-  "race": "hobit",
-  "rlab": {
-   "en": "Hobbit",
-   "cs": "Hobit"
-  },
-  "ic": "hobit",
-  "say": {
-   "cs": "SAM-věd"
-  },
-  "portrait": "__IMG_sam__",
-  "short": {
-   "en": "Sam",
-   "cs": "Sam"
-  },
-  "kid": {
-   "en": "Frodo’s gardener and truest friend. A brave heart who never leaves Frodo’s side.",
-   "cs": "Frodův zahradník a nejvěrnější kamarád. Statečné srdce, které Froda nikdy neopustí."
-  },
-  "dad": {
-   "en": "Frodo’s loyal companion; his gardener. A key character in the whole story.",
-   "cs": "Frodův věrný společník; zahradník. Klíčová postava celého příběhu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Could you be as good a friend as Sam?",
-    "cs": "Dokázali byste být takový kamarád jako Sam?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "Caught under the window — and at once becomes Frodo’s companion.",
-      "cs": "Přistižen pod oknem — a hned se stane Frodovým společníkem."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 3,
-     "text": {
-      "en": "Sets out on the road with Frodo.",
-      "cs": "Vyráží s Frodem na cestu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "Comes through the dangerous Old Forest with the others.",
-      "cs": "S ostatními projde nebezpečným Starým hvozdem."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 8,
-     "text": {
-      "en": "Survives the barrow thanks to Tom.",
-      "cs": "Přežije mohylu díky Tomovi."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 11,
-     "text": {
-      "en": "On Weathertop he helps fend off the Riders.",
-      "cs": "Na Větrově pomáhá bránit se jezdcům."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "In Rivendell he never takes his eyes off Frodo.",
-      "cs": "V Roklince nespustí z Froda oči."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Joins the Fellowship.",
-      "cs": "Přidá se ke Společenstvu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "Grieves for Gandalf with the others.",
-      "cs": "Truchlí s ostatními pro Gandalfa."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 19,
-     "text": {
-      "en": "In Galadriel’s mirror he glimpses home.",
-      "cs": "V Galadrielině zrcadle zahlédne domov."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 20,
-     "text": {
-      "en": "Galadriel gives him seeds and a rope.",
-      "cs": "Dostane od Galadriel semínka a provaz."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "Won’t let Frodo leave alone, and goes with him.",
-      "cs": "Nenechá Froda odejít samotného a jde s ním."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 12,
-     "text": {
-      "en": "Watches Gollum like a hawk — he does not trust him one bit.",
-      "cs": "Hlídá Gluma jako ostříž — ani trochu mu nevěří."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 20,
-     "text": {
-      "en": "Alone, takes up the light and sword and drives the giant spider off.",
-      "cs": "Sám se chopí světla a meče a zažene obří pavučici."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 21,
-     "text": {
-      "en": "Makes the hardest choice — and learns his master is alive after all.",
-      "cs": "Učiní nejtěžší rozhodnutí — a zjistí, že jeho pán přece jen žije."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 11,
-     "text": {
-      "en": "Alone, he saves Frodo from the tower — and gives the Ring straight back.",
-      "cs": "Sám zachrání Froda z věže — a Prsten mu hned vrátí."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 13,
-     "text": {
-      "en": "Carries Frodo up the last slope of Mount Doom: “I can’t carry it, but I can carry you.”",
-      "cs": "Vynese Froda po posledním svahu Hory osudu: „Nést to za tebe nemůžu, ale tebe unesu.\""
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 18,
-     "text": {
-      "en": "Helps free the Shire from bullies, then plants it green and lovely again.",
-      "cs": "Pomůže osvobodit Kraj od surovců a pak ho zas vysází zelený a krásný."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "“Well, I’m back.” Home to Rosie and a family — the truest happy ending of all.",
-      "cs": "„Tak jsem se vrátil.\" Domů k Růžence a rodině — nejopravdovější šťastný konec ze všech."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "glum",
-  "intro": {
-   "vol": 1,
-   "gi": 2
-  },
-  "name": {
-   "en": "Gollum",
-   "cs": "Glum"
-  },
-  "en": "Gollum",
-  "race": "zlo",
-  "rlab": {
-   "en": "Creature",
-   "cs": "Tvor"
-  },
-  "ic": "wraith",
-  "say": {
-   "cs": "GLUM"
-  },
-  "portrait": "__IMG_glum__",
-  "short": {
-   "en": "Gollum",
-   "cs": "Glum"
-  },
-  "kid": {
-   "en": "A scrawny little creature the Ring has completely taken over. He whispers “my precious” and longs to get it back.",
-   "cs": "Vyzáblý tvoreček, kterého prsten úplně ovládl. Šeptá si „miláššku\" a touží prsten získat zpátky."
-  },
-  "dad": {
-   "en": "Sméagol — a former bearer of the Ring. He shadows the company from afar.",
-   "cs": "Sméagol — dřívější nositel Prstenu. Zpovzdálí sleduje výpravu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What does wanting something so badly do to a creature?",
-    "cs": "Co s tvorem udělá, když po něčem strašně touží?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "The story goes that the Ring once completely took him over.",
-      "cs": "Vypráví se, že ho prsten kdysi úplně ovládl."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 21,
-     "text": {
-      "en": "He secretly swims after the boats down the Great River.",
-      "cs": "Potají plave za loďmi po Velké řece."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 12,
-     "text": {
-      "en": "Caught and tamed, he swears on the Ring to guide the hobbits.",
-      "cs": "Chycen a zkrocen přísahá na Prsten, že hobity povede."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 17,
-     "text": {
-      "en": "Feels betrayed when Frodo calls him from the forbidden pool.",
-      "cs": "Cítí se zrazen, když ho Frodo zavolá ze zapovězené tůně."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 19,
-     "text": {
-      "en": "His last flicker of goodness slips away on the stairs.",
-      "cs": "Jeho poslední záblesk dobra se na schodech vytratí."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 13,
-     "text": {
-      "en": "Seizes the Ring at the very last — and falls with it into the fire, destroying it by chance.",
-      "cs": "V úplně poslední chvíli se Prstenu zmocní — a spadne s ním do ohně a nechtěně ho zničí."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "sauron",
-  "intro": {
-   "vol": 1,
-   "gi": 2
-  },
-  "name": {
-   "en": "Sauron",
-   "cs": "Sauron"
-  },
-  "en": "Sauron",
-  "race": "zlo",
-  "rlab": {
-   "en": "Dark Lord",
-   "cs": "Temný pán"
-  },
-  "ic": "eye",
-  "say": {
-   "cs": "SAU-ron"
-  },
-  "portrait": "__IMG_sauron__",
-  "short": {
-   "en": "Sauron",
-   "cs": "Sauron"
-  },
-  "kid": {
-   "en": "The evil dark lord who long ago made the One Ring. He hunts for it to rule the whole land. We see him as a great fiery eye.",
-   "cs": "Zlý temný pán, který kdysi vyrobil Jeden prsten. Hledá ho, aby ovládl celou zem. Vídáme ho jako velké ohnivé oko."
-  },
-  "dad": {
-   "en": "The Enemy, maker of the One Ring. He never appears in person, but his shadow lies over everything.",
-   "cs": "Nepřítel, tvůrce Jednoho prstenu. Přímo se neobjeví, ale jeho stín leží nad vším."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Why does evil grow stronger once we start to fear it?",
-    "cs": "Proč bývá zlo silnější, když se ho začneme bát?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 2,
-     "text": {
-      "en": "It’s revealed that he is the one who made the Ring and now hunts for it.",
-      "cs": "Odhalí se, že je to on, kdo prsten vyrobil a teď ho hledá."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "pippin",
-  "intro": {
-   "vol": 1,
-   "gi": 3
-  },
-  "name": {
-   "en": "Pippin Took",
-   "cs": "Peregrin „Pipin\" Bral"
-  },
-  "en": "Pippin Took",
-  "race": "hobit",
-  "rlab": {
-   "en": "Hobbit",
-   "cs": "Hobit"
-  },
-  "ic": "hobit",
-  "say": {
-   "cs": "PI-pin"
-  },
-  "portrait": "__IMG_pippin__",
-  "short": {
-   "en": "Pippin",
-   "cs": "Pipin"
-  },
-  "kid": {
-   "en": "The youngest and most curious of the hobbits. He loves to eat and gets up to the odd bit of mischief.",
-   "cs": "Nejmladší a nejzvědavější z hobitů. Rád jí a občas provede nějakou lumpárnu."
-  },
-  "dad": {
-   "en": "The youngest member of the company.",
-   "cs": "Nejmladší člen výpravy."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can even the youngest and most curious one be a hero?",
-    "cs": "Může i ten nejmladší a nejzvědavější být hrdina?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 3,
-     "text": {
-      "en": "Sets out on the road with Frodo and Sam.",
-      "cs": "Vyráží na cestu s Frodem a Samem."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "In the Old Forest, Old Man Willow swallows him.",
-      "cs": "Ve Starém hvozdu ho spolkne Stará vrba."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 8,
-     "text": {
-      "en": "Survives the barrow.",
-      "cs": "Přežije mohylu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "Rests in Rivendell.",
-      "cs": "Odpočívá v Roklince."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Joins the Fellowship.",
-      "cs": "Přidá se ke Společenstvu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "Out of curiosity he drops a stone down a well in Moria.",
-      "cs": "Ze zvědavosti hodí kámen do studny v Morii."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "Stays with the group at the parting.",
-      "cs": "Zůstává s partou při rozdělení."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 3,
-     "text": {
-      "en": "Captured, he cleverly drops his brooch as a clue and later cuts free.",
-      "cs": "V zajetí chytře upustí sponu jako stopu a později se osvobodí."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 4,
-     "text": {
-      "en": "Meets Treebeard in Fangorn and is carried into the Ents’ world.",
-      "cs": "Ve Fangornu potká Stromovouse a je vzat do světa Entů."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 11,
-     "text": {
-      "en": "Cannot resist the dark seeing-stone — and looks into the Eye of the Enemy.",
-      "cs": "Neodolá temnému vidoucímu kameni — a nakoukne do Oka Nepřítele."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 1,
-     "text": {
-      "en": "Rides to Minas Tirith and swears to serve Denethor, Steward of Gondor.",
-      "cs": "Přijede do Minas Tirith a přísahá, že bude sloužit Denethorovi, Správci Gondoru."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 7,
-     "text": {
-      "en": "Runs to fetch Gandalf and saves Faramir from his father’s pyre.",
-      "cs": "Běží pro Gandalfa a zachrání Faramira z otcovy hranice."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 10,
-     "text": {
-      "en": "Marches with the tiny host to the Black Gate, brave to the end.",
-      "cs": "Táhne s nepatrným vojskem k Černé bráně, statečný až do konce."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 18,
-     "text": {
-      "en": "Now a knight of Gondor, he fights bravely to set the Shire free.",
-      "cs": "Teď rytíř Gondoru statečně bojuje za osvobození Kraje."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "nazgul",
-  "intro": {
-   "vol": 1,
-   "gi": 3
-  },
-  "name": {
-   "en": "The Black Riders (Nazgûl)",
-   "cs": "Černí jezdci (Nazgûl)"
-  },
-  "en": "Ringwraiths",
-  "race": "zlo",
-  "rlab": {
-   "en": "Wraiths",
-   "cs": "Přízraky"
-  },
-  "ic": "wraith",
-  "say": {
-   "cs": "NAZ-gúl"
-  },
-  "portrait": "__IMG_nazgul__",
-  "short": {
-   "en": "Nazgûl",
-   "cs": "Nazgûl"
-  },
-  "kid": {
-   "en": "Nine cloaked riders on black horses. They have no faces, they sniff out the Ring and spread terror.",
-   "cs": "Devět zahalených jezdců na černých koních. Nemají tvář, čenichají prsten a nahánějí hrůzu."
-  },
-  "dad": {
-   "en": "The Ringwraiths, Sauron’s servants. They hunt Frodo for the Ring.",
-   "cs": "Prstenové přízraky, Sauronovi služebníci. Honí Froda za Prstenem."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What makes the Black Riders so frightening?",
-    "cs": "Co dělá Černé jezdce tak děsivé?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 3,
-     "text": {
-      "en": "The first of them sniffs after the hobbits on the road.",
-      "cs": "První z nich čenichá po hobitech na cestě."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 11,
-     "text": {
-      "en": "On Weathertop they wound Frodo with a cursed knife.",
-      "cs": "Na Větrově zraní Froda prokletým nožem."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 12,
-     "text": {
-      "en": "At the Ford a magic wave washes them away.",
-      "cs": "V Brodu je odplaví kouzelná vlna."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "merry",
-  "intro": {
-   "vol": 1,
-   "gi": 5
-  },
-  "name": {
-   "en": "Merry Brandybuck",
-   "cs": "Smíšek Brandorád"
-  },
-  "en": "Merry Brandybuck",
-  "race": "hobit",
-  "rlab": {
-   "en": "Hobbit",
-   "cs": "Hobit"
-  },
-  "ic": "hobit",
-  "say": {
-   "cs": "SMÍ-šek"
-  },
-  "portrait": "__IMG_merry__",
-  "short": {
-   "en": "Merry",
-   "cs": "Smíšek"
-  },
-  "kid": {
-   "en": "A clever, reliable hobbit and Pippin’s best friend. He’s good at making plans.",
-   "cs": "Chytrý a spolehlivý hobit, Pipinův nejlepší kamarád. Umí dobře plánovat."
-  },
-  "dad": {
-   "en": "Meriadoc Brandybuck; a member of the company.",
-   "cs": "Meriadok Brandorád; člen výpravy."
-  },
-  "arc": {
-   "ahead": {
-    "en": "How handy is it to have a friend who’s good at making plans?",
-    "cs": "K čemu je dobré mít kamaráda, co umí dobře plánovat?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 5,
-     "text": {
-      "en": "Reveals that the friends have known about the Ring all along.",
-      "cs": "Odhalí, že s kamarády celou dobu vědí o prstenu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "In the Old Forest, Old Man Willow swallows him.",
-      "cs": "Ve Starém hvozdu ho spolkne Stará vrba."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 8,
-     "text": {
-      "en": "Survives the barrow.",
-      "cs": "Přežije mohylu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "Meets Frodo again in Rivendell.",
-      "cs": "Znovu se setká s Frodem v Roklince."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Joins the Fellowship.",
-      "cs": "Přidá se ke Společenstvu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "Stays with the group when the paths divide.",
-      "cs": "Zůstává s partou, když se cesty dělí."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 3,
-     "text": {
-      "en": "Captured by the Uruk-hai, he keeps his head and escapes into Fangorn with Pippin.",
-      "cs": "V zajetí skurutů neztratí hlavu a s Pipinem uteče do Fangornu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 4,
-     "text": {
-      "en": "Meets Treebeard and helps stir the Ents to act.",
-      "cs": "Potká Stromovouse a pomůže pobídnout Enty k činu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 8,
-     "text": {
-      "en": "Waits cheerfully among Isengard’s ruins to greet his friends.",
-      "cs": "Vesele čeká mezi troskami Železného pasu, aby přivítal přátele."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 3,
-     "text": {
-      "en": "Refuses to be left behind; Dernhelm carries him secretly to war.",
-      "cs": "Odmítne zůstat doma; Dernhelm ho tajně odveze do války."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 6,
-     "text": {
-      "en": "Strikes the Witch-king from behind so Éowyn can bring him down.",
-      "cs": "Zezadu bodne krále-čaroděje, aby ho Éowyn mohla skolit."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 18,
-     "text": {
-      "en": "Home at last, he helps rouse the Shire-folk and lead the fight to free it.",
-      "cs": "Konečně doma pomůže vyburcovat lid Kraje a vést boj za jeho osvobození."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "bombadil",
-  "intro": {
-   "vol": 1,
-   "gi": 6
-  },
-  "name": {
-   "en": "Tom Bombadil",
-   "cs": "Tom Bombadil"
-  },
-  "en": "Tom Bombadil",
-  "race": "carodej",
-  "rlab": {
-   "en": "Enigma",
-   "cs": "Záhada"
-  },
-  "ic": "star",
-  "say": {
-   "cs": "TOM"
-  },
-  "portrait": "__IMG_bombadil__",
-  "short": {
-   "en": "Tom Bombadil",
-   "cs": "Tom Bombadil"
-  },
-  "kid": {
-   "en": "A merry lord of the forest who is always singing. He is very old and powerful — and the Ring simply doesn’t work on him!",
-   "cs": "Veselý pán lesa, co pořád zpívá. Je moc starý a mocný — a prsten na něj vůbec nefunguje!"
-  },
-  "dad": {
-   "en": "The oldest and most mysterious of all. The Ring has no power over him. He saves the hobbits from Old Man Willow and from the barrow.",
-   "cs": "Nejstarší a nejzáhadnější. Prsten nad ním nemá moc. Zachrání hobity od Staré vrby i z mohyly."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Why do you think the Ring doesn’t work on Tom at all?",
-    "cs": "Proč asi prsten na Toma vůbec nefunguje?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "Frees the hobbits from Old Man Willow and takes them home.",
-      "cs": "Vysvobodí hobity ze Staré vrby a odvede je domů."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 7,
-     "text": {
-      "en": "Feasts the hobbits; the Ring has no power over him.",
-      "cs": "Pohostí hobity; prsten na něj nemá žádnou moc."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 8,
-     "text": {
-      "en": "Rushes to the barrow, saves the hobbits and gives them daggers.",
-      "cs": "Přispěchá do mohyly, zachrání hobity a dá jim dýky."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "stara-vrba",
-  "intro": {
-   "vol": 1,
-   "gi": 6
-  },
-  "name": {
-   "en": "Old Man Willow",
-   "cs": "Stará vrba"
-  },
-  "en": "Old Man Willow",
-  "race": "zlo",
-  "rlab": {
-   "en": "Danger",
-   "cs": "Nebezpečí"
-  },
-  "ic": "forest",
-  "say": {
-   "cs": "—"
-  },
-  "portrait": "__IMG_stara-vrba__",
-  "short": {
-   "en": "Old Man Willow",
-   "cs": "Stará vrba"
-  },
-  "kid": {
-   "en": "A wicked old willow in the Old Forest that lulls hobbits to sleep and swallows them into its trunk.",
-   "cs": "Zlá stará vrba ve Starém hvozdu, co uspává a polyká hobity do svého kmene."
-  },
-  "dad": {
-   "en": "The malevolent tree of the Old Forest.",
-   "cs": "Zlovolný strom Starého hvozdu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can even an ordinary tree be dangerous?",
-    "cs": "Může být nebezpečný i obyčejný strom?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 6,
-     "text": {
-      "en": "Lulls the hobbits to sleep and traps two of them in its trunk.",
-      "cs": "Uspí hobity a dva z nich polapí do svého kmene."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "aragorn",
-  "intro": {
-   "vol": 1,
-   "gi": 9
-  },
-  "name": {
-   "en": "Aragorn, called Strider",
-   "cs": "Aragorn zvaný Chodec"
-  },
-  "en": "Aragorn / Strider",
-  "race": "clovek",
-  "rlab": {
-   "en": "Man",
-   "cs": "Člověk"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "A-ra-gorn"
-  },
-  "portrait": "__IMG_aragorn__",
-  "short": {
-   "en": "Aragorn",
-   "cs": "Aragorn"
-  },
-  "kid": {
-   "en": "A mysterious hooded traveller who is really a great hero and protector. He can both fight and heal.",
-   "cs": "Tajemný pocestný v kápi, který je ve skutečnosti velký hrdina a ochránce. Umí bojovat i léčit."
-  },
-  "dad": {
-   "en": "A Ranger, and the future king. He leads the hobbits to Rivendell, then joins the Fellowship.",
-   "cs": "Hraničář, budoucí král. Vede hobity do Roklinky, pak je součástí Společenstva."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Do you know a good person by their looks, or by their deeds?",
-    "cs": "Pozná se dobrý člověk podle vzhledu, nebo podle činů?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 9,
-     "text": {
-      "en": "As the mysterious Strider he watches the hobbits in the inn.",
-      "cs": "Jako tajemný Chodec pozoruje hobity v hospodě."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 10,
-     "text": {
-      "en": "Reveals he is a friend of Gandalf and offers to guide them.",
-      "cs": "Svěří se, že je přítel Gandalfa, a nabídne se je vést."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 11,
-     "text": {
-      "en": "On Weathertop he drives the Riders off with fire.",
-      "cs": "Na Větrově zažene jezdce ohněm."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 12,
-     "text": {
-      "en": "Brings the wounded Frodo to the Ford.",
-      "cs": "Dovede zraněného Froda k Brodu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "At the Council he joins the Fellowship.",
-      "cs": "Na Radě se přidá ke Společenstvu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Helps lead the company south.",
-      "cs": "Pomáhá vést výpravu na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "After Gandalf’s fall he leads the company on.",
-      "cs": "Po Gandalfově pádu vede společenstvo dál."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 18,
-     "text": {
-      "en": "Leads the weary friends to Lórien.",
-      "cs": "Zavede unavené druhy do Lórienu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "Tries to hold the breaking Fellowship together.",
-      "cs": "Snaží se udržet rozpadající se společenstvo pohromadě."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 1,
-     "text": {
-      "en": "He reaches the dying Boromir, then chooses to chase the orcs and save Merry and Pippin.",
-      "cs": "Doběhne k umírajícímu Boromirovi a pak se rozhodne pronásledovat skřety a zachránit Smíška a Pipina."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 2,
-     "text": {
-      "en": "Leads the great run across Rohan and wins the friendship of Éomer.",
-      "cs": "Vede velký běh přes Rohan a získá přátelství Éomera."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 5,
-     "text": {
-      "en": "Meets Gandalf the White in Fangorn and turns toward Edoras.",
-      "cs": "Ve Fangornu potká Gandalfa Bílého a zamíří k Edorasu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Fights through the night at Helm’s Deep, a leader men will follow.",
-      "cs": "Probojuje se nocí u Helmova žlebu jako vůdce, za nímž lidé půjdou."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 8,
-     "text": {
-      "en": "Rides to Isengard and is joyfully reunited with Merry and Pippin.",
-      "cs": "Přijede k Železnému pasu a radostně se shledá se Smíškem a Pipinem."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 2,
-     "text": {
-      "en": "Dares the Paths of the Dead and wins the ghost-army to his cause.",
-      "cs": "Odváží se na Stezky mrtvých a získá přízračné vojsko pro svou věc."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 6,
-     "text": {
-      "en": "Arrives in the black ships to turn the battle of the Pelennor.",
-      "cs": "Připluje na černých lodích a zvrátí bitvu na Pelennoru."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 8,
-     "text": {
-      "en": "Heals the dying with athelas — the sign of the returning king.",
-      "cs": "Uzdraví umírající bylinou athelas — znamení navracejícího se krále."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 15,
-     "text": {
-      "en": "Crowned King Elessar and weds Arwen — the king has returned at last.",
-      "cs": "Korunován králem Elessarem a vezme si Arwen — král se konečně vrátil."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "glorfindel",
-  "intro": {
-   "vol": 1,
-   "gi": 12
-  },
-  "name": {
-   "en": "Glorfindel",
-   "cs": "Glorfindel"
-  },
-  "en": "Glorfindel",
-  "race": "elf",
-  "rlab": {
-   "en": "Elf",
-   "cs": "Elf"
-  },
-  "ic": "elf",
-  "say": {
-   "cs": "GLOR-fin-del"
-  },
-  "portrait": "__IMG_glorfindel__",
-  "short": {
-   "en": "Glorfindel",
-   "cs": "Glorfindel"
-  },
-  "kid": {
-   "en": "A shining elf-rider who races to Frodo’s aid and carries him to safety.",
-   "cs": "Zářivý elfský jezdec, který přispěchá Frodovi na pomoc a doveze ho k bezpečí."
-  },
-  "dad": {
-   "en": "A mighty elf of Rivendell; he helps during the flight to the Ford.",
-   "cs": "Mocný elf z Roklinky; pomůže při útěku k Brodu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "When is it good for help to arrive at the very last moment?",
-    "cs": "Kdy se hodí, aby přišla pomoc na poslední chvíli?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 12,
-     "text": {
-      "en": "Finds the wounded Frodo and lends him his swift horse.",
-      "cs": "Najde zraněného Froda a půjčí mu svého rychlého koně."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "In Rivendell he is among Elrond’s people.",
-      "cs": "V Roklince je mezi Elrondovým lidem."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "elrond",
-  "intro": {
-   "vol": 1,
-   "gi": 13
-  },
-  "name": {
-   "en": "Elrond",
-   "cs": "Elrond"
-  },
-  "en": "Elrond",
-  "race": "elf",
-  "rlab": {
-   "en": "Elf",
-   "cs": "Elf"
-  },
-  "ic": "star",
-  "say": {
-   "cs": "EL-rond"
-  },
-  "portrait": "__IMG_elrond__",
-  "short": {
-   "en": "Elrond",
-   "cs": "Elrond"
-  },
-  "kid": {
-   "en": "The wise and kind lord of the elves of Rivendell. He can heal, and he remembers ancient tales.",
-   "cs": "Moudrý a laskavý pán elfů z Roklinky. Umí léčit a pamatuje si dávné příběhy."
-  },
-  "dad": {
-   "en": "The lord of Rivendell. He heals Frodo and calls the Council.",
-   "cs": "Pán Roklinky. Uzdraví Froda a svolá Radu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Why is it good to have someone wise to give advice?",
-    "cs": "Proč je dobré mít někoho moudrého, kdo poradí?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 13,
-     "text": {
-      "en": "With his power he heals the wounded Frodo.",
-      "cs": "Svou mocí uzdraví zraněného Froda."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "He calls the great Council and helps decide about the Ring.",
-      "cs": "Svolá velkou Radu a pomůže rozhodnout o prstenu."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "He leads the last of the elves to the Havens and passes over Sea.",
-      "cs": "Odvede poslední elfy k přístavům a odpluje přes Moře."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "boromir",
-  "intro": {
-   "vol": 1,
-   "gi": 14
-  },
-  "name": {
-   "en": "Boromir",
-   "cs": "Boromir"
-  },
-  "en": "Boromir",
-  "race": "clovek",
-  "rlab": {
-   "en": "Man",
-   "cs": "Člověk"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "BO-ro-mir"
-  },
-  "portrait": "__IMG_boromir__",
-  "short": {
-   "en": "Boromir",
-   "cs": "Boromir"
-  },
-  "kid": {
-   "en": "A strong, brave warrior from the southern land of Gondor. He wants to protect his people — and the Ring tempts him.",
-   "cs": "Silný a statečný válečník z jižní země Gondor. Chce chránit svůj lid — a prsten ho svádí."
-  },
-  "dad": {
-   "en": "Son of the Steward of Gondor. He gives in to the Ring’s temptation at Amon Hen.",
-   "cs": "Syn gondorského správce. Podlehne pokušení Prstenu u Amon Hen."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can even a brave hero make a mistake?",
-    "cs": "Může i statečný hrdina udělat chybu?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "At the Council he joins the Fellowship to protect his people.",
-      "cs": "Na Radě se přidá ke Společenstvu, aby chránil svůj lid."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Sets out south with the company.",
-      "cs": "Vyráží s výpravou na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "In Moria he helps carry the younger hobbits.",
-      "cs": "V Morii pomáhá nést mladší hobity."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "After Gandalf’s fall he keeps the group together.",
-      "cs": "Po Gandalfově pádu drží partu při sobě."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 22,
-     "text": {
-      "en": "At the falls he gives in to his longing for the Ring.",
-      "cs": "U vodopádů podlehne touze po prstenu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 1,
-     "text": {
-      "en": "He dies defending Merry and Pippin, sorry at the last for having wanted the Ring.",
-      "cs": "Umírá, když brání Smíška a Pipina, a v poslední chvíli lituje, že po Prstenu zatoužil."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "legolas",
-  "intro": {
-   "vol": 1,
-   "gi": 14
-  },
-  "name": {
-   "en": "Legolas",
-   "cs": "Legolas"
-  },
-  "en": "Legolas",
-  "race": "elf",
-  "rlab": {
-   "en": "Elf",
-   "cs": "Elf"
-  },
-  "ic": "elf",
-  "say": {
-   "cs": "LE-go-las"
-  },
-  "portrait": "__IMG_legolas__",
-  "short": {
-   "en": "Legolas",
-   "cs": "Legolas"
-  },
-  "kid": {
-   "en": "An elf archer with keen eyes. He is nimble, quiet and a brilliant shot with a bow.",
-   "cs": "Elfí lučištník s bystrým zrakem. Je hbitý, tichý a skvěle střílí z luku."
-  },
-  "dad": {
-   "en": "An elf of Mirkwood; a member of the Fellowship.",
-   "cs": "Elf z Temného hvozdu; člen Společenstva."
-  },
-  "arc": {
-   "ahead": {
-    "en": "How useful is it to have someone with such keen eyes in the group?",
-    "cs": "Jak se hodí mít v partě někoho s tak bystrým zrakem?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "At the Council he joins the Fellowship as the elf archer.",
-      "cs": "Na Radě se přidá ke Společenstvu jako elfí lučištník."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Sets out south with the company.",
-      "cs": "Vyráží s výpravou na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "With his sharp eyes he watches the path in dark Moria.",
-      "cs": "Svým zrakem hlídá cestu v temné Morii."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 18,
-     "text": {
-      "en": "In Lórien he is among his own — the elves.",
-      "cs": "V Lórienu je mezi svými — elfy."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 2,
-     "text": {
-      "en": "On the plains he meets the Riders of Rohan and, with Aragorn, wins their trust.",
-      "cs": "Na pláních potká Rohanské jezdce a s Aragornem si získá jejich důvěru."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 5,
-     "text": {
-      "en": "In Fangorn he is the first to sense the White Rider — and rejoices to find it is Gandalf.",
-      "cs": "Ve Fangornu jako první vytuší Bílého jezdce — a zaraduje se, že je to Gandalf."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "At Helm’s Deep he keeps a friendly running count of foes with Gimli.",
-      "cs": "U Helmova žlebu si s Gimlim přátelsky počítá přemožené nepřátele."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "gimli",
-  "intro": {
-   "vol": 1,
-   "gi": 14
-  },
-  "name": {
-   "en": "Gimli",
-   "cs": "Gimli"
-  },
-  "en": "Gimli",
-  "race": "trpaslik",
-  "rlab": {
-   "en": "Dwarf",
-   "cs": "Trpaslík"
-  },
-  "ic": "trpaslik",
-  "say": {
-   "cs": "GIM-li"
-  },
-  "portrait": "__IMG_gimli__",
-  "short": {
-   "en": "Gimli",
-   "cs": "Gimli"
-  },
-  "kid": {
-   "en": "A brave dwarf with an axe and a proper beard. Stout-hearted and loyal.",
-   "cs": "Statečný trpaslík se sekerou a pořádným plnovousem. Srdnatý a věrný."
-  },
-  "dad": {
-   "en": "A dwarf, son of Glóin; a member of the Fellowship.",
-   "cs": "Trpaslík, syn Glóina; člen Společenstva."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can a dwarf and an elf end up as friends?",
-    "cs": "Můžou být trpaslík a elf nakonec kamarádi?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 14,
-     "text": {
-      "en": "At the Council he joins the Fellowship with his axe.",
-      "cs": "Na Radě se přidá ke Společenstvu se svou sekerou."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 15,
-     "text": {
-      "en": "Sets out south with the company.",
-      "cs": "Vyráží s výpravou na jih."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 16,
-     "text": {
-      "en": "In Moria he grieves at the tomb of his kinsman Balin.",
-      "cs": "V Morii truchlí nad hrobem svého příbuzného Balina."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 18,
-     "text": {
-      "en": "In Lórien, Lady Galadriel enchants him.",
-      "cs": "V Lórienu ho okouzlí paní Galadriel."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 5,
-     "text": {
-      "en": "Wary of the old forest, he follows the hunters into Fangorn and meets Gandalf returned.",
-      "cs": "Nedůvěřivý ke starému lesu jde s lovci do Fangornu a potká navráceného Gandalfa."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Fights valiantly at Helm’s Deep — and loses his heart to its glittering caves.",
-      "cs": "Statečně bojuje u Helmova žlebu — a zamiluje si jeho třpytivé jeskyně."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "balrog",
-  "intro": {
-   "vol": 1,
-   "gi": 17
-  },
-  "name": {
-   "en": "Balrog",
-   "cs": "Balrog"
-  },
-  "en": "Balrog",
-  "race": "zlo",
-  "rlab": {
-   "en": "Demon",
-   "cs": "Démon"
-  },
-  "ic": "flame",
-  "say": {
-   "cs": "BAL-rog"
-  },
-  "portrait": "__IMG_balrog__",
-  "short": {
-   "en": "Balrog",
-   "cs": "Balrog"
-  },
-  "kid": {
-   "en": "A huge, ancient monster of fire and shadow that sleeps deep in Moria. Terribly powerful and fearsome.",
-   "cs": "Obrovský dávný netvor z ohně a stínu, který spí hluboko v Morii. Strašně mocný a hrozivý."
-  },
-  "dad": {
-   "en": "A demon of Moria. On the bridge it drags Gandalf into the deep.",
-   "cs": "Démon z Morie. Na mostě strhne Gandalfa do hlubiny."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Why was Gandalf willing to face such a monster alone?",
-    "cs": "Proč byl Gandalf ochotný postavit se takové obludě sám?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 17,
-     "text": {
-      "en": "It wakes in the depths of Moria and clashes with Gandalf.",
-      "cs": "Probudí se v hlubinách Morie a utká se s Gandalfem."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "galadriel",
-  "intro": {
-   "vol": 1,
-   "gi": 18
-  },
-  "name": {
-   "en": "Galadriel",
-   "cs": "Galadriel"
-  },
-  "en": "Galadriel",
-  "race": "elf",
-  "rlab": {
-   "en": "Elf",
-   "cs": "Elf"
-  },
-  "ic": "star",
-  "say": {
-   "cs": "Ga-LAD-ri-el"
-  },
-  "portrait": "__IMG_galadriel__",
-  "short": {
-   "en": "Galadriel",
-   "cs": "Galadriel"
-  },
-  "kid": {
-   "en": "A beautiful and powerful lady of the elves from the golden wood. She has a magic mirror and great wisdom.",
-   "cs": "Krásná a mocná paní elfů ze zlatého lesa. Má kouzelné zrcadlo a velkou moudrost."
-  },
-  "dad": {
-   "en": "The Lady of Lórien. She resists the Ring and gives the Fellowship gifts.",
-   "cs": "Paní Lórienu. Odolá Prstenu a obdaruje Společenstvo."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Can you resist when someone offers you great power?",
-    "cs": "Dá se odolat, když nám někdo nabízí velkou moc?"
-   },
-   "beats": [
-    {
-     "vol": 1,
-     "gi": 18,
-     "text": {
-      "en": "Welcomes the weary Fellowship into her golden wood.",
-      "cs": "Přivítá unavené společenstvo ve svém zlatém lese."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 19,
-     "text": {
-      "en": "Shows Frodo the magic mirror and resists the Ring.",
-      "cs": "Ukáže Frodovi kouzelné zrcadlo a odolá prstenu."
-     }
-    },
-    {
-     "vol": 1,
-     "gi": 20,
-     "text": {
-      "en": "Gives everyone a gift for the road and says farewell.",
-      "cs": "Obdaruje každého na cestu a rozloučí se."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 19,
-     "text": {
-      "en": "Her long work in Middle-earth done, she departs over the Sea.",
-      "cs": "Když je její dlouhé dílo ve Středozemi u konce, odejde přes Moře."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "eomer",
-  "intro": {
-   "vol": 2,
-   "gi": 2
-  },
-  "name": {
-   "en": "Éomer",
-   "cs": "Éomer"
-  },
-  "en": "Éomer",
-  "race": "clovek",
-  "rlab": {
-   "en": "Rider of Rohan",
-   "cs": "Jezdec z Rohanu"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "É-o-mer"
-  },
-  "portrait": "__IMG_eomer__",
-  "short": {
-   "en": "Éomer",
-   "cs": "Éomer"
-  },
-  "kid": {
-   "en": "A proud young captain of the horse-riders of Rohan. Bold and quick to help, once he trusts you.",
-   "cs": "Hrdý mladý velitel jezdců z Rohanu. Smělý a ochotný pomoci, jakmile ti uvěří."
-  },
-  "dad": {
-   "en": "Nephew of King Théoden. He lends the hunters horses and becomes their firm friend.",
-   "cs": "Synovec krále Théodena. Půjčí lovcům koně a stane se jejich pevným přítelem."
-  },
-  "arc": {
-   "ahead": {
-    "en": "How do you decide whom to trust when you meet a stranger?",
-    "cs": "Jak se rozhodneš, komu věřit, když potkáš cizince?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 2,
-     "text": {
-      "en": "Meets the hunters on the plains and, trusting them, lends them horses.",
-      "cs": "Potká lovce na pláních a z důvěry jim půjčí koně."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Fights beside Aragorn at Helm’s Deep.",
-      "cs": "Bojuje po boku Aragorna u Helmova žlebu."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "uruk",
-  "intro": {
-   "vol": 2,
-   "gi": 3
-  },
-  "name": {
-   "en": "The Uruk-hai",
-   "cs": "Skurut-hai"
-  },
-  "en": "Saruman’s orcs",
-  "race": "zlo",
-  "rlab": {
-   "en": "Orcs",
-   "cs": "Skřeti"
-  },
-  "ic": "orc",
-  "say": {
-   "cs": "SKU-rut"
-  },
-  "portrait": "__IMG_uruk__",
-  "short": {
-   "en": "Uruk-hai",
-   "cs": "Skuruti"
-  },
-  "kid": {
-   "en": "Big, strong orcs bred by Saruman that can march even in daylight. They carry the hobbits off.",
-   "cs": "Velcí silní skřeti, které vypěstoval Saruman a kteří snesou i denní světlo. Ti unesou hobity."
-  },
-  "dad": {
-   "en": "Saruman’s fighting-orcs. Their quarrel with Sauron’s orcs, and a night attack, give the hobbits their chance.",
-   "cs": "Sarumanovi bojoví skřeti. Jejich hádka se Sauronovými skřety a noční přepad dají hobitům šanci."
-  }
- },
- {
-  "id": "stromovous",
-  "intro": {
-   "vol": 2,
-   "gi": 4
-  },
-  "name": {
-   "en": "Treebeard",
-   "cs": "Stromovous"
-  },
-  "en": "Treebeard / Fangorn",
-  "race": "carodej",
-  "rlab": {
-   "en": "Ent",
-   "cs": "Ent"
-  },
-  "ic": "forest",
-  "say": {
-   "cs": "—"
-  },
-  "portrait": "__IMG_stromovous__",
-  "short": {
-   "en": "Treebeard",
-   "cs": "Stromovous"
-  },
-  "kid": {
-   "en": "The oldest Ent — a giant, gentle being like a walking tree, with slow deep speech and kind eyes.",
-   "cs": "Nejstarší Ent — obří, laskavý tvor jako chodící strom, s pomalou hlubokou řečí a hodnýma očima."
-  },
-  "dad": {
-   "en": "Shepherd of the trees of Fangorn. Roused by Saruman’s wanton felling, he leads the Ents to war.",
-   "cs": "Pastýř stromů Fangornu. Rozhněván Sarumanovým bezohledným kácením vede Enty do války."
-  },
-  "arc": {
-   "ahead": {
-    "en": "When is it right for the patient and peaceful to finally stand up?",
-    "cs": "Kdy je správné, aby se trpěliví a mírní konečně postavili na odpor?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 4,
-     "text": {
-      "en": "Takes in Merry and Pippin and calls the Ents to council.",
-      "cs": "Ujme se Smíška a Pipina a svolá Enty na poradu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Leads the Ents to tear down Isengard while the battle rages.",
-      "cs": "Vede Enty, aby rozervali Železný pas, zatímco zuří bitva."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "theoden",
-  "intro": {
-   "vol": 2,
-   "gi": 6
-  },
-  "name": {
-   "en": "Théoden",
-   "cs": "Théoden"
-  },
-  "en": "Théoden, King of Rohan",
-  "race": "clovek",
-  "rlab": {
-   "en": "King of Rohan",
-   "cs": "Král Rohanu"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "THÉ-o-den"
-  },
-  "portrait": "__IMG_theoden__",
-  "short": {
-   "en": "Théoden",
-   "cs": "Théoden"
-  },
-  "kid": {
-   "en": "The old king of Rohan. He seems weak and grey at first — until Gandalf helps him find his courage again.",
-   "cs": "Starý král Rohanu. Zprvu se zdá slabý a šedý — dokud mu Gandalf nepomůže znovu najít odvahu."
-  },
-  "dad": {
-   "en": "A king freed from despair. He rides out to Helm’s Deep and stands tall among his people once more.",
-   "cs": "Král vysvobozený ze zoufalství. Vyjede k Helmovu žlebu a znovu se hrdě postaví po bok svého lidu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What helps a person find their courage again after they’ve lost it?",
-    "cs": "Co člověku pomůže znovu najít odvahu, když ji ztratil?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 6,
-     "text": {
-      "en": "Freed by Gandalf from Gríma’s spell, the old king rises and takes up his sword.",
-      "cs": "Gandalf ho zbaví Grímova kouzla; starý král povstane a chopí se meče."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 7,
-     "text": {
-      "en": "Rides to Helm’s Deep and stands with his people in the great battle.",
-      "cs": "Vyjede k Helmovu žlebu a stojí se svým lidem ve velké bitvě."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 3,
-     "text": {
-      "en": "Gathers all the Riders of Rohan at Dunharrow and rides to Gondor’s aid.",
-      "cs": "Shromáždí v Dunharrow všechny Rohanské jezdce a jede Gondoru na pomoc."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 5,
-     "text": {
-      "en": "Leads the dawn charge that breaks the siege of Minas Tirith.",
-      "cs": "Vede útok za rozbřesku, který prolomí obležení Minas Tirith."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 6,
-     "text": {
-      "en": "Falls gloriously on the Pelennor, a king to the very last.",
-      "cs": "Slavně padne na Pelennoru jako král až do úplného konce."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "grima",
-  "intro": {
-   "vol": 2,
-   "gi": 6
-  },
-  "name": {
-   "en": "Gríma Wormtongue",
-   "cs": "Gríma Červivec"
-  },
-  "en": "Gríma Wormtongue",
-  "race": "clovek",
-  "rlab": {
-   "en": "Traitor",
-   "cs": "Zrádce"
-  },
-  "ic": "wraith",
-  "say": {
-   "cs": "GRÍ-ma"
-  },
-  "portrait": "__IMG_grima__",
-  "short": {
-   "en": "Gríma",
-   "cs": "Gríma"
-  },
-  "kid": {
-   "en": "The king’s sly advisor, who whispers gloomy words to keep Théoden weak. He secretly serves Saruman.",
-   "cs": "Králův úlisný rádce, který mu šeptá chmurná slova, aby zůstal slabý. Tajně slouží Sarumanovi."
-  },
-  "dad": {
-   "en": "Saruman’s spy in Edoras. Cast out when the king wakes, he skulks back to his master.",
-   "cs": "Sarumanův špeh v Edorasu. Vyhnán, když se král probudí, odplíží se zpět ke svému pánovi."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Why is it easy to believe someone who only tells you gloomy things?",
-    "cs": "Proč se snadno věří někomu, kdo říká jen chmurné věci?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 6,
-     "text": {
-      "en": "Exposed as Saruman’s spy and cast out of Edoras.",
-      "cs": "Odhalen jako Sarumanův špeh a vyhnán z Edorasu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 11,
-     "text": {
-      "en": "Throws down the seeing-stone from the tower — a mistake for his master.",
-      "cs": "Shodí z věže vidoucí kámen — chyba, která uškodí jeho pánovi."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 18,
-     "text": {
-      "en": "At the bitter end he turns on Saruman, his cruel master.",
-      "cs": "V trpkém závěru se obrátí proti Sarumanovi, svému krutému pánu."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "eowyn",
-  "intro": {
-   "vol": 2,
-   "gi": 6
-  },
-  "name": {
-   "en": "Éowyn",
-   "cs": "Éowyn"
-  },
-  "en": "Éowyn of Rohan",
-  "race": "clovek",
-  "rlab": {
-   "en": "Lady of Rohan",
-   "cs": "Paní z Rohanu"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "É-o-vin"
-  },
-  "portrait": "__IMG_eowyn__",
-  "short": {
-   "en": "Éowyn",
-   "cs": "Éowyn"
-  },
-  "kid": {
-   "en": "The king’s brave niece, as bold as any warrior. She longs to fight for her people, not just wait at home.",
-   "cs": "Králova statečná neteř, smělá jako každý bojovník. Touží bojovat za svůj lid, ne jen čekat doma."
-  },
-  "dad": {
-   "en": "A shieldmaiden of Rohan, watchful and courageous. Her part in the tale grows greatly in the next book.",
-   "cs": "Štítonoška z Rohanu, ostražitá a odvážná. Její role v příběhu velmi vyroste v příští knize."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Is it fair that some are told to stay behind while others go to fight?",
-    "cs": "Je spravedlivé, že někdo má zůstat doma, zatímco jiní jdou bojovat?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 6,
-     "text": {
-      "en": "Stands out in the hall of Edoras, brave and watchful as the king wakes.",
-      "cs": "Vynikne v síni Edorasu, statečná a ostražitá, když se král probouzí."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 3,
-     "text": {
-      "en": "Told to stay behind, she rides to war in secret as “Dernhelm”.",
-      "cs": "Řeknou jí, ať zůstane, ale ona jede do války tajně jako „Dernhelm\"."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 6,
-     "text": {
-      "en": "Stands over fallen Théoden and slays the Witch-king no man could kill.",
-      "cs": "Postaví se nad padlého Théodena a skolí krále-čaroděje, kterého žádný muž zabít nemohl."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 15,
-     "text": {
-      "en": "Healed of her sorrow, she turns from war toward love — and toward Faramir.",
-      "cs": "Uzdravena ze svého žalu se odvrátí od války k lásce — a k Faramirovi."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "saruman",
-  "intro": {
-   "vol": 2,
-   "gi": 8
-  },
-  "name": {
-   "en": "Saruman",
-   "cs": "Saruman"
-  },
-  "en": "Saruman the White",
-  "race": "carodej",
-  "rlab": {
-   "en": "Fallen wizard",
-   "cs": "Padlý čaroděj"
-  },
-  "ic": "carodej",
-  "say": {
-   "cs": "SA-ru-man"
-  },
-  "portrait": "__IMG_saruman__",
-  "short": {
-   "en": "Saruman",
-   "cs": "Saruman"
-  },
-  "kid": {
-   "en": "A powerful wizard who turned bad. From his tower Orthanc he built an army — but a voice can only trick you if you listen.",
-   "cs": "Mocný čaroděj, který se zkazil. Ze své věže Orthanc vybudoval vojsko — ale hlas tě oklame, jen když ho posloucháš."
-  },
-  "dad": {
-   "en": "Once head of the wizards, now Sauron’s rival for power. His weapons are machines, armies — and a bewitching voice.",
-   "cs": "Kdysi hlava čarodějů, teď Sauronův sok o moc. Jeho zbraně jsou stroje, vojska — a okouzlující hlas."
-  },
-  "arc": {
-   "ahead": {
-    "en": "How can just a voice be a weapon?",
-    "cs": "Jak může být obyčejný hlas zbraní?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 8,
-     "text": {
-      "en": "His fortress is found smashed by the Ents; he is trapped in Orthanc.",
-      "cs": "Jeho pevnost je nalezena rozbitá Enty; je uvězněn v Orthancu."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 10,
-     "text": {
-      "en": "Tries his enchanting voice on everyone — and has his staff broken by Gandalf.",
-      "cs": "Zkusí na všechny svůj okouzlující hlas — a Gandalf mu zlomí hůl."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 18,
-     "text": {
-      "en": "As “Sharkey” he has spoiled the Shire — and here he is overthrown and undone.",
-      "cs": "Jako „Šarkan\" zpustošil Kraj — a tady je svržen a zničen."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "faramir",
-  "intro": {
-   "vol": 2,
-   "gi": 16
-  },
-  "name": {
-   "en": "Faramir",
-   "cs": "Faramir"
-  },
-  "en": "Faramir of Gondor",
-  "race": "clovek",
-  "rlab": {
-   "en": "Captain of Gondor",
-   "cs": "Velitel z Gondoru"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "FA-ra-mir"
-  },
-  "portrait": "__IMG_faramir__",
-  "short": {
-   "en": "Faramir",
-   "cs": "Faramir"
-  },
-  "kid": {
-   "en": "Boromir’s younger brother, a wise and gentle captain. He is offered the Ring — and, unlike his brother, he says no.",
-   "cs": "Boromirův mladší bratr, moudrý a laskavý velitel. Prsten se mu nabízí — a on, na rozdíl od bratra, řekne ne."
-  },
-  "dad": {
-   "en": "Noble and clear-eyed. His refusal of the Ring is one of the quiet high points of the whole tale.",
-   "cs": "Ušlechtilý a jasnozřivý. Jeho odmítnutí Prstenu je jedním z tichých vrcholů celého příběhu."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What makes it possible to say no to something you really want?",
-    "cs": "Co ti umožní říct ne něčemu, co opravdu chceš?"
-   },
-   "beats": [
-    {
-     "vol": 2,
-     "gi": 16,
-     "text": {
-      "en": "Captures the hobbits, learns of Boromir’s death — and refuses the Ring.",
-      "cs": "Zajme hobity, dozví se o Boromirově smrti — a odmítne Prsten."
-     }
-    },
-    {
-     "vol": 2,
-     "gi": 17,
-     "text": {
-      "en": "Lets the travellers go, warning them against Cirith Ungol.",
-      "cs": "Nechá poutníky jít a varuje je před Cirith Ungolem."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 4,
-     "text": {
-      "en": "Rides out to hold the failing defences and is gravely wounded.",
-      "cs": "Vyjede držet hroutící se obranu a je těžce raněn."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 8,
-     "text": {
-      "en": "Healed by Aragorn in the Houses of Healing, and wakes to new hope.",
-      "cs": "Aragorn ho uzdraví v Domech uzdravování a on se probudí k nové naději."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 15,
-     "text": {
-      "en": "Made Prince of Ithilien; he and Éowyn find happiness together.",
-      "cs": "Stane se knížetem Ithilienu; on a Éowyn najdou štěstí spolu."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "odula",
-  "intro": {
-   "vol": 2,
-   "gi": 20
-  },
-  "name": {
-   "en": "Shelob",
-   "cs": "Odula"
-  },
-  "en": "Shelob",
-  "race": "zlo",
-  "rlab": {
-   "en": "Giant spider",
-   "cs": "Obří pavučice"
-  },
-  "ic": "wraith",
-  "say": {
-   "cs": "O-du-la"
-  },
-  "portrait": "__IMG_odula__",
-  "short": {
-   "en": "Shelob",
-   "cs": "Odula"
-  },
-  "kid": {
-   "en": "A monstrous ancient spider who lurks in a dark tunnel in the mountains, waiting to trap travellers.",
-   "cs": "Obludná prastará pavučice, která číhá v temném tunelu v horách a čeká, až polapí poutníky."
-  },
-  "dad": {
-   "en": "An evil older than Sauron’s realm. Gollum leads the hobbits to her — the trap at the top of the stairs.",
-   "cs": "Zlo starší než Sauronova říše. Glum k ní hobity zavede — past na vršku schodů."
-  }
- },
- {
-  "id": "skretivelitele",
-  "intro": {
-   "vol": 2,
-   "gi": 21
-  },
-  "name": {
-   "en": "The orc-captains",
-   "cs": "Skřetí velitelé"
-  },
-  "en": "Shagrat & Gorbag",
-  "race": "zlo",
-  "rlab": {
-   "en": "Orc-captains",
-   "cs": "Velitelé skřetů"
-  },
-  "ic": "orc",
-  "say": {
-   "cs": "—"
-  },
-  "portrait": "__IMG_skretivelitele__",
-  "short": {
-   "en": "Orc-captains",
-   "cs": "Skřeti"
-  },
-  "kid": {
-   "en": "Two quarrelling orc leaders at the tower of Cirith Ungol. Sam overhears their squabble — and that is how he learns Frodo is still alive!",
-   "cs": "Dva hašteřící se velitelé skřetů u věže Cirith Ungol. Sam vyslechne jejich rozepři — a tak se dozví, že Frodo pořád žije!"
-  },
-  "dad": {
-   "en": "Shagrat and Gorbag. Their argument over Frodo’s captured gear reveals the crucial secret: the sting only sent him to sleep.",
-   "cs": "Šagrat a Gorbag. Jejich hádka o Frodovy zabavené věci prozradí zásadní tajemství: bodnutí ho jen uspalo."
-  }
- },
- {
-  "id": "denethor",
-  "intro": {
-   "vol": 3,
-   "gi": 1
-  },
-  "name": {
-   "en": "Denethor",
-   "cs": "Denethor"
-  },
-  "en": "Steward of Gondor",
-  "race": "clovek",
-  "rlab": {
-   "en": "Steward of Gondor",
-   "cs": "Správce Gondoru"
-  },
-  "ic": "clovek",
-  "say": {
-   "cs": "DE-ne-tor"
-  },
-  "portrait": "__IMG_denethor__",
-  "short": {
-   "en": "Denethor",
-   "cs": "Denethor"
-  },
-  "kid": {
-   "en": "The proud ruler of Gondor who guards the throne until a king returns. Grief and despair have made him grim and hard to please.",
-   "cs": "Hrdý vládce Gondoru, který střeží trůn, dokud se nevrátí král. Žal a zoufalství ho učinily ponurým a těžko potěšitelným."
-  },
-  "dad": {
-   "en": "The Steward, worn down by a secret window on the Enemy’s power. His despair over Faramir turns to a terrible madness.",
-   "cs": "Správce, zlomený tajným nahlížením do Nepřítelovy moci. Jeho zoufalství nad Faramirem se změní v hrozné šílenství."
-  },
-  "arc": {
-   "ahead": {
-    "en": "What can despair do to even a strong and clever person?",
-    "cs": "Co dokáže zoufalství udělat i se silným a chytrým člověkem?"
-   },
-   "beats": [
-    {
-     "vol": 3,
-     "gi": 1,
-     "text": {
-      "en": "Receives Pippin’s service, but is cold, proud and full of grief.",
-      "cs": "Přijme Pipinovu službu, ale je chladný, hrdý a plný žalu."
-     }
-    },
-    {
-     "vol": 3,
-     "gi": 7,
-     "text": {
-      "en": "Overcome by despair, he tries to burn himself and Faramir — and dies.",
-      "cs": "Přemožen zoufalstvím se pokusí upálit sebe i Faramira — a zahyne."
-     }
-    }
-   ]
-  }
- },
- {
-  "id": "mrtvi",
-  "intro": {
-   "vol": 3,
-   "gi": 2
-  },
-  "name": {
-   "en": "The Army of the Dead",
-   "cs": "Armáda mrtvých"
-  },
-  "en": "The Oathbreakers",
-  "race": "zlo",
-  "rlab": {
-   "en": "Ghost-host",
-   "cs": "Přízračné vojsko"
-  },
-  "ic": "star",
-  "say": {
-   "cs": "—"
-  },
-  "portrait": "__IMG_mrtvi__",
-  "short": {
-   "en": "The Dead",
-   "cs": "Mrtví"
-  },
-  "kid": {
-   "en": "Ghostly warriors who long ago broke their promise. Aragorn calls them to keep it at last — and no enemy can stand against them.",
-   "cs": "Přízrační bojovníci, kteří kdysi porušili svůj slib. Aragorn je povolá, aby ho konečně dodrželi — a žádný nepřítel před nimi neobstojí."
-  },
-  "dad": {
-   "en": "The Dead of the mountains follow the true king to Pelargir, sweep the enemy from the ships, and are then set free.",
-   "cs": "Mrtví z hor následují pravého krále do Pelargiru, smetou nepřítele z lodí a jsou pak propuštěni na svobodu."
-  }
- },
- {
-  "id": "arwen",
-  "intro": {
-   "vol": 3,
-   "gi": 15
-  },
-  "name": {
-   "en": "Arwen",
-   "cs": "Arwen"
-  },
-  "en": "Arwen Evenstar",
-  "race": "elf",
-  "rlab": {
-   "en": "Elf",
-   "cs": "Elf"
-  },
-  "ic": "star",
-  "say": {
-   "cs": "AR-ven"
-  },
-  "portrait": "__IMG_arwen__",
-  "short": {
-   "en": "Arwen",
-   "cs": "Arwen"
-  },
-  "kid": {
-   "en": "The beautiful elf-lady Aragorn has loved for years. When he becomes king, she chooses to stay in Middle-earth and marry him.",
-   "cs": "Krásná elfí paní, kterou Aragorn už léta miluje. Když se stane králem, rozhodne se zůstat ve Středozemi a vzít si ho."
-  },
-  "dad": {
-   "en": "Elrond’s daughter, the Evenstar of her people. She weds King Elessar — and later gives Frodo her own place on the ship into the West.",
-   "cs": "Elrondova dcera, Večernice svého lidu. Vezme si krále Elessara — a později dá Frodovi své místo na lodi do Zámoří."
-  },
-  "arc": {
-   "ahead": {
-    "en": "Would you give up something precious to be with the one you love?",
-    "cs": "Vzdal by ses něčeho vzácného, abys byl s tím, koho miluješ?"
-   },
-   "beats": [
-    {
-     "vol": 3,
-     "gi": 15,
-     "text": {
-      "en": "Weds King Elessar and becomes Queen of Gondor — and gives Frodo her place on the ship West.",
-      "cs": "Vezme si krále Elessara a stane se královnou Gondoru — a dá Frodovi své místo na lodi do Zámoří."
-     }
-    }
-   ]
-  }
- }
 ];
 
-// The saga's internal books (I–VI) and their chapter counts — the single source of truth for book labels.
+// Two internal books of three movements each, for every volume.
+// gi (the global movement index inside a volume) is computed by the engine from book + n.
 var VOLBOOKS = {
- "1": [
-  {
-   "label": "I",
-   "title": {
-    "en": "Book One",
-    "cs": "Kniha první"
-   },
-   "count": 12
-  },
-  {
-   "label": "II",
-   "title": {
-    "en": "Book Two",
-    "cs": "Kniha druhá"
-   },
-   "count": 10
-  }
- ],
- "2": [
-  {
-   "label": "III",
-   "title": {
-    "en": "Book Three",
-    "cs": "Kniha třetí"
-   },
-   "count": 11
-  },
-  {
-   "label": "IV",
-   "title": {
-    "en": "Book Four",
-    "cs": "Kniha čtvrtá"
-   },
-   "count": 10
-  }
- ],
- "3": [
-  {
-   "label": "V",
-   "title": {
-    "en": "Book Five",
-    "cs": "Kniha pátá"
-   },
-   "count": 10
-  },
-  {
-   "label": "VI",
-   "title": {
-    "en": "Book Six",
-    "cs": "Kniha šestá"
-   },
-   "count": 9
-  }
- ]
+  '1': [
+    { count: 3, label: 'I', title: L('The Fall of Pale', 'Pád Pale') },
+    { count: 3, label: 'II', title: L('The City of Blue Fire', 'Město modrého ohně') }
+  ],
+  '2': [
+    { count: 3, label: 'I', title: L('The Road of Slaves', 'Cesta otroků') },
+    { count: 3, label: 'II', title: L('The Chain of Dogs', 'Řetěz psů') }
+  ],
+  '3': [
+    { count: 3, label: 'I', title: L('The Alliance', 'Spojenectví') },
+    { count: 3, label: 'II', title: L('The Pannion War', 'Pannionská válka') }
+  ],
+  '4': [
+    { count: 3, label: 'I', title: L('The Teblor', 'Teblor') },
+    { count: 3, label: 'II', title: L('The Whirlwind’s End', 'Konec Vichru') }
+  ],
+  '5': [
+    { count: 3, label: 'I', title: L('The Sengar Brothers', 'Bratři Sengarové') },
+    { count: 3, label: 'II', title: L('The Fall of Letheras', 'Pád Letherasu') }
+  ],
+  '6': [
+    { count: 3, label: 'I', title: L('The Fire of Y’Ghatan', 'Oheň Y’Ghatanu') },
+    { count: 3, label: 'II', title: L('The Bonehunters', 'Lovci kostí') }
+  ],
+  '7': [
+    { count: 3, label: 'I', title: L('The Challengers', 'Vyzývatelé') },
+    { count: 3, label: 'II', title: L('The Reaper’s Gale', 'Vichr smrti') }
+  ],
+  '8': [
+    { count: 3, label: 'I', title: L('The City of Sorrows', 'Město žalu') },
+    { count: 3, label: 'II', title: L('Toll the Hounds', 'Daň pro ohaře') }
+  ],
+  '9': [
+    { count: 3, label: 'I', title: L('The Wastelands', 'Pustiny') },
+    { count: 3, label: 'II', title: L('The Dust of Dreams', 'Prach snů') }
+  ],
+  '10': [
+    { count: 3, label: 'I', title: L('The Last March', 'Poslední pochod') },
+    { count: 3, label: 'II', title: L('The Book of the Fallen', 'Kniha padlých') }
+  ]
 };
